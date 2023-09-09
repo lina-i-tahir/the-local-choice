@@ -45,7 +45,7 @@ const SignUp = () => {
     useEffect(() => {
         if (form.firstName !== '' && form.lastName !== '' && form.email !== '' && form.password !== '') {
             postUser();
-            navigate('/');
+            navigate('/login');
         }
     }, [form]);
 
