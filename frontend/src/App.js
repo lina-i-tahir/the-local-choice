@@ -6,6 +6,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Home from './Pages/Home';
 import NavBar from './Components/NavBar';
+import FooterContent from './Components/FooterContent';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -28,7 +29,7 @@ function App() {
   //   });
   // }
   return (
-    <div className="App" style={{backgroundColor:"#E4DCCD", height:"100vh"}}>
+    <div className="App" style={{backgroundColor:"#E4DCCD",height: "100vh"}}>
       <Router>
         {/* <nav style={{display:"flex", justifyContent:"space-around"}}>
           <Link to="/signup">Sign Up</Link>
@@ -41,6 +42,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home/>} />
         </Routes>
+        <FooterContent />
+
       </Router>
     </div>
   );
