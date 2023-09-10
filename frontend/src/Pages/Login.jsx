@@ -52,7 +52,7 @@ const Login = () => {
     return ( 
 
         <div>
-            <RouteHistory page="login"/>
+            <RouteHistory page="login" routeName="login"/>
             <Box component="form" 
              onSubmit={handleSubmit}
              sx={{'& .MuiTextField-root': { m: 1, width: '40ch', }}} 
@@ -66,7 +66,6 @@ const Login = () => {
                     justifyContent: "center",
                     fontFamily: 'Poppins',
                     fontWeight: 500,
-                    letterSpacing: '0rem',
                     color: '#414B3B',
                     textDecoration: 'none', 
                     margin:'20px 0px',
@@ -143,8 +142,21 @@ const Login = () => {
                     margin: "10px",
                 }}
             >
-                <Box display="flex" justifyContent="center" alignItems="center" spacing={1}>
-                    {"Don't have an account?"}
+                <Box display="flex" justifyContent="center" alignItems="center" sx={{        margin:"30px 5px",
+}}>
+                    <Typography
+                        variant="h7"
+                        noWrap
+                        sx={{
+                            fontFamily: 'Poppins',
+                            fontWeight: 500,
+                            color: '#75695A',
+                            fontSize: '14px',
+                            margin: "10px",
+                        }}
+                    >
+                        Don't have an account?
+                    </Typography>
                     <Link to="/signup" style={{ textDecoration: "none", color: "#75695A" }}>
                         <Typography
                             variant="h7"
@@ -167,3 +179,22 @@ const Login = () => {
 }
  
 export default Login;
+
+{/* <Button variant="contained" */}
+            // sx={{
+                // backgroundColor:"#99958C", 
+                // color:"#E4DCCD", 
+                // width:"30px",
+                // height:"60px",
+                // borderRadius:"50%",
+                // fontSize:"30px",
+                // padding:"0px",
+                // display:"flex",
+                // position:"relative",
+                // left:"90%",
+                // top:"350px",
+                // '&:hover': {
+                    // backgroundColor: "#737373"}
+                // }}>
+                {/* + */}
+            {/* </Button> */}
