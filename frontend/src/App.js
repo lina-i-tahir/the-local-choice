@@ -7,6 +7,7 @@ import axios from 'axios';
 import Home from './Pages/Home';
 import NavBar from './Components/NavBar';
 import FooterContent from './Components/FooterContent';
+import Admin from './Pages/Admin';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -40,6 +41,7 @@ function App() {
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/config" element={<Admin/>} />
           <Route path="/" element={<Home/>} />
         </Routes>
         <FooterContent />

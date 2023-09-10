@@ -3,12 +3,10 @@ import { Link } from "react-router-dom";
 
 const RouteHistory = (props) => {
     const routeStyle ={
-        display: { xs: 'none', md: 'flex', align:"center" },
         fontFamily: 'ovo',
         fontWeight: 500,
         letterSpacing: '0.05rem',
         color: '#414B3B',
-        margin:'20px',
         fontSize:'15px',
         margin:"30px 5px",
         '&:hover': {
@@ -33,7 +31,7 @@ const RouteHistory = (props) => {
                     {">"}
                 </Typography>
 
-                <Link to="/sign up" style={{textDecoration:"none"}}>
+                <Link to={`/${props.routeName}`} style={{textDecoration:"none"}}>
                     <Typography
                         variant="h7"
                         noWrap

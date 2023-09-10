@@ -53,7 +53,7 @@ const SignUp = () => {
 
     return (  
         <div>
-            <RouteHistory page="create account"/>
+            <RouteHistory page="create account" routeName="signup"/>
 
             <Box
                 component="form"
