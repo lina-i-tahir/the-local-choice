@@ -5,6 +5,7 @@ import Login from './Pages/Login';
 import { useState } from 'react';
 import axios from 'axios';
 import Home from './Pages/Home';
+import NavBar from './Components/NavBar';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -27,13 +28,14 @@ function App() {
   //   });
   // }
   return (
-    <div className="App">
+    <div className="App" style={{backgroundColor:"#E4DCCD", height:"100vh"}}>
       <Router>
-        <nav style={{display:"flex", justifyContent:"space-around"}}>
+        {/* <nav style={{display:"flex", justifyContent:"space-around"}}>
           <Link to="/signup">Sign Up</Link>
           <Link to="/login">Login</Link>
           <Link to="/">Home</Link>
-        </nav>
+        </nav> */}
+        <NavBar />
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
