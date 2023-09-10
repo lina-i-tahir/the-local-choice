@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Box, TextField, Button } from '@mui/material';
+import { Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
+import RouteHistory from "../Components/RouteHistory";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -47,11 +50,33 @@ const Login = () => {
     }, [form]);
 
     return ( 
-        <Box component="form" 
+
+        <div>
+            <RouteHistory page="login"/>
+            <Box component="form" 
              onSubmit={handleSubmit}
-             sx={{'& .MuiTextField-root': { m: 1, width: '25ch' },}} 
+             sx={{'& .MuiTextField-root': { m: 1, width: '40ch', }}} 
              noValidate 
              autoComplete="off">
+            <Typography
+                variant="h6"
+                noWrap
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    fontFamily: 'Poppins',
+                    fontWeight: 500,
+                    letterSpacing: '0rem',
+                    color: '#414B3B',
+                    textDecoration: 'none', 
+                    margin:'20px 0px',
+                    fontSize:'26px',
+                    textAlign:'center',
+                }}
+            >
+                Login
+            </Typography>
+
             <div>
                 <TextField
                     required
@@ -59,6 +84,7 @@ const Login = () => {
                     label="Email"
                     name="email"
                     defaultValue=""
+
                 />
             </div>
             <div>
@@ -70,10 +96,73 @@ const Login = () => {
                     type="password"
                 />
             </div>
-            <Button type="submit" variant="contained" color="primary">
+            <Link to="/forgetpassword" style={{textDecoration:"none"}}>
+                <Typography
+                    variant="h7"
+                    noWrap
+                    sx={{
+                        position: "relative",
+                        left:"275px",
+                        top:"-30px",
+                        fontFamily: 'Poppins',
+                        fontWeight: 500,
+                        color: '#75695A',
+                        fontSize:'14px',
+                        margin:"0px",
+                        "&:hover": {
+                            color: "#414B3B",
+                            cursor: "pointer",
+                        }
+                    }}
+                >
+                    Forgot your password?
+                </Typography>
+            </Link>
+            <Button type="submit" variant="contained" 
+            sx={{backgroundColor:"#99958C", 
+                color:"#E4DCCD", 
+                width:"51ch",
+                marginRight:"130px",
+                // marginLeft:"200px",
+                marginTop:"40px",
+                '&:hover': {
+                backgroundColor: "#737373"}}}
+                >
                 Login
             </Button>
+            <Typography
+                variant="h7"
+                noWrap
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    fontFamily: 'Poppins',
+                    fontWeight: 500,
+                    color: '#75695A',
+                    fontSize: '14px',
+                    margin: "10px",
+                }}
+            >
+                <Box display="flex" justifyContent="center" alignItems="center" spacing={1}>
+                    {"Don't have an account?"}
+                    <Link to="/signup" style={{ textDecoration: "none", color: "#75695A" }}>
+                        <Typography
+                            variant="h7"
+                            noWrap
+                            sx={{
+                                "&:hover": {
+                                    color: "#414B3B",
+                                    cursor: "pointer",
+                                }
+                            }}
+                        >
+                            Sign up
+                        </Typography>
+                    </Link>
+                </Box>
+            </Typography>
         </Box>
+        </div>
      );
 }
  

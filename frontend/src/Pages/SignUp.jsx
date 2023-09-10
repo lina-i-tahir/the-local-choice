@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Box, TextField, Button } from '@mui/material';
+import { Box, TextField, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import RouteHistory from '../Components/RouteHistory';
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -51,18 +53,36 @@ const SignUp = () => {
 
     return (  
         <div>
+            <RouteHistory page="create account"/>
+
             <Box
                 component="form"
                 onSubmit={handleSubmit}  // Binding the handleSubmit function
                 sx={{
-                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                    '& .MuiTextField-root': { m: 1, width: '40ch' },
                 }}
                 noValidate
                 autoComplete="off"
             >
                 <div>
-                    <label>Sign Up</label>
-                    <br />
+                        <Typography
+                        variant="h6"
+                        noWrap
+                        sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            fontFamily: 'Poppins',
+                            fontWeight: 500,
+                            letterSpacing: '0rem',
+                            color: '#414B3B',
+                            textDecoration: 'none', 
+                            margin:'20px 0px',
+                            fontSize:'26px',
+                            textAlign:'center',
+                        }}
+                    >
+                        Create Account
+                    </Typography>
                     <TextField
                         required
                         id="firstName"
@@ -99,8 +119,14 @@ const SignUp = () => {
                         defaultValue=""
                     />
                 </div>
-                <Button type="submit" variant="contained" color="primary">
-                    Submit
+                <Button type="submit" variant="contained" 
+                        sx={{backgroundColor:"#99958C", 
+                            color:"#E4DCCD", 
+                            width:"51ch",
+                            marginTop:"40px",
+                            '&:hover': {
+                            backgroundColor: "#737373"}}}>
+                    Sign Up
                 </Button>
             </Box>
         </div>
