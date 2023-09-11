@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const RouteHistory = (props) => {
     const routeStyle ={
-        display: { xs: 'none', md: 'flex', align:"center" },
+        display: { xs: 'none', md: 'flex' },
         fontFamily: 'ovo',
         fontWeight: 500,
         letterSpacing: '0.05rem',
@@ -32,7 +32,7 @@ const RouteHistory = (props) => {
                     {">"}
                 </Typography>
 
-                <Link to="/sign up" style={{textDecoration:"none"}}>
+                <Link to={`/${props.routeName}`} style={{textDecoration:"none"}}>
                     <Typography
                         variant="h7"
                         noWrap
