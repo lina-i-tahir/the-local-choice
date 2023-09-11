@@ -100,9 +100,8 @@ const Login = () => {
                     variant="h7"
                     noWrap
                     sx={{
-                        position: "relative",
-                        left:"275px",
-                        top:"-30px",
+                        display: "flex",
+                        justifyContent:"center",
                         fontFamily: 'Poppins',
                         fontWeight: 500,
                         color: '#75695A',
@@ -121,9 +120,9 @@ const Login = () => {
             sx={{backgroundColor:"#99958C", 
                 color:"#E4DCCD", 
                 width:"51ch",
-                marginRight:"130px",
+                // marginRight:"130px",
                 // marginLeft:"200px",
-                marginTop:"40px",
+                marginTop:"30px",
                 '&:hover': {
                 backgroundColor: "#737373"}}}
                 >
@@ -142,8 +141,7 @@ const Login = () => {
                     margin: "10px",
                 }}
             >
-                <Box display="flex" justifyContent="center" alignItems="center" sx={{        margin:"30px 5px",
-}}>
+                <Box display="flex" justifyContent="center" alignItems="center" >
                     <Typography
                         variant="h7"
                         noWrap
@@ -152,7 +150,7 @@ const Login = () => {
                             fontWeight: 500,
                             color: '#75695A',
                             fontSize: '14px',
-                            margin: "10px",
+                            margin: "5px",
                         }}
                     >
                         Don't have an account?
