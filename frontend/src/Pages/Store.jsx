@@ -1,9 +1,10 @@
-import { Container } from "@mui/material"
+import { Container, Grid, Box } from "@mui/material"
 import drawer from "../assets/drawer.png";
 import hangingPlant from "../assets/hangingPlant.png";
 import handxmadeLogo from "../assets/handxmadeLogo.png";
 
 const Store = () => {
+
   return (
     <>
     <section className="store-banner" style={{ display: "flex", flexDirection: "row", height: "280px", backgroundColor: "#e4dccd"}}>
@@ -14,9 +15,9 @@ const Store = () => {
         </Container>
     </section>
     <section className="store-products" style={{ display: "flex", flexDirection: "column", height: "1000px", backgroundColor: "#f3efe7"}}>
-        <Container maxWidth="xl">
-            
-        </Container>
+        <Grid>
+
+        </Grid>
     </section>
     </>
   )
