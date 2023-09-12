@@ -8,6 +8,7 @@ import Home from './Pages/Home';
 import NavBar from './Components/NavBar';
 import FooterContent from './Components/FooterContent';
 import Admin from './Pages/Admin';
+import Store from './Pages/Store';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -43,6 +44,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/config" element={<Admin/>} />
           <Route path="/" element={<Home/>} />
+          <Route path="/stores" element={<Store/>} />
         </Routes>
         <FooterContent />
 
