@@ -1,14 +1,15 @@
-import './App.css';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import SignUp from './Pages/SignUp';
-import Login from './Pages/Login';
-import { useState } from 'react';
-import axios from 'axios';
-import Home from './Pages/Home';
-import NavBar from './Components/NavBar';
-import FooterContent from './Components/FooterContent';
-import Admin from './Pages/Admin';
-import Store from './Pages/Store';
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import SignUp from "./Pages/SignUp";
+import Login from "./Pages/Login";
+import { useState } from "react";
+import axios from "axios";
+import Home from "./Pages/Home";
+import NavBar from "./Components/NavBar";
+import FooterContent from "./Components/FooterContent";
+import Admin from "./Pages/Admin";
+import Store from "./Pages/Store";
+import Product from "./Pages/Product";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -31,7 +32,10 @@ function App() {
   //   });
   // }
   return (
-    <div className="App" style={{backgroundColor:"#E4DCCD",height: "100vh"}}>
+    <div
+      className="App"
+      style={{ backgroundColor: "#E4DCCD", height: "100vh" }}
+    >
       <Router>
         {/* <nav style={{display:"flex", justifyContent:"space-around"}}>
           <Link to="/signup">Sign Up</Link>
@@ -42,12 +46,12 @@ function App() {
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/config" element={<Admin/>} />
-          <Route path="/" element={<Home/>} />
-          <Route path="/stores" element={<Store/>} />
+          <Route path="/config" element={<Admin />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/stores" element={<Store />} />
+          <Route path="/product" element={<Product />} />
         </Routes>
         <FooterContent />
-
       </Router>
     </div>
   );
