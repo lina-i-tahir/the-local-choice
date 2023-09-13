@@ -108,7 +108,7 @@ const Product = () => {
                 color: "#E4DCCD",
                 width: "20ch",
                 textAlign: "center",
-                marginTop: "20px",
+                marginTop: "50px",
                 "&:hover": {
                   backgroundColor: "#737373",
                 },
