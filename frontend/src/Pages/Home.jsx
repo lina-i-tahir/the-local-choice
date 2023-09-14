@@ -7,8 +7,10 @@ import Window from "../assets/Window.png";
 import store from "../store";
 import { Divider } from "@mui/material";
 import Grid from '@mui/material/Grid';
-
+import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
+import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 const tempArr  = [ 1, 2, 3, 4]
+
 const storeDisplay = (item) => {
     return (
         <>
@@ -23,16 +25,9 @@ const storeDisplay = (item) => {
                 {item.storeName}
             </Typography>
             
-            {/* <Grid container spacing={{ xs: 2, md: 3 }}>
-                {Array.from(Array(4)).map((_, index) => (
-                    <Grid item xs={3} key={index}>
-                        dsf
-                    </Grid>
-                ))}
-            </Grid> */}
-
             <Grid container spacing={{ xs: 3, md: 2 }}>
                 {item.products.map((item,idx) => (
+                    idx<4 ?
                     <Grid item xs={3} key={idx}>
                         <img src={item.image} style={{ width: "80%", margin: "0px 30px" }} />
                         <Typography gutterBottom variant="h6" component="div"
@@ -56,45 +51,40 @@ const storeDisplay = (item) => {
                         {item.price}
                         </Typography>
                     </Grid>
+                    : null
                 ))}
             </Grid>
         </>
     )
 }
 
-
-
-
-{/* <>
-<Box sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", margin: "10px 30px" }}>
-
-<img src={item.image} style={{ width: "20%", margin: "0px 20px" }}/>
-</Box>
-
-<Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <Typography gutterBottom variant="h6" component="div"
-            sx ={{
-                fontFamily: "Poppins",
-                fontSize:"20px",
-                margin:"10px 30px",
-                display:"flex",
-                justifyContent:"flex-start",
-            }}>
-            {item.name}
-            </Typography>
-            <Typography gutterBottom variant="h6" component="div"
-            sx ={{
-                fontFamily: "Poppins",
-                fontSize:"20px",
-                margin:"10px 30px",
-                display:"flex",
-                justifyContent:"flex-start",
-            }}>
-            {item.price}
-            </Typography>
-</Box>
-</> */}
 const Home = () => {
+    const navigate = useNavigate();
+    const [count, setCount] = useState(0);
+    const [storeOverview, setStoreOverview] = useState([]);
+    const maxCount = Math.floor(store.length / 2);
+
+    const clickHandler = (e) => {
+        if (e === "increase") {
+            if (count < maxCount) {
+                setCount(count + 1);
+            }
+        }
+        else {
+            if (count > 0) {
+                setCount(count - 1);
+            }
+        }
+    }
+    useEffect(() => {
+        if (count === 0) {
+            setStoreOverview(store.slice(count, count + 2));
+        }
+        else {
+            setStoreOverview(store.slice(count * 2, count * 2 + 2));
+        }
+    }, [count]);
+
     return ( 
         <div style={{ display: "flex", flexDirection: "column", minHeight:"90vh" }}>
             <Box sx={{ display: "flex", justifyContent: "center", margin: "40px 0px", flexDirection: "row" }}>
@@ -112,7 +102,7 @@ const Home = () => {
                 alignItems:"flex-start",
             }}>
                 {
-                    store.map((item, idx) => {
+                    storeOverview.map((item, idx) => {
                         return (
                             <div>
                                 {(idx+1)%2!==0 ? 
@@ -128,10 +118,40 @@ const Home = () => {
                     })
                 }
             </Box>
+            <Box sx={{
+                display: "flex",
+                justifyContent: "space-between", // This will separate the two Typography components
+                backgroundColor: "#F3EFE7",
+                flexDirection: "row",
+                padding: "0 20px",  // This is optional. Adds some space on the sides.
+            }}>
+
+                {count === 0? null:
+                <Typography variant="h6" component="div" onClick={() => clickHandler("decrease")}
+                sx ={{
+                    fontFamily: "Poppins",
+                    fontSize:"15px",
+                    display:"flex",
+                    justifyContent:"flex-start",
+                    color:"#99958C",
+                }}>
+                    <ArrowCircleLeftOutlinedIcon sx={{ width:"20px",marginLeft:"5px", marginTop:"2px" }}/>
+                </Typography>}
+                    <Typography variant="h6" component="div" onClick={() => clickHandler("increase")}
+                    sx ={{
+                        fontFamily: "Poppins",
+                        fontSize:"15px",
+                        display:"flex",
+                        justifyContent:"flex-end",
+                        color:"#99958C",
+                    }}>
+                        discover more 
+                        <ArrowCircleRightOutlinedIcon sx={{ width:"20px",marginLeft:"5px", marginTop:"2px" }}/>
+                </Typography>
+            </Box>
+
         </div>
     );
 }
 
 export default Home;
-
-

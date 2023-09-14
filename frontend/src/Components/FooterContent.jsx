@@ -9,6 +9,8 @@ const FooterContent = () => {
             bottom: "10px",
             width: "100vw",
             color: "#99958C",
+            flexGrow: 1,
+            fitContent: "content", 
             // backgroundColor: "#F3EFE7",
             fontSize: "11px",
             justifyContent: "center",
