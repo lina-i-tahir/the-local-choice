@@ -13,6 +13,10 @@ import Error from "./Pages/Error";
 import Store from './Pages/Store';
 import Orders from './Pages/Orders';
 import Profile from './Pages/Profile';
+import NewStore from "./Pages/NewStore";
+import Products from "./Pages/Products";
+import ProductDetail from "./Pages/ProductDetail";
+import EditForm from "./Pages/EditForm";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -49,12 +53,16 @@ function App() {
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/config" element={<Admin/>} />
+          <Route path="/config/stores" element={<Admin/>} />
           <Route path="/" element={<Home/>} />
           <Route path="*" element={<Error />} />
           <Route path="/stores" element={<Store/>} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<ProductDetail />} />
           <Route path="/orders" element={<Orders/>} />
           <Route path="/profile" element={<Profile/>} />
+          <Route path="/config/store/new" element={<NewStore/>} />
+          <Route path="/config/stores/:id" element={<EditForm/>} />
         </Routes>
         {/* <FooterContent /> */}
       </Router>
