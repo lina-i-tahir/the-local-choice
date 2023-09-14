@@ -9,10 +9,11 @@ import Home from "./Pages/Home";
 import NavBar from "./Components/NavBar";
 import FooterContent from "./Components/FooterContent";
 import Admin from "./Pages/Admin";
-import Error from "./Pages/Error";
+import Store from "./Pages/Store";
+import Products from "./Pages/Products";
+import ProductDetail from "./Pages/ProductDetail";
 import Store from './Pages/Store';
 import Orders from './Pages/Orders';
-import Profile from './Pages/Profile';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -49,12 +50,9 @@ function App() {
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/config" element={<Admin/>} />
-          <Route path="/" element={<Home/>} />
-          <Route path="*" element={<Error />} />
-          <Route path="/stores" element={<Store/>} />
-          <Route path="/orders" element={<Orders/>} />
-          <Route path="/profile" element={<Profile/>} />
+          <Route path="/stores" element={<Store />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<ProductDetail />} />
         </Routes>
         <FooterContent />
       </Router>
