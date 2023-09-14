@@ -12,6 +12,8 @@ import Admin from "./Pages/Admin";
 import Error from "./Pages/Error";
 import Store from './Pages/Store';
 import Orders from './Pages/Orders';
+import Profile from './Pages/Profile';
+import Error from './Pages/Error';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -48,11 +50,12 @@ function App() {
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/config" element={<Admin />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/config" element={<Admin/>} />
+          <Route path="/" element={<Home/>} />
           <Route path="*" element={<Error />} />
-          <Route path="/stores" element={<Store />} />
-          <Route path="/orders" element={<Orders />} />
+          <Route path="/stores" element={<Store/>} />
+          <Route path="/orders" element={<Orders/>} />
+          <Route path="/profile" element={<Profile/>} />
         </Routes>
         <FooterContent />
       </Router>
