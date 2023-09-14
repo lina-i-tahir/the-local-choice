@@ -8,11 +8,11 @@ import SidePanel from "../Components/SidePanel";
 const Orders = () => {
   return (
     <>
-        <Grid container spacing={0} style={{height: '80vh' }}>
+        <Grid container spacing={0} >
             {/* refactored */}
             <SidePanel page={"orders"} route={"orders"}/>
             {/* refactored */}
-            <Grid item xs={8.5} style={{ backgroundColor: '#f3efe7', height: '80vh' }}>
+            <Grid item xs={8.5} sx={{ backgroundColor: '#F8F5ED', margin:"30px 0px", borderRadius:"15px"}}>
                 <Stack 
                     direction={{ xs: 'column'}}
                     spacing={{ xs: 2}}

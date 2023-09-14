@@ -3,10 +3,11 @@ import Stack from '@mui/system/Stack';
 import RouteHistory from "../Components/RouteHistory";
 import Button from '@mui/material/Button';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 
 const SidePanel = (props) => {
     return ( 
-        <Grid item xs={3.5} sx={{ display: { xs: 'none', md: 'inline' }}} style={{ backgroundColor: '#e4dccd', height: '80vh' }}>
+        <Grid item xs={3} style={{ height: '80vh' }}>
                 <RouteHistory page={props.page} routeName={props.route}/>
                 <Stack 
                     direction={{ xs: 'column'}}
@@ -35,7 +36,7 @@ const SidePanel = (props) => {
                     <Button 
                         variant="contained"
                         endIcon={<ArrowForwardIosIcon />}
-                        href="/orders"
+                        href="/profile"
                         sx ={{
                             backgroundColor:"#75695a",
                             boxShadow: "none",
@@ -52,7 +53,7 @@ const SidePanel = (props) => {
                     <Button 
                         variant="contained"
                         endIcon={<ArrowForwardIosIcon />}
-                        href="/orders"
+                        href="/profile"
                         sx ={{
                             backgroundColor:"#75695a",
                             boxShadow: "none",
