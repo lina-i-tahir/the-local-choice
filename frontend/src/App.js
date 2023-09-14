@@ -1,3 +1,4 @@
+
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import SignUp from "./Pages/SignUp";
@@ -11,6 +12,7 @@ import Admin from "./Pages/Admin";
 import Store from "./Pages/Store";
 import Products from "./Pages/Products";
 import ProductDetail from "./Pages/ProductDetail";
+
 
 function App() {
   const [user, setUser] = useState(null);
@@ -49,9 +51,11 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/config" element={<Admin />} />
           <Route path="/" element={<Home />} />
+
           <Route path="/stores" element={<Store />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetail />} />
+
         </Routes>
         <FooterContent />
       </Router>
