@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, useParams} from "react";
 import axios from "axios";
 import store from "../store"
 import Card from '@mui/material/Card';
@@ -10,6 +10,8 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
 const Admin = () => {
+
+
     const actionStyle = {
         display: "flex",
         fontFamily: 'Poppins',
@@ -51,9 +53,10 @@ const Admin = () => {
                     </Typography>
                 </CardContent>
                 <CardActions sx={{display:"flex", justifyContent:"center"}}>
-                    <Link to="/config/store/storeID">
+                    <Link key={item._id} to={`/config/stores/${item._id}`}>
                         <Typography gutterBottom variant="h6" component="div"
-                        sx ={actionStyle}>
+                        sx ={actionStyle}
+                        >
                             edit
                         </Typography>
                     </Link>
@@ -79,6 +82,7 @@ const Admin = () => {
                 margin:"30px auto",
                 '&:hover': {
                 backgroundColor: "#737373"}}}
+                href = "/config/store/new"
                 >
                 Add New Store
             </Button>

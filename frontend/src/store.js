@@ -35,7 +35,7 @@ const store = [
         ]
     },
     {
-        _id: '3',
+        _id: '4',
         storeName: 'My Store 4',
         storeImage: "https://media.gcflearnfree.org/ctassets/topics/246/share_size_large.jpg",
         products: [
@@ -47,7 +47,7 @@ const store = [
         ]
     },
     {
-        _id: '3',
+        _id: '5',
         storeName: 'My Store 5',
         storeImage: "https://media.gcflearnfree.org/ctassets/topics/246/share_size_large.jpg",
         products: [
