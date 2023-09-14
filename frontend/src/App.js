@@ -12,7 +12,8 @@ import Admin from "./Pages/Admin";
 import Store from "./Pages/Store";
 import Products from "./Pages/Products";
 import ProductDetail from "./Pages/ProductDetail";
-
+import Store from './Pages/Store';
+import Orders from './Pages/Orders';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -49,13 +50,9 @@ function App() {
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/config" element={<Admin />} />
-          <Route path="/" element={<Home />} />
-
           <Route path="/stores" element={<Store />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetail />} />
-
         </Routes>
         <FooterContent />
       </Router>
