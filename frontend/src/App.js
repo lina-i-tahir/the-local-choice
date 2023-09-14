@@ -9,7 +9,7 @@ import NavBar from "./Components/NavBar";
 import FooterContent from "./Components/FooterContent";
 import Admin from "./Pages/Admin";
 import Store from "./Pages/Store";
-import Product from "./Pages/Product";
+import Products from "./Pages/Products";
 import ProductDetail from "./Pages/ProductDetail";
 
 function App() {
@@ -50,8 +50,8 @@ function App() {
           <Route path="/config" element={<Admin />} />
           <Route path="/" element={<Home />} />
           <Route path="/stores" element={<Store />} />
-          <Route path="/product" element={<Product />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<ProductDetail />} />
         </Routes>
         <FooterContent />
       </Router>
