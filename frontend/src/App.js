@@ -13,7 +13,6 @@ import Error from "./Pages/Error";
 import Store from './Pages/Store';
 import Orders from './Pages/Orders';
 import Profile from './Pages/Profile';
-import Error from './Pages/Error';
 
 function App() {
   const [user, setUser] = useState(null);
