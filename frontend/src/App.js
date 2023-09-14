@@ -10,6 +10,7 @@ import FooterContent from "./Components/FooterContent";
 import Admin from "./Pages/Admin";
 import Store from "./Pages/Store";
 import Product from "./Pages/Product";
+import ProductDetail from "./Pages/ProductDetail";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -50,6 +51,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/stores" element={<Store />} />
           <Route path="/product" element={<Product />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
         </Routes>
         <FooterContent />
       </Router>

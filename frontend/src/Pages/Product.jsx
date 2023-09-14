@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import {
   Box,
   TextField,
@@ -11,49 +11,27 @@ import {
 } from "@mui/material";
 import ImageGrid from "../Components/ImageGrid";
 import { Typography } from "@mui/material";
-import { Link } from "react-router-dom";
 import RouteHistory from "../Components/RouteHistory";
 import store from "../store";
+import products from "../products";
 
-const Product = () => {
-  // const { id: productsId } = useParams();
-  // const storeProduct = store.find((p) => p.id === productsId);
-  // console.log(storeProduct);
-
+// const oneProduct = ({ item }) => {
+const displayProduct = products.map((item, idx) => {
+  // const { id: productId } = useParams()
+  // const product = products.find((p) => p.id === productId)
   return (
     <>
-      <RouteHistory page="product" routeName="product" />
-      <Container>
-        {/* <div className="product-description">description</div>
-        <div className="product-reviews">customer reviews</div> */}
-        <Grid container>
-          <Grid item sm={6}>
-            <img
-              width={480}
-              src="https://media.gcflearnfree.org/ctassets/topics/246/share_size_large.jpg"
-              alt="product"
-            />
-            <Grid item sm={8}>
-              <Typography
-                variant="h7"
-                noWrap
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontFamily: "Poppins",
-                  fontWeight: 300,
-                  color: "#414B3B",
-                  textDecoration: "none",
-                  margin: "30px 50px",
-                }}
-              >
-                <ImageGrid />
-              </Typography>
-            </Grid>
-          </Grid>
-          <Grid item sm={6}>
+      <Grid container spacing={{ xs: 3, md: 2 }}>
+        <Grid item xs={3} md={6} key={idx}>
+          <img
+            src={item.image}
+            alt={item.name}
+            style={{ width: "80%", margin: "0px 30px" }}
+          />
+
+          {/* <Grid item sm={8} md={8}>
             <Typography
-              variant="h4"
+              variant="h7"
               noWrap
               sx={{
                 display: "flex",
@@ -62,66 +40,16 @@ const Product = () => {
                 fontWeight: 300,
                 color: "#414B3B",
                 textDecoration: "none",
-                marginTop: "20px ",
+                margin: "30px 50px",
               }}
             >
-              Product Name
+              <ImageGrid />
             </Typography>
-            <Typography
-              variant="h7"
-              noWrap
-              sx={{
-                display: "flex",
-                justifyContent: "left",
-                fontFamily: "Poppins",
-                fontWeight: 100,
-                color: "#414B3B",
-                textDecoration: "none",
-                marginTop: "20px",
-                textAlign: "left",
-              }}
-            >
-              $38.80
-            </Typography>
-            <Typography
-              variant="h7"
-              noWrap
-              sx={{
-                display: "flex",
-                justifyContent: "left",
-                fontFamily: "Poppins",
-                fontWeight: 100,
-                color: "#414B3B",
-                textDecoration: "none",
-                marginTop: "20px",
-                textAlign: "left",
-              }}
-            >
-              qty (dropdown)
-            </Typography>
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                display: "flex",
-                backgroundColor: "#99958C",
-                color: "#E4DCCD",
-                width: "20ch",
-                textAlign: "center",
-                marginTop: "50px",
-                "&:hover": {
-                  backgroundColor: "#737373",
-                },
-              }}
-            >
-              add to cart
-            </Button>
-          </Grid>
+          </Grid> */}
         </Grid>
-
-        <Grid item sm={8}>
+        <Grid item xs={12} md={6}>
           <Typography
-            variant="h7"
+            variant="h4"
             noWrap
             sx={{
               display: "flex",
@@ -130,15 +58,11 @@ const Product = () => {
               fontWeight: 300,
               color: "#414B3B",
               textDecoration: "none",
-              margin: "50px",
+              margin: "30px 0px 0px 0px",
             }}
           >
-            description
+            {item.name}
           </Typography>
-        </Grid>
-        <Divider variant="middle" />
-
-        <Grid item sm={8}>
           <Typography
             variant="h7"
             noWrap
@@ -146,16 +70,137 @@ const Product = () => {
               display: "flex",
               justifyContent: "left",
               fontFamily: "Poppins",
-              fontWeight: 300,
+              fontWeight: 100,
               color: "#414B3B",
               textDecoration: "none",
-              margin: "50px",
+              margin: "20px 0px 0px 0px",
+              textAlign: "left",
             }}
           >
-            customer reviews
+            $ {item.price}
           </Typography>
+          <Typography
+            variant="h7"
+            noWrap
+            sx={{
+              display: "flex",
+              justifyContent: "left",
+              fontFamily: "Poppins",
+              fontWeight: 100,
+              color: "#414B3B",
+              textDecoration: "none",
+              margin: "20px 0px 0px 0px",
+              textAlign: "left",
+            }}
+          >
+            qty (countInStock dropdown)
+          </Typography>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{
+              display: "flex",
+              backgroundColor: "#99958C",
+              color: "#E4DCCD",
+              width: "20ch",
+              textAlign: "center",
+              margin: "50px 0px 0px 0px",
+              "&:hover": {
+                backgroundColor: "#737373",
+              },
+            }}
+          >
+            add to cart
+          </Button>
         </Grid>
-      </Container>
+      </Grid>
+      <Grid item sm={8}>
+        <Typography
+          variant="h6"
+          noWrap
+          sx={{
+            display: "flex",
+            justifyContent: "left",
+            fontFamily: "Poppins",
+            fontWeight: 400,
+            color: "#414B3B",
+            textDecoration: "none",
+            margin: "50px",
+            textOverflow: "clip",
+          }}
+        >
+          description
+        </Typography>
+      </Grid>
+      <Grid item sm={8} zeroMinWidth>
+        <Typography
+          variant="h7"
+          sx={{
+            display: "flex",
+            justifyContent: "left",
+            fontFamily: "Poppins",
+            fontWeight: 100,
+            color: "#414B3B",
+            textDecoration: "none",
+            margin: "50px",
+            textAlign: "left",
+          }}
+        >
+          {item.description}
+        </Typography>
+      </Grid>
+      <Divider variant="middle" />
+      <Grid item sm={8}>
+        <Typography
+          variant="h6"
+          noWrap
+          sx={{
+            display: "flex",
+            justifyContent: "left",
+            fontFamily: "Poppins",
+            fontWeight: 400,
+            color: "#414B3B",
+            textDecoration: "none",
+            margin: "50px",
+          }}
+        >
+          customer reviews {item.reviewRating}
+        </Typography>
+      </Grid>
+      <Grid item sm={8}>
+        <Typography
+          variant="h7"
+          sx={{
+            display: "flex",
+            justifyContent: "left",
+            fontFamily: "Poppins",
+            fontWeight: 100,
+            color: "#414B3B",
+            textDecoration: "none",
+            margin: "50px",
+            textAlign: "left",
+          }}
+        >
+          (reviewSchema) Lorem ipsum dolor sit amet consectetur adipisicing
+          elit. Incidunt velit deserunt, aliquam maiores nesciunt rem quasi
+          iusto eaque! Ad libero deserunt fugit quidem, ullam quae repellendus
+          consequatur quam? Rem, consequuntur!
+        </Typography>
+      </Grid>
+    </>
+  );
+});
+
+const Product = () => {
+  return (
+    <>
+      <RouteHistory page="product" routeName="product" />
+      <Container>{displayProduct}</Container>
+      {products.map((item) => (
+        <Link key={item.id} to={`/product/${item.id}`}>
+          {item.name}
+        </Link>
+      ))}
     </>
   );
 };
