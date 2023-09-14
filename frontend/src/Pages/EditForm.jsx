@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import store from "../store";
+import {Box, TextField, Button, Container, Grid, Divider} from '@mui/material';
+import { Typography } from '@mui/material';
+import FieldDisabled from "../Components/FieldDisabled";
 
 const EditForm = () => {
     const { id } = useParams();
@@ -9,11 +12,23 @@ const EditForm = () => {
     console.log(storeDetails);
 
     return ( 
-        <div>
-            <p>
-            {storeDetails ? <p>{storeDetails.storeName}</p> : <p>Loading...</p>}
-            </p>
-        </div>        
+        <Container maxWidth="xs">
+            <Typography
+                variant="h4"
+                noWrap
+                sx={{
+                    display: "flex",
+                    justifyContent: "center ",
+                    fontFamily: "Poppins",
+                    fontWeight: 300,
+                    color: "#414B3B",
+                    textDecoration: "none",
+                    margin:"20px auto"
+                }}
+            >
+                {storeDetails.storeName}
+            </Typography>
+        </Container>
     );
 }
  
