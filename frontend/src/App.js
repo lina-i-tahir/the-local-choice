@@ -1,3 +1,4 @@
+
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import SignUp from "./Pages/SignUp";
@@ -9,8 +10,8 @@ import NavBar from "./Components/NavBar";
 import FooterContent from "./Components/FooterContent";
 import Admin from "./Pages/Admin";
 import Error from "./Pages/Error";
-import Store from "./Pages/Store";
-import Orders from "./Pages/Orders";
+import Store from './Pages/Store';
+import Orders from './Pages/Orders';
 
 function App() {
   const [user, setUser] = useState(null);
