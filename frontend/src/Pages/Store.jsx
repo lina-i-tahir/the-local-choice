@@ -4,6 +4,7 @@ import hangingPlant from "../assets/hangingPlant.png";
 import handxmadeLogo from "../assets/handxmadeLogo.png";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import acStickers from "../assets/productImages/acStickers.png"
+import { useNavigate } from 'react-router-dom';
 
 const Store = () => {
 
@@ -23,6 +24,8 @@ const Store = () => {
           },
         },
       });
+
+      const navigate = useNavigate();
 
   return (
     <>  
