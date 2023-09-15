@@ -82,7 +82,7 @@ const Admin = () => {
                 margin:"30px auto",
                 '&:hover': {
                 backgroundColor: "#737373"}}}
-                href = "/config/store/new"
+                href = "/config/stores/new"
                 >
                 Add New Store
             </Button>
