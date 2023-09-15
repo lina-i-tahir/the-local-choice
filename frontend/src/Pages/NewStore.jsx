@@ -7,27 +7,50 @@ import { Link } from "react-router-dom";
 import RouteHistory from "../Components/RouteHistory";
 
 const NewStore = () => {
+    const navigate = useNavigate();
     const [selectedImage, setSelectedImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [form, setForm] = useState({
-        storeName: "",
-        storeImage: "",
-      });
+        name: "",
+        image: "",
+    });
+    const [image, setImage] = useState(null);
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
         console.log("form submitted");
         setForm({
-            storeName: event.target.storeName.value,
-            storeImage: selectedImage,
+            name: event.target.name.value,
+            image: imagePreview,
         });
     }
+    
+    const createStore = async () => {
+        await axios({
+          method: "POST",
+          url: "http://localhost:8000/config/stores",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          data: form,
+        })
+          .then(function (response) {
+            console.log(response);
+            if (response.status === 201) {
+              console.log("Created successfully");
+              navigate("/config/stores");
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      };
 
-    // useEffect(() => {
-    //     if (form.storeName !== "" && form.storeImage !== "") {
-    //         postStore();
-    //     }
-    // }, [form]);
+    useEffect(() => {
+        if (form.name !== "" && form.image !== "") {
+          createStore();
+        }
+    }, [form]);
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -42,14 +65,32 @@ const NewStore = () => {
             };
         }
     };
+
+    const handleImageUpload = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            const reader = new FileReader();
+            
+            // waits for the file to be loaded before setting the image
+            reader.onloadend = () => {
+                // reader.result contains the base64 string
+                setImage({
+                    dataUrl: reader.result
+                });
+                setImagePreview(reader.result);
+            };
+            // read the file as a base64 string
+            reader.readAsDataURL(e.target.files[0]);
+        }
+    };
     return ( 
         <div>
-            <RouteHistory page="new store" routeName="config/store/new" />
+            <RouteHistory page="new store" routeName="config/stores/new" />
             <Box
                 component="form"
                 sx={{ "& .MuiTextField-root": { m: 1, width: "40ch" } }}
                 noValidate
                 autoComplete="off"
+                onSubmit={handleFormSubmit}
             >
                 <Typography
                 variant="h6"
@@ -74,7 +115,7 @@ const NewStore = () => {
                     required
                     id="outlined-required"
                     label="Store Name"
-                    name="storeName"
+                    name="name"
                     defaultValue=""
                 />
                 </div>

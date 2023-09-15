@@ -61,7 +61,7 @@ function App() {
           <Route path="/products/:id" element={<ProductDetail />} />
           <Route path="/orders" element={<Orders/>} />
           <Route path="/profile" element={<Profile/>} />
-          <Route path="/config/store/new" element={<NewStore/>} />
+          <Route path="/config/stores/new" element={<NewStore/>} />
           <Route path="/config/stores/:id" element={<EditForm/>} />
         </Routes>
         {/* <FooterContent /> */}
