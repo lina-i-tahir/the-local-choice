@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, TextField, Button } from '@mui/material';
 import { Typography } from '@mui/material';
 import Window from "../assets/Window.png";
-import store from "../store";
+// import store from "../store";
 import { Divider } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
@@ -22,7 +22,7 @@ const storeDisplay = (item) => {
                     display: "flex",
                     justifyContent: "flex-start",
                 }}>
-                {item.storeName}
+                {item.name}
             </Typography>
             
             <Grid container spacing={{ xs: 3, md: 2 }}>
@@ -62,8 +62,29 @@ const Home = () => {
     const navigate = useNavigate();
     const [count, setCount] = useState(0);
     const [storeOverview, setStoreOverview] = useState([]);
+    const [store, setStore] = useState([]);
     const maxCount = Math.floor(store.length / 2);
 
+
+    const getStore = async () => {
+        await axios({
+            method: "GET",
+            url: `http://localhost:8000/`,
+        })
+        .then((response) => {
+            console.log(response.data.stores);
+            setStore(response.data.stores);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+    
+    useEffect(() => {
+        getStore();
+    }, []);
+
+    
     const clickHandler = (e) => {
         if (e === "increase") {
             if (count < maxCount) {
@@ -80,10 +101,10 @@ const Home = () => {
         if (count === 0) {
             setStoreOverview(store.slice(count, count + 2));
         }
-        else {
+        else{
             setStoreOverview(store.slice(count * 2, count * 2 + 2));
         }
-    }, [count]);
+    }, [count, store]);
 
     return ( 
         <div style={{ display: "flex", flexDirection: "column", minHeight:"90vh" }}>
@@ -94,6 +115,7 @@ const Home = () => {
                     )
                 })}
             </Box>
+            {store ? 
             <Box sx={{ 
                 display: "flex", 
                 flexDirection: "column", 
@@ -117,7 +139,7 @@ const Home = () => {
                         )
                     })
                 }
-            </Box>
+            </Box>:null}
             <Box sx={{
                 display: "flex",
                 justifyContent: "space-between", // This will separate the two Typography components
