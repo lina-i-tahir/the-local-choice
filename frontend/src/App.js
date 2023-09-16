@@ -20,6 +20,7 @@ import EditForm from "./Pages/EditForm";
 import AllStores from "./Pages/AllStores";
 import AddProducts from "./Pages/AddProduct";
 import EditProduct from "./Pages/EditProduct";
+import OrderDetail from "./Pages/OrderDetail";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -61,9 +62,11 @@ function App() {
           <Route path="*" element={<Error />} />
           <Route path="/stores" element={<AllStores />} />
           <Route path="/stores/:id" element={<Store />} />
+          <Route path="/stores/:id/:id" element={<ProductDetail />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetail />} />
           <Route path="/orders" element={<Orders/>} />
+          <Route path="/orders/:id" element={<OrderDetail/>} />
           <Route path="/profile" element={<Profile/>} />
           <Route path="/config/stores/new" element={<NewStore/>} />
           <Route path="/config/stores/:id" element={<EditForm/>} />
