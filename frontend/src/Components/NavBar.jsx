@@ -6,6 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
+import { Divider } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import Container from "@mui/material/Container";
 import Tooltip from "@mui/material/Tooltip";
@@ -27,8 +28,9 @@ const styleModal = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: "background.paper",
+  bgcolor: "#F3EFE7",
   border: "2px solid #000",
+
   boxShadow: 24,
   p: 4,
 };
@@ -165,11 +167,38 @@ function NavBar() {
                       id="modal-modal-title"
                       variant="h6"
                       component="h2"
+                      fontFamily="Poppins"
+                      fontWeight="300"
+                      color="#414B3B"
                     >
                       Shopping Cart
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                      To buy
+                    <Container>
+                      <Typography
+                        id="modal-modal-description"
+                        sx={{ mt: 2 }}
+                        variant="h7"
+                        fontFamily="Poppins"
+                        fontWeight="200"
+                        color="#414B3B"
+                      >
+                        <br />
+                        item 1 item 2
+                      </Typography>
+                    </Container>
+                    <br />
+                    <br />
+                    <Divider variant="middle" />
+                    <Typography
+                      id="modal-modal-description"
+                      sx={{ mt: 2 }}
+                      variant="h7"
+                      fontFamily="Poppins"
+                      fontWeight="200"
+                      color="#414B3B"
+                    >
+                      <br />
+                      subtotal:
                     </Typography>
                   </Box>
                 </Modal>
