@@ -92,7 +92,8 @@ const Admin = () => {
     return ( 
         <div style={{display:"flex", flexDirection:"column"}}>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", width:"100%" }}>
-                {store.length > 0 ? displayStore : <Typography variant="h6" component="div"
+                {store.length > 0 ? displayStore : 
+                <Typography variant="h6" component="div"
                 sx ={{
                     textAlign: "center",
                     fontFamily: "Poppins",

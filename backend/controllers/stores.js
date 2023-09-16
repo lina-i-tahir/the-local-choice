@@ -3,6 +3,7 @@ const User = require('../models/user');
 
 module.exports = {
     index,
+    show,
     create
 };
 
@@ -11,6 +12,13 @@ async function index(req, res){
     // res.render("movies/index", { title: "All Movies", movies });
     res.json({ title: "All Stores", stores });
 }
+
+async function show(req, res){
+    const store = await Store.findById(req.params.id);
+    // res.render("movies/show", { title: "Movie Detail", movie });
+    res.json({ title: "Store Detail", store });
+}
+
 
 async function create (req, res) {
     console.log("Request body:", req.body);

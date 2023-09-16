@@ -39,7 +39,7 @@ const storeSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    products: [productSchema]
+    products: [productSchema],
 }, {
     timestamps: true
 });

@@ -66,22 +66,6 @@ const NewStore = () => {
         }
     };
 
-    const handleImageUpload = (e) => {
-        if (e.target.files && e.target.files[0]) {
-            const reader = new FileReader();
-            
-            // waits for the file to be loaded before setting the image
-            reader.onloadend = () => {
-                // reader.result contains the base64 string
-                setImage({
-                    dataUrl: reader.result
-                });
-                setImagePreview(reader.result);
-            };
-            // read the file as a base64 string
-            reader.readAsDataURL(e.target.files[0]);
-        }
-    };
     return ( 
         <div>
             <RouteHistory page="new store" routeName="config/stores/new" />
