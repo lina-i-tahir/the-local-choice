@@ -17,6 +17,9 @@ import Products from "./Pages/Products";
 import ProductDetail from "./Pages/ProductDetail";
 import EditForm from "./Pages/EditForm";
 import AllStores from "./Pages/AllStores";
+// Shopping cart pages
+import SCCancel from "./Pages/SCCancel";
+import SCSuccess from "./Pages/SCSuccess";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -61,6 +64,8 @@ function App() {
           <Route path="/products" element={<Products />} />
           <Route path="//stores/:id/:id" element={<ProductDetail />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/sccancel" element={<SCCancel />} />
+          <Route path="/scsuccess" element={<SCSuccess />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/config/stores/new" element={<NewStore />} />
           <Route path="/config/stores/:id" element={<EditForm />} />
