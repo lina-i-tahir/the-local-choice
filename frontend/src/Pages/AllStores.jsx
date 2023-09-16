@@ -1,10 +1,8 @@
-import { Container, Grid, Box, Hidden } from "@mui/material"
+import { Grid, Card, CardMedia} from "@mui/material"
 import allStoresBanner from "../assets/allStoresImages/allStoresBanner.png";
-import storeWindow from "../assets/allStoresImages/storeWindow.png";
-import storeHandxmade from "../assets/allStoresImages/storeHandxmade.png";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import store from "../store";
 
 const AllStores = () => {
     const theme = createTheme({
@@ -24,23 +22,39 @@ const AllStores = () => {
         },
       });
 
-    const [hovered, setHovered] = useState(false);
-
-    const handleHover = () => {
-        setHovered(true);
-    };
-
-    const handleMouseOut = () => {
-        setHovered(false);
-    };
-
 
     const navigate = useNavigate();
 
-    const handleClick = () => {
-        const storeId = 1;
+    const enterStore = (storeId) => {
         navigate(`/stores/${storeId}`)
     }
+
+    const displayStore = store.map((store) => {
+        return (
+          <Card
+            key={store._id}
+            sx={{
+              minWidth: 300,
+              margin: "30px 15px",
+              backgroundColor: "transparent",
+              boxShadow: "none", 
+              outline: "none", 
+            }}
+            onClick={() => enterStore(store._id)}
+          >
+            <CardMedia
+              component="img"
+              height="220"
+              image={store.storeFrontImage}
+              alt={store.name}
+              sx={{
+                objectFit: "contain",
+              }}
+              
+            />
+          </Card>
+        );
+    });
 
   return (
     <>  
@@ -52,34 +66,18 @@ const AllStores = () => {
                 <img src={allStoresBanner} style={{ width: "100%"}}/>
             </Grid>
         </Grid>
+        
 
         <Grid container spacing={0} sx={{
                                         bgcolor: '#c8b799',
                                         justifyContent: "center",
-                                        paddingLeft: "12%",
-                                        paddingRight: "12%",
+                                        paddingLeft: "8%",
+                                        paddingRight: "8%",
                                         paddingTop: "3%",
                                         paddingBottom: "3%"
                                         }} >
-            <Grid item md={6}>
-                <img src={hovered ? storeHandxmade : storeWindow} 
-                    style={{ width: "250px"}}
-                    onMouseEnter={handleHover}
-                    onMouseOut={handleMouseOut}
-                    onClick={handleClick}
-                    />
-            </Grid>
-            <Grid item md={6}>
-                <img src={storeWindow} style={{ width: "250px"}}/>
-            </Grid>
-            <Grid item md={6}>
-                <img src={storeWindow} style={{ width: "250px"}}/>
-            </Grid>
-            <Grid item md={6}>
-                <img src={storeWindow} style={{ width: "250px"}}/>
-            </Grid>
+        {displayStore}
         </Grid>
-        {/* sx={{marginInlineStart: 7}} */}
 
 
     </ThemeProvider>
