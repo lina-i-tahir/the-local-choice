@@ -19,6 +19,7 @@ import ProductDetail from "./Pages/ProductDetail";
 import EditForm from "./Pages/EditForm";
 import AllStores from "./Pages/AllStores";
 import AddProducts from "./Pages/AddProduct";
+import EditProduct from "./Pages/EditProduct";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -67,6 +68,7 @@ function App() {
           <Route path="/config/stores/new" element={<NewStore/>} />
           <Route path="/config/stores/:id" element={<EditForm/>} />
           <Route path="/config/stores/:id/products" element={<AddProducts/>} />
+          <Route path="/config/stores/:id/products/:productId" element={<EditProduct/>} />
         </Routes>
         {/* <FooterContent /> */}
       </Router>
