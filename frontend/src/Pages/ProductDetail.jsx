@@ -17,6 +17,8 @@ import Select from "@mui/material/Select";
 import { Typography } from "@mui/material";
 import RouteHistory from "../Components/RouteHistory";
 import products from "../products";
+import store from "../store";
+import Rating from "../Components/Rating";
 
 const ProductDetail = () => {
   // qty-countInStock
@@ -29,7 +31,7 @@ const ProductDetail = () => {
   //
 
   const { id } = useParams();
-  const product = products.find((item) => item._id === parseInt(id));
+  const product = store[0].products.find((item) => item._id === parseInt(id));
   const navigate = useNavigate(); // Define the navigate function
 
   if (!product) {
@@ -74,7 +76,7 @@ const ProductDetail = () => {
 
   return (
     <>
-      <RouteHistory page="products" routeName="products" />
+      <RouteHistory page="stores/1" routeName="stores/1" />
       <Container>
         <Grid container spacing={{ xs: 3, md: 2 }}>
           <Grid item xs={3} md={6} key={id}>
@@ -217,7 +219,7 @@ const ProductDetail = () => {
               margin: "50px",
             }}
           >
-            customer reviews {product.reviewRating}
+            customer reviews <Rating value={product.reviewRating} />
           </Typography>
         </Grid>
         <Grid item sm={8}>
