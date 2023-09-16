@@ -31,7 +31,7 @@ const ProductDetail = () => {
   //
 
   const { id } = useParams();
-  const product = store.find((item) => item._id === parseInt(id));
+  const product = store[0].products.find((item) => item._id === parseInt(id));
   const navigate = useNavigate(); // Define the navigate function
 
   if (!product) {
