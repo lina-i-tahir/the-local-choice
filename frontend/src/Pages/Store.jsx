@@ -4,6 +4,7 @@ import hangingPlant from "../assets/hangingPlant.png";
 import handxmadeLogo from "../assets/handxmadeLogo.png";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import acStickers from "../assets/productImages/acStickers.png"
+import { useNavigate } from 'react-router-dom';
 
 const Store = () => {
 
@@ -23,6 +24,14 @@ const Store = () => {
           },
         },
       });
+
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        const productId = 1;
+        const storeId = 1;
+        navigate(`/stores/${storeId}/${productId}`)
+    }
 
   return (
     <>  
@@ -57,9 +66,13 @@ const Store = () => {
                                         justifyContent: "flex-start",
                                         }} >
             <Grid item md={4} sm={6} xs={12}>
-                <img src={acStickers} style={{ width: "62%"}}/>
-                <h4 style={{ margin: '8px'}}>sticker pack</h4>
-                <p style={{ margin: '8px'}}>$5.99</p>
+                <img src={acStickers} 
+                    style={{ width: "62%"}}
+                    onClick={handleClick}/>
+                <h4 style={{ margin: '8px'}}
+                    onClick={handleClick}>sticker pack</h4>
+                <p style={{ margin: '8px'}}
+                    onClick={handleClick}>$5.99</p>
             </Grid>
             <Grid item md={4} sm={6} xs={12}>
                 <img src={acStickers} style={{ width: "62%"}}/>

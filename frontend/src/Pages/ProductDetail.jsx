@@ -74,7 +74,7 @@ const ProductDetail = () => {
 
   return (
     <>
-      <RouteHistory page="products" routeName="products" />
+      <RouteHistory page="stores/1" routeName="stores/1" />
       <Container>
         <Grid container spacing={{ xs: 3, md: 2 }}>
           <Grid item xs={3} md={6} key={id}>
