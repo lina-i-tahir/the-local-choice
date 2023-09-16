@@ -4,7 +4,8 @@ const User = require('../models/user');
 module.exports = {
     index,
     show,
-    create
+    create,
+    updateOne
 };
 
 async function index(req, res){
@@ -34,6 +35,25 @@ async function create (req, res) {
     }
 }
 
+
+async function updateOne (req, res) {
+    console.log("Request body:", req.body);
+    console.log("Request params:", req.params);
+    
+    const {name, image} = req.body;
+    try {
+        const store = await Store.findById(req.params.id);
+        store.name = name;
+        store.image = image;
+        await store.save();
+        res.json({ title: "Store Detail", store });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ errorMsg: err.message });
+    }
+    
+}
 
 // function newStore(req, res){
 //     res.render('stores/new');
