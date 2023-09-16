@@ -1,4 +1,3 @@
-
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import SignUp from "./Pages/SignUp";
@@ -12,8 +11,7 @@ import Admin from "./Pages/Admin";
 import Store from "./Pages/Store";
 import Products from "./Pages/Products";
 import ProductDetail from "./Pages/ProductDetail";
-import Store from './Pages/Store';
-import Orders from './Pages/Orders';
+import Orders from "./Pages/Orders";
 
 function App() {
   const [user, setUser] = useState(null);
