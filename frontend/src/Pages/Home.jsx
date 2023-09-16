@@ -9,54 +9,8 @@ import { Divider } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
+import { Link } from "react-router-dom";
 const tempArr  = [ 1, 2, 3, 4]
-
-const storeDisplay = (item) => {
-    return (
-        <>
-            <Typography gutterBottom variant="h6" component="div"
-                sx={{
-                    fontFamily: "Poppins",
-                    fontSize: "20px",
-                    margin: "10px 30px",
-                    display: "flex",
-                    justifyContent: "flex-start",
-                }}>
-                {item.name}
-            </Typography>
-            
-            <Grid container spacing={{ xs: 3, md: 2 }}>
-                {item.products.map((item,idx) => (
-                    idx<4 ?
-                    <Grid item xs={3} key={idx}>
-                        <img src={item.image} style={{ width: "80%", margin: "0px 30px" }} />
-                        <Typography gutterBottom variant="h6" component="div"
-                        sx ={{
-                            fontFamily: "Poppins",
-                            fontSize:"20px",
-                            marginBottom:"5px",
-                            display:"flex",
-                            justifyContent:"center",
-                        }}>
-                        {item.name}
-                        </Typography>
-                        <Typography gutterBottom variant="h6" component="div"
-                        sx ={{
-                            fontFamily: "Poppins",
-                            fontSize:"20px",
-                            marginBottom:"5px",
-                            display:"flex",
-                            justifyContent:"center",
-                        }}>
-                        {item.price}
-                        </Typography>
-                    </Grid>
-                    : null
-                ))}
-            </Grid>
-        </>
-    )
-}
 
 const Home = () => {
     const navigate = useNavigate();
@@ -65,11 +19,65 @@ const Home = () => {
     const [store, setStore] = useState([]);
     const maxCount = Math.floor(store.length / 2);
 
+    const storeDisplay = (item) => {
+        return (
+            <>  
+                <Link to={`/stores/${item._id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                <Typography gutterBottom variant="h6" component="div"
+                    sx={{
+                        fontFamily: "Poppins",
+                        fontSize: "20px",
+                        margin: "10px 30px",
+                        display: "flex",
+                        justifyContent: "flex-start",
+                        '&:hover': {
+                            color: "#737373",
+                            cursor: "pointer",
+                        }
+                    }}>
+                        {item.name}
+                </Typography>
+                </Link>
+                
+                
+                <Grid container spacing={{ xs: 3, md: 2 }}>
+                    {item.products.map((item,idx) => (
+                        idx<4 ?
+                        <Grid item xs={3} key={idx}>
+                            <img src={item.image} style={{ width: "80%", margin: "0px 30px" }} />
+                            <Typography gutterBottom variant="h6" component="div"
+                            sx ={{
+                                fontFamily: "Poppins",
+                                fontSize:"20px",
+                                marginBottom:"5px",
+                                display:"flex",
+                                justifyContent:"center",
+                            }}>
+                            {item.name}
+                            </Typography>
+                            <Typography gutterBottom variant="h6" component="div"
+                            sx ={{
+                                fontFamily: "Poppins",
+                                fontSize:"20px",
+                                marginBottom:"5px",
+                                display:"flex",
+                                justifyContent:"center",
+                            }}>
+                            {item.price}
+                            </Typography>
+                        </Grid>
+                        : null
+                    ))}
+                </Grid>
+            </>
+        )
+    }
+
 
     const getStore = async () => {
         await axios({
             method: "GET",
-            url: `http://localhost:8000/`,
+            url: `http://localhost:8000/stores`,
         })
         .then((response) => {
             console.log(response.data.stores);
