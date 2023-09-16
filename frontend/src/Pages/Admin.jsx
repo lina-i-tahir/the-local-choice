@@ -1,6 +1,6 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, useParams} from "react";
 import axios from "axios";
-import store from "../store"
+// import store from "../store"
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -10,6 +10,27 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
 const Admin = () => {
+
+    const [store, setStore] = useState([]);
+
+    const getStores = async () => {
+        await axios({
+            method: "GET",
+            url: "http://localhost:8000/config/stores",
+        })
+        .then((response) => {
+            console.log(response);
+            setStore(response.data.stores);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+
+    useEffect(() => {
+        getStores();
+    }, []);
+
     const actionStyle = {
         display: "flex",
         fontFamily: 'Poppins',
@@ -31,8 +52,8 @@ const Admin = () => {
                 <CardMedia
                     component="img"
                     height="200"
-                    image={item.storeImage}
-                    alt={item.storeName}
+                    image={item.image}
+                    alt={item.name}
                     sx={{
                         objectFit: "contain",
                         width: "90%",
@@ -47,13 +68,14 @@ const Admin = () => {
                         fontSize:"20px",
                         margin:"-10px 0px",
                     }}>
-                        {item.storeName}
+                        {item.name}
                     </Typography>
                 </CardContent>
                 <CardActions sx={{display:"flex", justifyContent:"center"}}>
-                    <Link to="/config/store/storeID">
+                    <Link key={item._id} to={`/config/stores/${item._id}`}>
                         <Typography gutterBottom variant="h6" component="div"
-                        sx ={actionStyle}>
+                        sx ={actionStyle}
+                        >
                             edit
                         </Typography>
                     </Link>
@@ -70,7 +92,15 @@ const Admin = () => {
     return ( 
         <div style={{display:"flex", flexDirection:"column"}}>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", width:"100%" }}>
-                {displayStore}
+                {store.length > 0 ? displayStore : <Typography variant="h6" component="div"
+                sx ={{
+                    textAlign: "center",
+                    fontFamily: "Poppins",
+                    fontSize:"20px",
+                    margin:"30px 0px",
+                }}>
+                    No stores added yet
+                </Typography>}
             </div>
             <Button variant="contained" 
             sx={{backgroundColor:"#99958C", 
@@ -79,6 +109,7 @@ const Admin = () => {
                 margin:"30px auto",
                 '&:hover': {
                 backgroundColor: "#737373"}}}
+                href = "/config/stores/new"
                 >
                 Add New Store
             </Button>
