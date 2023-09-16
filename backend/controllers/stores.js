@@ -5,7 +5,8 @@ module.exports = {
     index,
     show,
     create,
-    updateOne
+    updateOne,
+    deleteStore,
 };
 
 async function index(req, res){
@@ -53,6 +54,19 @@ async function updateOne (req, res) {
         res.status(500).json({ errorMsg: err.message });
     }
     
+}
+
+async function deleteStore(req, res){
+    console.log("Request params:", req.params);
+    try {
+        await Store.findByIdAndDelete(req.params.id);
+        const stores = await Store.find({});
+        res.json({ title: "All Stores", stores });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ errorMsg: err.message });
+    }
 }
 
 // function newStore(req, res){
