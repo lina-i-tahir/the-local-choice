@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import store from "./store";
-import { productsArray, getProductData } from "./products";
+// import { productsArray, getProductData } from "./products";
 
 export const CartContext = createContext({
   items: [],
@@ -17,9 +17,12 @@ export function CartPovider({ children }) {
     //   const product = store[0].products.find(
     //     (item) => item._id === parseInt(id)
     //   );
-    const quantity = cartProducts.find(
-      (product) => product._id === id
+    const quantity = store[0].products.find(
+      (product) => product._id === parseInt(id)
     )?.quantity;
+    // const quantity = cartProducts.find(
+    //   (product) => product._id === id
+    // )?.quantity;
 
     if (quantity === undefined) {
       return 0;
@@ -71,14 +74,14 @@ export function CartPovider({ children }) {
     );
   }
 
-  function getTotalCost() {
-    let totalCost = 0;
-    cartProducts.map((cartItem) => {
-      const productData = getProductData(cartItem.id);
-      totalCost += productData.price * cartItem.quantity;
-    });
-    return totalCost;
-  }
+  //   function getTotalCost() {
+  //     let totalCost = 0;
+  //     cartProducts.map((cartItem) => {
+  //       const productData = getProductData(cartItem.id);
+  //       totalCost += productData.price * cartItem.quantity;
+  //     });
+  //     return totalCost;
+  //   }
 
   const contextValue = {
     items: [],
@@ -86,7 +89,7 @@ export function CartPovider({ children }) {
     addOneToCart,
     removeOneToCart,
     deleteFromCart,
-    getTotalCost,
+    // getTotalCost,
   };
 
   return (
