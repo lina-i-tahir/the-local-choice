@@ -69,7 +69,8 @@ const OrderDetail = () => {
                     <TableContainer component={Paper}
                                     sx={{ width: "80%",
                                             backgroundColor: "transparent", 
-                                            boxShadow: "none"}}>
+                                            boxShadow: "none",
+                                            paddingBottom: "80px"}}>
                     <Table sx={{ minWidth: 700 }} aria-label="spanning table">
                         <TableHead>
                         <TableRow>
