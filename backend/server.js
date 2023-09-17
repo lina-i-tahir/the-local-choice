@@ -11,11 +11,11 @@ require('dotenv').config();
 // connect to the database with AFTER the config vars are processed
 require('./config/database');
 
-var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth');
-const storeRouter = require('./routes/stores');
+const storeAdminRouter = require('./routes/storeAdmin');
 const productRouter = require('./routes/products');
 const orderRouter = require('./routes/orderRoutes');
+const storeUserRouter = require('./routes/storeUser');
 
 var app = express();
 const bodyParser = require('body-parser');
@@ -34,11 +34,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
 app.use('/', authRouter);
-app.use('/config/stores', storeRouter);
+app.use('/config/stores', storeAdminRouter);
 app.use('/', productRouter);
 app.use('/orders', orderRouter);
+app.use('/stores', storeUserRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

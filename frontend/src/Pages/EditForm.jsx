@@ -14,7 +14,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import ImageForm from "../Components/ImageForm";
-
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import EditIcon from '@mui/icons-material/Edit';
 
 const EditForm = () => {
     const [storeDetails, setStoreDetails] = useState([]);
@@ -71,6 +72,26 @@ const EditForm = () => {
             console.log(error);
         });
     };
+
+    const deleteProduct = async (productId) => {
+        await axios({
+            method: "DELETE",
+            url: `http://localhost:8000/config/stores/${id}/products/${productId}`,
+        })
+        .then((response) => {
+            console.log(response);
+            navigate("/config/stores");
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+
+    const handleDelete = (productId) => {
+        if (window.confirm("Are you sure you want to delete this Product?")) {
+            deleteProduct(productId);
+        }
+    }
 
     useEffect(() => {
         if (form.name !== "" && form.image !== "") {
@@ -168,6 +189,7 @@ const EditForm = () => {
                                 <TableCell align="right">Quantity</TableCell>
                                 <TableCell align="right">Category</TableCell>
                                 <TableCell align="right">Description</TableCell>
+                                <TableCell align="right">Actions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -186,6 +208,26 @@ const EditForm = () => {
                                     <TableCell align="right">{item.quantity}</TableCell>
                                     <TableCell align="right">{item.category}</TableCell>
                                     <TableCell align="right">{item.description}</TableCell>
+                                    <TableCell align="right">
+                                        <EditIcon 
+                                        onClick={() => navigate(`/config/stores/${id}/products/${item._id}`)}
+                                        sx={{
+                                            color:"#75695a", 
+                                            marginRight:"10px", 
+                                            '&:hover':{
+                                                color:"#e4dccd",
+                                                cursor:"pointer",
+                                        }}} />
+                                        <DeleteOutlineIcon 
+                                        onClick={() => handleDelete(item._id)}
+                                        sx={{
+                                            color:"#75695a", 
+                                            marginRight:"10px", 
+                                            '&:hover':{
+                                                color:"#e4dccd",
+                                                cursor:"pointer",
+                                        }}} />
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
