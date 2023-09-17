@@ -20,6 +20,7 @@ import AllStores from "./Pages/AllStores";
 // Shopping cart pages
 import SCCancel from "./Pages/SCCancel";
 import SCSuccess from "./Pages/SCSuccess";
+import CartProvider from "./CardContext";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -42,37 +43,39 @@ function App() {
   //   });
   // }
   return (
-    <div
-      className="App"
-      style={{ backgroundColor: "#E4DCCD", height: "100vh" }}
-    >
-      <Router>
-        {/* <nav style={{display:"flex", justifyContent:"space-around"}}>
+    <CartProvider>
+      <div
+        className="App"
+        style={{ backgroundColor: "#E4DCCD", height: "100vh" }}
+      >
+        <Router>
+          {/* <nav style={{display:"flex", justifyContent:"space-around"}}>
           <Link to="/signup">Sign Up</Link>
           <Link to="/login">Login</Link>
           <Link to="/">Home</Link>
         </nav> */}
-        <NavBar />
-        <Routes>
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/config/stores" element={<Admin />} />
-          <Route path="/" element={<Home />} />
-          <Route path="*" element={<Error />} />
-          <Route path="/stores" element={<AllStores />} />
-          <Route path="/stores/:id" element={<Store />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="//stores/:id/:id" element={<ProductDetail />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/sccancel" element={<SCCancel />} />
-          <Route path="/scsuccess" element={<SCSuccess />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/config/stores/new" element={<NewStore />} />
-          <Route path="/config/stores/:id" element={<EditForm />} />
-        </Routes>
-        {/* <FooterContent /> */}
-      </Router>
-    </div>
+          <NavBar />
+          <Routes>
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/config/stores" element={<Admin />} />
+            <Route path="/" element={<Home />} />
+            <Route path="*" element={<Error />} />
+            <Route path="/stores" element={<AllStores />} />
+            <Route path="/stores/:id" element={<Store />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="//stores/:id/:id" element={<ProductDetail />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/sccancel" element={<SCCancel />} />
+            <Route path="/scsuccess" element={<SCSuccess />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/config/stores/new" element={<NewStore />} />
+            <Route path="/config/stores/:id" element={<EditForm />} />
+          </Routes>
+          {/* <FooterContent /> */}
+        </Router>
+      </div>
+    </CartProvider>
   );
 }
 

@@ -16,7 +16,7 @@ import Select from "@mui/material/Select";
 
 import { Typography } from "@mui/material";
 import RouteHistory from "../Components/RouteHistory";
-import products from "../products";
+// import products from "../products";
 import store from "../store";
 import Rating from "../Components/Rating";
 
@@ -31,12 +31,14 @@ const ProductDetail = () => {
     setQty(event.target.value);
   };
 
-  // cart context
-  const cart = useContext(CartContext);
-
   const { id } = useParams();
   const product = store[0].products.find((item) => item._id === parseInt(id));
   const navigate = useNavigate(); // Define the navigate function
+
+  // cart context
+  const cart = useContext(CartContext);
+  const productQuantiy = cart.getProductQty(product._id);
+  console.log(cart.items);
 
   if (!product) {
     // Handle the case where the product is not found
@@ -156,6 +158,7 @@ const ProductDetail = () => {
             <Button
               type="submit"
               variant="contained"
+              onClick={() => cart.addOneToCart(product._id)}
               sx={{
                 display: "flex",
                 backgroundColor: "#99958C",

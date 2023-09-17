@@ -3,14 +3,11 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import CartPovider from "./CardContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <CartPovider>
-      <App />
-    </CartPovider>
+    <App />
   </React.StrictMode>
 );
 
