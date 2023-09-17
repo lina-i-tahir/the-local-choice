@@ -27,6 +27,26 @@ const Admin = () => {
         });
     }
 
+    const handleDelete = (storeId) => {
+        if (window.confirm("Are you sure you want to delete this store?")) {
+            deleteStore(storeId);
+        }
+    }
+
+    const deleteStore = async (storeId) => {
+        await axios({
+            method: "DELETE",
+            url: `http://localhost:8000/config/stores/${storeId}`,
+        })
+        .then((response) => {
+            console.log(response);
+            getStores();
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+
     useEffect(() => {
         getStores();
     }, []);
@@ -81,6 +101,7 @@ const Admin = () => {
                     </Link>
                     <Typography gutterBottom variant="h6" component="div"
                     noWrap
+                    onClick={() => handleDelete(item._id)}
                     sx={actionStyle}>
                         delete
                     </Typography>
@@ -92,7 +113,8 @@ const Admin = () => {
     return ( 
         <div style={{display:"flex", flexDirection:"column"}}>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", width:"100%" }}>
-                {store.length > 0 ? displayStore : <Typography variant="h6" component="div"
+                {store.length > 0 ? displayStore : 
+                <Typography variant="h6" component="div"
                 sx ={{
                     textAlign: "center",
                     fontFamily: "Poppins",
