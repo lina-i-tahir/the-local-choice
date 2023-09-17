@@ -22,6 +22,7 @@ import Rating from "../Components/Rating";
 
 // cart context
 import { CartContext } from "../CardContext";
+import AddToCartSelect from "../Components/AddToCartSelect";
 
 const ProductDetail = () => {
   // qty-countInStock
@@ -125,55 +126,7 @@ const ProductDetail = () => {
               ${product.price}
             </Typography>
 
-            <Box sx={{ maxWidth: 100 }}>
-              <FormControl fullWidth>
-                <InputLabel id="qty-countInStock">qty</InputLabel>
-                <Select
-                  labelId="qty-countInStock"
-                  id="demo-simple-select"
-                  value={qty}
-                  label="Qty"
-                  onChange={handleChange}
-                >
-                  <MenuItem value={product.quantity}></MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-            {/* <Typography
-              variant="h7"
-              noWrap
-              sx={{
-                display: "flex",
-                justifyContent: "left",
-                fontFamily: "Poppins",
-                fontWeight: 100,
-                color: "#414B3B",
-                textDecoration: "none",
-                margin: "20px 0px 0px 0px",
-                textAlign: "left",
-              }}
-            >
-              qty (countInStock dropdown)
-            </Typography> */}
-            <Button
-              type="submit"
-              variant="contained"
-              onClick={() => cart.addOneToCart(product._id)}
-              sx={{
-                display: "flex",
-                backgroundColor: "#99958C",
-                color: "#E4DCCD",
-                width: "20ch",
-                textAlign: "center",
-                margin: "50px 0px 0px 0px",
-                padding: "20px",
-                "&:hover": {
-                  backgroundColor: "#737373",
-                },
-              }}
-            >
-              add to cart
-            </Button>
+            <AddToCartSelect />
           </Grid>
         </Grid>
         <Grid item sm={8}>
