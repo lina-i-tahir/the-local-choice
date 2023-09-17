@@ -14,6 +14,7 @@ require('./config/database');
 var authRouter = require('./routes/auth');
 const storeAdminRouter = require('./routes/storeAdmin');
 const productRouter = require('./routes/products');
+const orderRouter = require('./routes/orderRoutes');
 const storeUserRouter = require('./routes/storeUser');
 
 var app = express();
@@ -36,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', authRouter);
 app.use('/config/stores', storeAdminRouter);
 app.use('/', productRouter);
+app.use('/orders', orderRouter);
 app.use('/stores', storeUserRouter);
 
 // catch 404 and forward to error handler
