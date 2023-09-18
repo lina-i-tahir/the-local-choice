@@ -13,11 +13,16 @@ import { useNavigate } from "react-router-dom";
 const Admin = () => {
     const navigate = useNavigate();
     const [store, setStore] = useState([]);
+    const token = localStorage.getItem('token');
 
     const getStores = async () => {
         await axios({
             method: "GET",
             url: "http://localhost:8000/config/stores",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         })
         .then((response) => {
             console.log(response);
