@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   FormControl,
@@ -8,10 +8,12 @@ import {
   Button,
 } from "@mui/material";
 import store from "../store";
+import CardContext, { CartContext } from "../CardContext";
 
 const AddToCart = ({ productId, onAddToCart }) => {
   const { id } = useParams();
   const product = store[0].products.find((item) => item._id === parseInt(id));
+
   const [quantity, setQuantity] = useState(1);
 
   const handleQuantityChange = (event) => {
@@ -20,8 +22,8 @@ const AddToCart = ({ productId, onAddToCart }) => {
 
   const handleAddToCart = () => {
     // Find the selected product in the products array
-    const selectedProduct = product.find(
-      (product) => product._id === productId
+    const selectedProduct = store[0].products.find(
+      (item) => item._id === parseInt(id)
     );
 
     // Check if the product exists and the selected quantity is valid

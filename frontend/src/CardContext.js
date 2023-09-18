@@ -5,6 +5,7 @@ export const CartContext = createContext({
   items: [],
   getProductQty: () => {},
   addOneToCart: () => {},
+  addToCart: () => {},
   removeOneToCart: () => {},
   deleteOneToCart: () => {},
   getTotalCost: () => {},
@@ -12,6 +13,7 @@ export const CartContext = createContext({
 
 export function CartProvider({ children }) {
   const [cartProducts, setCartProducts] = useState([]);
+
   function getProductQty(id) {
     const quantity = cartProducts.find(
       (product) => product.id === id
@@ -22,28 +24,50 @@ export function CartProvider({ children }) {
     }
     return quantity;
   }
-  function addOneToCart(_id) {
-    const quantity = getProductQty(_id);
-    if (quantity === 0) {
-      // product is not in card
+  // function addOneToCart(_id) {
+  //   const quantity = getProductQty(_id);
+  //   if (quantity === 0) {
+  //     // product is not in card
+  //     setCartProducts([
+  //       ...cartProducts,
+  //       {
+  //         id: _id,
+  //         quantity: 1,
+  //       },
+  //     ]);
+  //   } else {
+  //     // product is in cart
+  //     setCartProducts(
+  //       cartProducts.map((product) =>
+  //         product.id === _id
+  //           ? { ...product, quantity: product.quantity + 1 }
+  //           : product
+  //       )
+  //     );
+  //   }
+  // }
+  function addToCart(_id, quantity) {
+    const existingProductIndex = cartProducts.findIndex(
+      (product) => product.id === _id
+    );
+
+    if (existingProductIndex === -1) {
+      // Product is not in the cart, add it
       setCartProducts([
         ...cartProducts,
         {
           id: _id,
-          quantity: 1,
+          quantity: quantity,
         },
       ]);
     } else {
-      // product is in cart
-      setCartProducts(
-        cartProducts.map((product) =>
-          product.id === _id
-            ? { ...product, quantity: product.quantity + 1 }
-            : product
-        )
-      );
+      // Product is already in the cart, update its quantity
+      const updatedCartProducts = [...cartProducts];
+      updatedCartProducts[existingProductIndex].quantity += quantity;
+      setCartProducts(updatedCartProducts);
     }
   }
+
   function removeOneToCart(id) {
     const quantity = getProductQty(id);
     if (quantity === 1) {
@@ -81,7 +105,8 @@ export function CartProvider({ children }) {
   const contextValue = {
     items: cartProducts,
     getProductQty,
-    addOneToCart,
+    // addOneToCart,
+    addToCart,
     removeOneToCart,
     deleteFromCart,
     getTotalCost,
@@ -91,4 +116,5 @@ export function CartProvider({ children }) {
     <CartContext.Provider value={contextValue}>{children}</CartContext.Provider>
   );
 }
+
 export default CartProvider;

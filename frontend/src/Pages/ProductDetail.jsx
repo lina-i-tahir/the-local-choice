@@ -22,15 +22,17 @@ import Rating from "../Components/Rating";
 
 // cart context
 import { CartContext } from "../CardContext";
-import AddToCartSelect from "../Components/AddToCartSelect";
+import { useCart } from "../CardContext";
+
+// import AddToCartSelect from "../Components/AddToCartSelect";
 
 const ProductDetail = () => {
   // qty-countInStock
-  const [qty, setQty] = useState("");
+  // const [qty, setQty] = useState("");
 
-  const handleChange = (event) => {
-    setQty(event.target.value);
-  };
+  // const handleChange = (event) => {
+  //   setQty(event.target.value);
+  // };
 
   const { id } = useParams();
   const product = store[0].products.find((item) => item._id === parseInt(id));
@@ -38,8 +40,18 @@ const ProductDetail = () => {
 
   // cart context
   const cart = useContext(CartContext);
-  const productQuantiy = cart.getProductQty(product._id);
+  const productQuantity = cart.getProductQty(product._id);
   console.log(cart.items);
+
+  const [quantity, setQuantity] = useState(1);
+
+  const handleQuantityChange = (event) => {
+    setQuantity(event.target.value);
+  };
+
+  const handleAddToCart = () => {
+    cart.addToCart(product._id, quantity);
+  };
 
   if (!product) {
     // Handle the case where the product is not found
@@ -125,8 +137,62 @@ const ProductDetail = () => {
             >
               ${product.price}
             </Typography>
-
-            <AddToCartSelect />
+            {/* <div>
+              <FormControl fullWidth>
+                <InputLabel id="quantity-label">Quantity</InputLabel> */}
+            {/* <Select
+                  labelId="quantity-label"
+                  id="quantity-select"
+                  value={quantity}
+                  // label="Quantity"
+                  onChange={handleQuantityChange}
+                  sx={{ maxWidth: "100px", backgroundColor: "#F8F5ED" }}
+                >
+                  {Array.from({ length: 10 }, (_, index) => (
+                    <MenuItem key={index + 1} value={index + 1}>
+                      {index + 1}
+                    </MenuItem>
+                  ))}
+                </Select> */}
+            <div>
+              <FormControl fullWidth>
+                <InputLabel id="quantity-label">Quantity</InputLabel>
+                <Select
+                  labelId="quantity-label"
+                  id="quantity-select"
+                  value={quantity}
+                  onChange={handleQuantityChange} // Update the quantity when selection changes
+                  sx={{ maxWidth: "100px", backgroundColor: "#F8F5ED" }}
+                >
+                  {Array.from({ length: 10 }, (_, index) => (
+                    <MenuItem key={index + 1} value={index + 1}>
+                      {index + 1}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleAddToCart}
+                sx={{
+                  display: "flex",
+                  backgroundColor: "#99958C",
+                  color: "#E4DCCD",
+                  width: "20ch",
+                  textAlign: "center",
+                  margin: "30px 0px 0px 0px",
+                  padding: "20px",
+                  "&:hover": {
+                    backgroundColor: "#737373",
+                  },
+                }}
+              >
+                Add to Cart
+              </Button>
+            </div>
+            {/* </div> */}
+            {/* <AddToCartSelect /> */}
           </Grid>
         </Grid>
         <Grid item sm={8}>
