@@ -18,6 +18,9 @@ import ProductDetail from "./Pages/ProductDetail";
 
 import EditForm from "./Pages/EditForm";
 import AllStores from "./Pages/AllStores";
+// Shopping cart pages
+import SCCancel from "./Pages/SCCancel";
+import SCSuccess from "./Pages/SCSuccess";
 import AddProducts from "./Pages/AddProduct";
 import EditProduct from "./Pages/EditProduct";
 import OrderDetail from "./Pages/OrderDetail";
@@ -65,6 +68,10 @@ function App() {
           <Route path="/stores/:id" element={<Store />} />
           <Route path="/stores/:id/:id" element={<ProductDetail />} />
           <Route path="/products" element={<Products />} />
+            
+          <Route path="/sccancel" element={<SCCancel />} />
+          <Route path="/scsuccess" element={<SCSuccess />} />
+
           <Route path="/products/:id" element={<ProductDetail />} />
           <Route path="/orders" element={<Orders/>} />
           <Route path="/orders/:id" element={<OrderDetail/>} />

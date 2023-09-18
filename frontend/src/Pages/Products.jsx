@@ -18,7 +18,7 @@ import store from "../store";
 import products from "../products";
 
 const Products = () => {
-  const displayProduct = products.map((item) => {
+  const displayProduct = store[0].products.map((item) => {
     return (
       <Card
         key={item._id}
