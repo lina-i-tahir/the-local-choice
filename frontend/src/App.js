@@ -24,6 +24,7 @@ import SCSuccess from "./Pages/SCSuccess";
 import AddProducts from "./Pages/AddProduct";
 import EditProduct from "./Pages/EditProduct";
 import OrderDetail from "./Pages/OrderDetail";
+import AdminOrderStatus from "./Pages/AdminOrder";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -79,7 +80,7 @@ function App() {
           <Route path="/config/stores/:id" element={<EditForm/>} />
           <Route path="/config/stores/:id/products" element={<AddProducts/>} />
           <Route path="/config/stores/:id/products/:productId" element={<EditProduct/>} />
-
+          <Route path="/config/stores/orders" element={<AdminOrderStatus/>} />
         </Routes>
         {/* <FooterContent /> */}
       </Router>
