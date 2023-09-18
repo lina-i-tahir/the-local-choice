@@ -18,41 +18,36 @@ module.exports = {
 // @access Private
 
 async function addOrderItems(req, res){
-    res.send('add order items');
-    // const {
-    //     orderItems,
-    //     shippingAddress,
-    //     paymentMethod,
-    //     itemsPrice,
-    //     taxPrice,
-    //     shippingPrice,
-    //     totalPrice,
-    // } = req.body
+    // res.send('add order items');
+    const {
+        orderItems,
+        shippingAddress,
+        paymentMethod,
+        itemsPrice,
+        taxPrice,
+        shippingPrice,
+        totalPrice,
+    } = req.body
 
-    // if (orderItems && orderItems.length === 0){
-    //     res
-    //         .status(400)
-    //         .json({ message: "no items in your cart"});
-    // } else {
-    //     const order = new Order({
-    //         orderItems: orderItems.map((x) => ({
-    //             ...x, 
-    //             product: x._id,
-    //             _id: undefined
-    //         })),
-    //         user: req.user._id,
-    //         shippingAddress,
-    //         paymentMethod,
-    //         itemsPrice,
-    //         taxPrice,
-    //         shippingPrice,
-    //         totalPrice,
-    //     })
+    if (orderItems && orderItems.length === 0){
+        res
+            .status(400)
+            .json({ message: "no items in your cart"});
+    } else {
+        const order = new Order({
+            orderItems,
+            shippingAddress,
+            paymentMethod,
+            itemsPrice,
+            taxPrice,
+            shippingPrice,
+            totalPrice,
+        })
 
-    //     const createdOrder = await order.save()
+        const createdOrder = await order.save()
 
-    //     res.status(201).json(createdOrder)
-    // }
+        res.status(201).json(createdOrder)
+    }
 }
 
 

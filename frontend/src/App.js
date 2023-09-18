@@ -21,6 +21,7 @@ import AllStores from "./Pages/AllStores";
 import AddProducts from "./Pages/AddProduct";
 import EditProduct from "./Pages/EditProduct";
 import OrderDetail from "./Pages/OrderDetail";
+import PlaceOrder from "./Pages/PlaceOrder";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -72,6 +73,7 @@ function App() {
           <Route path="/config/stores/:id" element={<EditForm/>} />
           <Route path="/config/stores/:id/products" element={<AddProducts/>} />
           <Route path="/config/stores/:id/products/:productId" element={<EditProduct/>} />
+          <Route path="/placeOrder" element={<PlaceOrder/>} />
         </Routes>
         {/* <FooterContent /> */}
       </Router>
