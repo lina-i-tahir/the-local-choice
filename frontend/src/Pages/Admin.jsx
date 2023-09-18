@@ -8,9 +8,10 @@ import CardMedia from '@mui/material/CardMedia';
 import { Typography } from "@mui/material";
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const Admin = () => {
-
+    const navigate = useNavigate();
     const [store, setStore] = useState([]);
 
     const getStores = async () => {
