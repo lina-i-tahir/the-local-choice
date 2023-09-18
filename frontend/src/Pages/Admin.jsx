@@ -135,6 +135,17 @@ const Admin = () => {
                 >
                 Add New Store
             </Button>
+            <Button variant="contained"
+            sx={{backgroundColor:"#99958C", 
+                color:"#E4DCCD", 
+                width:"50ch",
+                margin:"auto",
+                '&:hover': {
+                backgroundColor: "#737373"}}}
+                href = "/config/stores/orders"
+                >
+                Manage Order Status
+            </Button>
 
         </div>
      );

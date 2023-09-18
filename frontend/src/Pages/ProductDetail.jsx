@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import {
@@ -20,6 +20,9 @@ import products from "../products";
 import store from "../store";
 import Rating from "../Components/Rating";
 
+// cart context
+import { CartContext } from "../CardContext";
+
 const ProductDetail = () => {
   // qty-countInStock
   const [qty, setQty] = useState("");
@@ -28,7 +31,8 @@ const ProductDetail = () => {
     setQty(event.target.value);
   };
 
-  //
+  // cart context
+  const cart = useContext(CartContext);
 
   const { id } = useParams();
   const product = store[0].products.find((item) => item._id === parseInt(id));
