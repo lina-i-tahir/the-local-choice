@@ -180,16 +180,23 @@ const EditForm = () => {
                         marginTop: "20px",
                         backgroundColor: "#EFEAE0",
                         borderRadius: "10px",
+                        alignItems: "center",
+                        margin: "30px auto",
+                        width: "100%",
                     }}>
-                        <TableHead>
-                            <TableRow>
+                        <Table>
+                        <TableHead sx={{
+                            width: "100%",
+                            margin: "auto",
+                        }}>
+                            <TableRow sx={{width:"100%", margin:"auto"}}>
                                 <TableCell>Item</TableCell>
-                                <TableCell align="right">Image</TableCell>
-                                <TableCell align="right">Price</TableCell>
-                                <TableCell align="right">Quantity</TableCell>
-                                <TableCell align="right">Category</TableCell>
-                                <TableCell align="right">Description</TableCell>
-                                <TableCell align="right">Actions</TableCell>
+                                <TableCell align="right" sx={{fontWeight:"600"}}>Image</TableCell>
+                                <TableCell align="right" sx={{fontWeight:"600"}}>Price</TableCell>
+                                <TableCell align="right" sx={{fontWeight:"600"}}>Quantity</TableCell>
+                                <TableCell align="right" sx={{fontWeight:"600"}}>Category</TableCell>
+                                <TableCell align="right" sx={{fontWeight:"600"}}>Description</TableCell>
+                                <TableCell align="right" sx={{fontWeight:"600"}}>Actions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -231,6 +238,8 @@ const EditForm = () => {
                                 </TableRow>
                             ))}
                         </TableBody>
+
+                        </Table>
                     </TableContainer>
                     <Button variant="contained" component="span"
                         sx={{
