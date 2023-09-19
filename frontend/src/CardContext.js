@@ -4,10 +4,10 @@ import store from "./store";
 export const CartContext = createContext({
   items: [],
   getProductQty: () => {},
-  addOneToCart: () => {},
+  // addOneToCart: () => {},
   addToCart: () => {},
   removeOneToCart: () => {},
-  deleteOneToCart: () => {},
+  deleteFromCart: () => {},
   getTotalCost: () => {},
 });
 

@@ -9,18 +9,20 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Badge from "@mui/material/Badge";
 
-import { Divider } from "@mui/material";
+import { Button, Divider } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import Container from "@mui/material/Container";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+
 import { Link } from "react-router-dom";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Logo from "./Logo";
 // for cart modal
 import { CartContext } from "../CardContext";
+import CartProduct from "./CartProduct";
 
 const pages = ["stores", "about", "contact"];
 const settings = ["profile", "orders", "login", "logout", "signup"];
@@ -192,10 +194,10 @@ function NavBar() {
                         variant="h6"
                         component="h2"
                         fontFamily="Poppins"
-                        fontWeight="300"
+                        fontWeight="400"
                         color="#414B3B"
                       >
-                        Shopping Cart
+                        your shopping cart
                       </Typography>
 
                       <Container>
@@ -208,23 +210,43 @@ function NavBar() {
                           color="#414B3B"
                         >
                           <br />
-                          item 1 item 2
+                          {productsCount > 0 ? (
+                            <>
+                              {/* <p>items in your cart</p> */}
+                              {cart.items.map((currentProduct, idx) => (
+                                <CartProduct
+                                  key={idx}
+                                  id={currentProduct.id}
+                                  quantity={currentProduct.quantity}
+                                ></CartProduct>
+                              ))}
+                              {/* <h4>total: $ {cart.getTotalCost().toFixed(2)}</h4> */}
+                              <br />
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                // onClick={}
+                                sx={{
+                                  display: "flex",
+                                  backgroundColor: "#99958C",
+                                  color: "#E4DCCD",
+                                  width: "20ch",
+                                  textAlign: "center",
+                                  margin: "0px 0px 0px 100px",
+                                  padding: "18px",
+                                  "&:hover": {
+                                    backgroundColor: "#737373",
+                                  },
+                                }}
+                              >
+                                checkout ${cart.getTotalCost().toFixed(2)}
+                              </Button>
+                            </>
+                          ) : (
+                            <h4> add our awesome items to your cart!</h4>
+                          )}
                         </Typography>
                       </Container>
-                      <br />
-                      <br />
-                      <Divider variant="middle" />
-                      <Typography
-                        id="modal-modal-description"
-                        sx={{ mt: 2 }}
-                        variant="h7"
-                        fontFamily="Poppins"
-                        fontWeight="200"
-                        color="#414B3B"
-                      >
-                        <br />
-                        subtotal:
-                      </Typography>
                     </Box>
                   </Modal>
                 </IconButton>

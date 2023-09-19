@@ -24,16 +24,7 @@ import Rating from "../Components/Rating";
 import { CartContext } from "../CardContext";
 import { useCart } from "../CardContext";
 
-// import AddToCartSelect from "../Components/AddToCartSelect";
-
 const ProductDetail = () => {
-  // qty-countInStock
-  // const [qty, setQty] = useState("");
-
-  // const handleChange = (event) => {
-  //   setQty(event.target.value);
-  // };
-
   const { id } = useParams();
   const product = store[0].products.find((item) => item._id === parseInt(id));
   const navigate = useNavigate(); // Define the navigate function
@@ -137,23 +128,7 @@ const ProductDetail = () => {
             >
               ${product.price}
             </Typography>
-            {/* <div>
-              <FormControl fullWidth>
-                <InputLabel id="quantity-label">Quantity</InputLabel> */}
-            {/* <Select
-                  labelId="quantity-label"
-                  id="quantity-select"
-                  value={quantity}
-                  // label="Quantity"
-                  onChange={handleQuantityChange}
-                  sx={{ maxWidth: "100px", backgroundColor: "#F8F5ED" }}
-                >
-                  {Array.from({ length: 10 }, (_, index) => (
-                    <MenuItem key={index + 1} value={index + 1}>
-                      {index + 1}
-                    </MenuItem>
-                  ))}
-                </Select> */}
+
             <div>
               <FormControl fullWidth>
                 <InputLabel id="quantity-label">Quantity</InputLabel>
@@ -191,8 +166,6 @@ const ProductDetail = () => {
                 Add to Cart
               </Button>
             </div>
-            {/* </div> */}
-            {/* <AddToCartSelect /> */}
           </Grid>
         </Grid>
         <Grid item sm={8}>
