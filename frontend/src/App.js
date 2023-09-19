@@ -15,12 +15,20 @@ import Profile from "./Pages/Profile";
 import NewStore from "./Pages/NewStore";
 import Products from "./Pages/Products";
 import ProductDetail from "./Pages/ProductDetail";
+
 import EditForm from "./Pages/EditForm";
 import AllStores from "./Pages/AllStores";
 // Shopping cart pages
 import SCCancel from "./Pages/SCCancel";
 import SCSuccess from "./Pages/SCSuccess";
 import CartProvider from "./CardContext";
+
+import AddProducts from "./Pages/AddProduct";
+import EditProduct from "./Pages/EditProduct";
+import OrderDetail from "./Pages/OrderDetail";
+import PlaceOrder from "./Pages/PlaceOrder";
+import PlaceOrderCheckout from "./Pages/PlaceOrderCheckout";
+import AdminOrderStatus from "./Pages/AdminOrder";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -63,14 +71,36 @@ function App() {
             <Route path="*" element={<Error />} />
             <Route path="/stores" element={<AllStores />} />
             <Route path="/stores/:id" element={<Store />} />
+            <Route path="/stores/:id/:id" element={<ProductDetail />} />
             <Route path="/products" element={<Products />} />
-            <Route path="//stores/:id/:id" element={<ProductDetail />} />
-            <Route path="/orders" element={<Orders />} />
+
             <Route path="/sccancel" element={<SCCancel />} />
             <Route path="/scsuccess" element={<SCSuccess />} />
+
+            <Route path="/products/:id" element={<ProductDetail />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/orders/:id" element={<OrderDetail />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/config/stores/new" element={<NewStore />} />
             <Route path="/config/stores/:id" element={<EditForm />} />
+            <Route
+              path="/config/stores/:id/products"
+              element={<AddProducts />}
+            />
+            <Route
+              path="/config/stores/:id/products/:productId"
+              element={<EditProduct />}
+            />
+            <Route path="/placeOrder" element={<PlaceOrder />} />
+            <Route
+              path="/placeOrder/Checkout/:id"
+              element={<PlaceOrderCheckout />}
+            />
+
+            <Route
+              path="/config/stores/orders"
+              element={<AdminOrderStatus />}
+            />
           </Routes>
           {/* <FooterContent /> */}
         </Router>

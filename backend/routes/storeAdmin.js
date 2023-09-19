@@ -8,8 +8,10 @@ router.get('/', storeController.index);
 // router.get('/new', (req, res) => {
 //     res.json('create new');
 // });
-
+router.get('/:id', storeController.show);
 router.post('/', storeController.create);
+router.put('/:id', storeController.updateOne);
+router.delete('/:id', storeController.deleteStore);
 
 // router.get('/new', isUserAuthenticated, storeController.new);
 
