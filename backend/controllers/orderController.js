@@ -13,6 +13,16 @@ module.exports = {
 };
 
 
+// // @desc Get all orders
+// // @route GET /api/orders
+// // @access Private/Admin
+
+async function getOrders(req, res){
+    const orders = await Order.find({});
+    res.json({ title: "All Orders", orders });
+}
+
+
 // @desc Create new order 
 // @route POST /api/orders
 // @access Private
@@ -65,7 +75,10 @@ async function getMyOrders(req, res){
 // @access Private
 
 async function getOrderById(req, res){
-    res.send('get order by id')
+    // res.send('get order by id')
+    const orderDetail = await Order.findById(req.params.id);
+    // res.render("movies/show", { title: "Movie Detail", movie });
+    res.json({ title: "Order Detail", orderDetail });
 }
 
 
@@ -74,7 +87,17 @@ async function getOrderById(req, res){
 // // @access Private
 
 async function updateOrderToPaid(req, res){
-    res.send('update order to paid')
+    const {isPaid} = req.body;
+    try {
+        const order = await Order.findById(req.params.id);
+        order.isPaid = isPaid;
+        await order.save();
+        res.json({ title: "Order Detail", order });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ errorMsg: err.message });
+    }
 }
 
 
@@ -86,11 +109,3 @@ async function updateOrderToDelievered(req, res){
     res.send('update order to delivered')
 }
 
-
-// // @desc Get all orders
-// // @route GET /api/orders
-// // @access Private/Admin
-
-async function getOrders(req, res){
-    res.send('get all orders')
-}
