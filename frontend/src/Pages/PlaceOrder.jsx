@@ -56,11 +56,12 @@ const PlaceOrder = () => {
                 taxPrice: cart.taxPrice,
                 totalPrice: cart.totalPrice,
             }).unwrap()
-            navigate(`/orders/${res._id}`)
+            navigate(`/placeOrder/Checkout/${res._id}`)
         } catch (error) {
             toast.error(error)
         }
     }
+
 
   return (
     <>

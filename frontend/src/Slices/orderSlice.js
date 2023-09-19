@@ -9,8 +9,15 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: {...order}
             })
-        })
+        }), 
+        payOrder: builder.mutation({
+            query: (orderId, details) => ({
+                url: `ORDERS_URL/${orderId}`,
+                method: 'PUT',
+                body: { ...details },
+            }),
+        }), 
     })
 })
 
-export const { useCreateOrderMutation } = ordersApiSlice
+export const { useCreateOrderMutation, usePayOrderMutation } = ordersApiSlice
