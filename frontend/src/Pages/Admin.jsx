@@ -43,6 +43,10 @@ const Admin = () => {
         await axios({
             method: "DELETE",
             url: `http://localhost:8000/config/stores/${storeId}`,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         })
         .then((response) => {
             console.log(response);

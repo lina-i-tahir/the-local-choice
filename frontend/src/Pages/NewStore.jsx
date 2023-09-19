@@ -14,7 +14,7 @@ const NewStore = () => {
         name: "",
         image: "",
     });
-    const [image, setImage] = useState(null);
+    const token = localStorage.getItem('token');
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
@@ -31,7 +31,8 @@ const NewStore = () => {
           url: "http://localhost:8000/config/stores",
           headers: {
             "Content-Type": "application/json",
-          },
+            Authorization: `Bearer ${token}`,
+        },
           data: form,
         })
           .then(function (response) {

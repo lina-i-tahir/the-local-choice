@@ -27,7 +27,16 @@ const Login = () => {
         if (response.status === 201) {
           console.log("Login successful");
           localStorage.setItem('token', response.data.token);
-          // navigate("/");
+          localStorage.setItem('user', JSON.stringify(response.data.user));
+          console.log("test local storage",localStorage.getItem('user'));
+          // console.log(response.data.token);
+          console.log(response.data.user.role);
+          if (response.data.user.role === "admin") {
+            navigate("/config/stores");
+          } 
+          else {
+            navigate("/home");
+          }
         }
       })
       .catch(function (error) {

@@ -31,40 +31,19 @@ import AdminOrderStatus from "./Pages/AdminOrder";
 function App() {
   const [user, setUser] = useState(null);
 
-  // const postLogin = async () => {
-  //   await axios({
-  //       method: 'GET',
-  //       url: 'http://localhost:8000/login',
-  //       headers: {
-  //           "Content-Type": "application/json"
-  //       },
-  //       data: form
-  //   })
-  //   .then(function (response) {
-  //       console.log(response);
-  //       navigate('/');
-  //   })
-  //   .catch(function (error) {
-  //       console.log(error);
-  //   });
-  // }
   return (
     <div
       className="App"
       style={{ backgroundColor: "#E4DCCD", height: "100vh" }}
     >
       <Router>
-        {/* <nav style={{display:"flex", justifyContent:"space-around"}}>
-          <Link to="/signup">Sign Up</Link>
-          <Link to="/login">Login</Link>
-          <Link to="/">Home</Link>
-        </nav> */}
         <NavBar />
         <Routes>
+          <Route path="/" element={<h1>landing page</h1>} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/config/stores" element={<Admin />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="*" element={<Error />} />
           <Route path="/stores" element={<AllStores />} />
           <Route path="/stores/:id" element={<Store />} />

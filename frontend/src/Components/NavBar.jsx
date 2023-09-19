@@ -17,6 +17,8 @@ import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import { Link } from "react-router-dom";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Logo from "./Logo";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const pages = ["stores", "about", "contact"];
 const settings = ["profile", "orders", "login", "logout", "signup"];
@@ -40,6 +42,7 @@ function NavBar() {
   // const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -60,6 +63,39 @@ function NavBar() {
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
+
+  const handleLogoutClick = () => {
+    handleCloseUserMenu();
+    postLogout();
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login");
+    window.location.reload();
+  }
+
+  const postLogout = async () => {
+    await axios({
+      method: "POST",
+      url: "http://localhost:8000/logout",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          console.log("Logged out successfully");
+          handleLogout();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   return (
     <AppBar
@@ -228,6 +264,23 @@ function NavBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
+                setting === "logout" ?
+                <MenuItem
+                  key={setting}
+                  onClick={handleLogoutClick}
+                  sx={{ width: "100px", justifyContent: "center" }}
+                >
+                  <Typography
+                    sx={{
+                      color: "#414B3B",
+                      fontSize: "14px",
+                      fontFamily: "ovo",
+                    }}
+                  >
+                    {setting}
+                  </Typography>
+                </MenuItem> :
+                
                 <Link to={`/${setting}`} style={{ textDecoration: "none" }}>
                   <MenuItem
                     key={setting}
