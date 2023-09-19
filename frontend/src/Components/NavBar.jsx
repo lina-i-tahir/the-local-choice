@@ -1,4 +1,5 @@
 // import * as React from 'react';
+import { useState, useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -6,22 +7,26 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
+import Badge from "@mui/material/Badge";
+
 import { Divider } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import Container from "@mui/material/Container";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { useState } from "react";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import { Link } from "react-router-dom";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Logo from "./Logo";
+// for cart modal
+import { CartContext } from "../CardContext";
 
 const pages = ["stores", "about", "contact"];
 const settings = ["profile", "orders", "login", "logout", "signup"];
 const stores = ["handfully", "handxmade"];
 
+// Shopping cart Modal style
 const styleModal = {
   position: "absolute",
   top: "50%",
@@ -60,6 +65,13 @@ function NavBar() {
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
+
+  // Shopping cart Modal Badge
+  const cart = useContext(CartContext);
+  const productsCount = cart.items.reduce(
+    (sum, product) => sum + product.quantity,
+    0
+  );
 
   return (
     <AppBar
@@ -151,29 +163,57 @@ function NavBar() {
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <PersonOutlineIcon sx={{ margin: "20px" }} />
               </IconButton>
-              <IconButton>
-                <ShoppingBagOutlinedIcon
-                  onClick={handleOpenModal}
-                  sx={{ margin: "10px" }}
-                />
-                <Modal
-                  open={openModal}
-                  onClose={handleCloseModal}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
-                >
-                  <Box sx={styleModal}>
-                    <Typography
-                      id="modal-modal-title"
-                      variant="h6"
-                      component="h2"
-                      fontFamily="Poppins"
-                      fontWeight="300"
-                      color="#414B3B"
-                    >
-                      Shopping Cart
-                    </Typography>
-                    <Container>
+              <Badge
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                badgeContent={productsCount}
+                sx={{
+                  "& .MuiBadge-badge": {
+                    color: "414B3B",
+                    backgroundColor: "#414B3B",
+                    margin: "20px",
+                  },
+                }}
+              >
+                <IconButton>
+                  <ShoppingBagOutlinedIcon
+                    onClick={handleOpenModal}
+                    sx={{ margin: "10px" }}
+                  />
+
+                  <Modal
+                    open={openModal}
+                    onClose={handleCloseModal}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box sx={styleModal}>
+                      <Typography
+                        id="modal-modal-title"
+                        variant="h6"
+                        component="h2"
+                        fontFamily="Poppins"
+                        fontWeight="300"
+                        color="#414B3B"
+                      >
+                        Shopping Cart
+                      </Typography>
+
+                      <Container>
+                        <Typography
+                          id="modal-modal-description"
+                          sx={{ mt: 2 }}
+                          variant="h7"
+                          fontFamily="Poppins"
+                          fontWeight="200"
+                          color="#414B3B"
+                        >
+                          <br />
+                          item 1 item 2
+                        </Typography>
+                      </Container>
+                      <br />
+                      <br />
+                      <Divider variant="middle" />
                       <Typography
                         id="modal-modal-description"
                         sx={{ mt: 2 }}
@@ -183,26 +223,12 @@ function NavBar() {
                         color="#414B3B"
                       >
                         <br />
-                        item 1 item 2
+                        subtotal:
                       </Typography>
-                    </Container>
-                    <br />
-                    <br />
-                    <Divider variant="middle" />
-                    <Typography
-                      id="modal-modal-description"
-                      sx={{ mt: 2 }}
-                      variant="h7"
-                      fontFamily="Poppins"
-                      fontWeight="200"
-                      color="#414B3B"
-                    >
-                      <br />
-                      subtotal:
-                    </Typography>
-                  </Box>
-                </Modal>
-              </IconButton>
+                    </Box>
+                  </Modal>
+                </IconButton>
+              </Badge>
             </Tooltip>
 
             <Menu
