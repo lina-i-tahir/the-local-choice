@@ -26,7 +26,8 @@ const Login = () => {
         console.log(response);
         if (response.status === 201) {
           console.log("Login successful");
-          navigate("/");
+          localStorage.setItem('token', response.data.token);
+          // navigate("/");
         }
       })
       .catch(function (error) {
@@ -185,28 +186,3 @@ const Login = () => {
 };
 
 export default Login;
-
-{
-  /* <Button variant="contained" */
-}
-// sx={{
-// backgroundColor:"#99958C",
-// color:"#E4DCCD",
-// width:"30px",
-// height:"60px",
-// borderRadius:"50%",
-// fontSize:"30px",
-// padding:"0px",
-// display:"flex",
-// position:"relative",
-// left:"90%",
-// top:"350px",
-// '&:hover': {
-// backgroundColor: "#737373"}
-// }}>
-{
-  /* + */
-}
-{
-  /* </Button> */
-}

@@ -96,7 +96,6 @@ function App() {
               path="/placeOrder/Checkout/:id"
               element={<PlaceOrderCheckout />}
             />
-
             <Route
               path="/config/stores/orders"
               element={<AdminOrderStatus />}

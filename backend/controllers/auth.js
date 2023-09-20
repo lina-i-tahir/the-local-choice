@@ -41,13 +41,29 @@ module.exports.login = async (req, res, next) => {
       }
       
       // Create a token for the user which expires in 30mins
-      const token = createSecretToken(user._id);
-  
+      const token = createSecretToken(user._id, user.role);
+      
       res
+        .cookie("token", token, {
+          httpOnly: true,
+          maxAge: 1000 * 60 * 10,
+        })
         .status(201)
         .json({ message: "User logged in successfully", success: true, token });
     } catch (error) {
       console.error(error);
     }
 };
-  
+
+module.exports.logout = async (req, res, next) => {
+    try {
+      res
+        .cookie("token", "", {
+          httpOnly: true,
+          expires: new Date(0),
+        });
+      res.status(200).json({ message: "User logged out successfully", success: true });
+    } catch (error) {
+      console.error(error);
+    }
+}

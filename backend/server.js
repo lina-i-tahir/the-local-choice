@@ -16,6 +16,7 @@ const storeAdminRouter = require('./routes/storeAdmin');
 const productRouter = require('./routes/products');
 const orderRouter = require('./routes/orderRoutes');
 const storeUserRouter = require('./routes/storeUser');
+// const port = 8000;
 
 var app = express();
 const bodyParser = require('body-parser');
@@ -55,5 +56,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// removed this line because it was causing the server to crash
+// app.listen(port, () => console.log(`Server running on port ${port}`))
 
 module.exports = app;
