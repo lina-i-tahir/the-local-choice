@@ -16,27 +16,33 @@ import Select from "@mui/material/Select";
 
 import { Typography } from "@mui/material";
 import RouteHistory from "../Components/RouteHistory";
-import products from "../products";
+// import products from "../products";
 import store from "../store";
 import Rating from "../Components/Rating";
 
 // cart context
 import { CartContext } from "../CardContext";
+import { useCart } from "../CardContext";
 
 const ProductDetail = () => {
-  // qty-countInStock
-  const [qty, setQty] = useState("");
-
-  const handleChange = (event) => {
-    setQty(event.target.value);
-  };
-
-  // cart context
-  const cart = useContext(CartContext);
-
   const { id } = useParams();
   const product = store[0].products.find((item) => item._id === parseInt(id));
   const navigate = useNavigate(); // Define the navigate function
+
+  // cart context
+  const cart = useContext(CartContext);
+  const productQuantity = cart.getProductQty(product._id);
+  console.log(cart.items);
+
+  const [quantity, setQuantity] = useState(1);
+
+  const handleQuantityChange = (event) => {
+    setQuantity(event.target.value);
+  };
+
+  const handleAddToCart = () => {
+    cart.addToCart(product._id, quantity);
+  };
 
   if (!product) {
     // Handle the case where the product is not found
@@ -123,54 +129,43 @@ const ProductDetail = () => {
               ${product.price}
             </Typography>
 
-            <Box sx={{ maxWidth: 100 }}>
+            <div>
               <FormControl fullWidth>
-                <InputLabel id="qty-countInStock">qty</InputLabel>
+                <InputLabel id="quantity-label">Quantity</InputLabel>
                 <Select
-                  labelId="qty-countInStock"
-                  id="demo-simple-select"
-                  value={qty}
-                  label="Qty"
-                  onChange={handleChange}
+                  labelId="quantity-label"
+                  id="quantity-select"
+                  value={quantity}
+                  onChange={handleQuantityChange} // Update the quantity when selection changes
+                  sx={{ maxWidth: "100px", backgroundColor: "#F8F5ED" }}
                 >
-                  <MenuItem value={product.quantity}></MenuItem>
+                  {Array.from({ length: 10 }, (_, index) => (
+                    <MenuItem key={index + 1} value={index + 1}>
+                      {index + 1}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
-            </Box>
-            {/* <Typography
-              variant="h7"
-              noWrap
-              sx={{
-                display: "flex",
-                justifyContent: "left",
-                fontFamily: "Poppins",
-                fontWeight: 100,
-                color: "#414B3B",
-                textDecoration: "none",
-                margin: "20px 0px 0px 0px",
-                textAlign: "left",
-              }}
-            >
-              qty (countInStock dropdown)
-            </Typography> */}
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                display: "flex",
-                backgroundColor: "#99958C",
-                color: "#E4DCCD",
-                width: "20ch",
-                textAlign: "center",
-                margin: "50px 0px 0px 0px",
-                padding: "20px",
-                "&:hover": {
-                  backgroundColor: "#737373",
-                },
-              }}
-            >
-              add to cart
-            </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleAddToCart}
+                sx={{
+                  display: "flex",
+                  backgroundColor: "#99958C",
+                  color: "#E4DCCD",
+                  width: "20ch",
+                  textAlign: "center",
+                  margin: "30px 0px 0px 0px",
+                  padding: "20px",
+                  "&:hover": {
+                    backgroundColor: "#737373",
+                  },
+                }}
+              >
+                Add to Cart
+              </Button>
+            </div>
           </Grid>
         </Grid>
         <Grid item sm={8}>
