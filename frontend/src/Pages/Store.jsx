@@ -1,10 +1,13 @@
-import { Grid, Card, CardMedia, CardContent, Link, Typography} from "@mui/material"
+import { Grid, Card, CardMedia, CardContent, Link, Typography, circularProgressClasses} from "@mui/material"
 import drawer from "../assets/drawer.png";
 import hangingPlant from "../assets/hangingPlant.png";
 import handxmadeLogo from "../assets/handxmadeLogo.png";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate, useParams } from 'react-router-dom';
-import store from "../store";
+import axios from "axios";
+import { useState } from "react";
+import { useEffect } from "react";
+
 
 const Store = () => {
 
@@ -26,16 +29,38 @@ const Store = () => {
       });
 
 
-    const navigate = useNavigate();
+    const [currentStore, setCurrentStore] = useState([]);
 
     const { id } = useParams();
-    const currentStore = store.find((store) => store._id === id);
+
+    const getStore = async (storeId) => {
+      await axios({
+          method: "GET",
+          url: `http://localhost:8000/stores/${storeId}`,
+      })
+      .then((response) => {
+          console.log(response.data.store);
+          setCurrentStore(response.data.store);
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+    }
+    
+    useEffect(() => {
+        getStore(id);
+    }, [id]);
+
+    const navigate = useNavigate();
 
     const viewProduct = (productId) => {
-        navigate(`/stores/${currentStore._id}/${productId}`)
+        navigate(`/stores/${id}/${productId}`)
     }
 
-    const displayProduct = currentStore.products.map((product) => {
+    let displayProduct = null;
+
+    if (currentStore.products && currentStore.products.length > 0) {
+      displayProduct = currentStore.products.map((product) => {
         return (
           <Card
             key={product._id}
@@ -44,8 +69,8 @@ const Store = () => {
               margin: "30px 15px",
               borderRadius: "10px",
               backgroundColor: "transparent",
-              boxShadow: "none", 
-              outline: "none", 
+              boxShadow: "none",
+              outline: "none",
             }}
             onClick={() => viewProduct(product._id)}
           >
@@ -82,10 +107,12 @@ const Store = () => {
                 </Typography>
               </Link>
             </CardContent>
-          </Card>
-        );
-    });
-
+            </Card>
+    );
+  });
+} else {
+  displayProduct = <p>Loading..</p>;
+}
   return (
     <>  
         <ThemeProvider theme={theme}>

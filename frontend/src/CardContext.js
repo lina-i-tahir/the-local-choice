@@ -46,9 +46,9 @@ export function CartProvider({ children }) {
   //     );
   //   }
   // }
-  function addToCart(_id, quantity) {
+  function addToCart(storeId, productId, quantity, price) {
     const existingProductIndex = cartProducts.findIndex(
-      (product) => product.id === _id
+      (product) => product.productId === productId
     );
 
     if (existingProductIndex === -1) {
@@ -56,8 +56,10 @@ export function CartProvider({ children }) {
       setCartProducts([
         ...cartProducts,
         {
-          id: _id,
+          storeId: storeId,
+          productId: productId,
           quantity: quantity,
+          price: price
         },
       ]);
     } else {
@@ -94,10 +96,7 @@ export function CartProvider({ children }) {
   function getTotalCost() {
     let totalCost = 0;
     cartProducts.map((cartItem) => {
-      const productData = store[0].products.find(
-        (item) => item._id === cartItem.id
-      );
-      totalCost += productData.price * cartItem.quantity;
+      totalCost += cartItem.price * cartItem.quantity;
     });
     return totalCost;
   }

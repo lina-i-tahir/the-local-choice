@@ -1,8 +1,12 @@
-import { Grid, Card, CardMedia} from "@mui/material"
+import { Grid, Card, CardMedia, CircularProgress, Box} from "@mui/material"
 import allStoresBanner from "../assets/allStoresImages/allStoresBanner.png";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import store from "../store";
+// import store from "../store";
+import axios from "axios";
+import { useState } from "react";
+import { useEffect } from "react";
+
 
 const AllStores = () => {
     const theme = createTheme({
@@ -25,11 +29,27 @@ const AllStores = () => {
 
     const navigate = useNavigate();
 
-    const enterStore = (storeId) => {
-        navigate(`/stores/${storeId}`)
-    }
+    const [stores, setStores] = useState([]);
 
-    const displayStore = store.map((store) => {
+    const getStore = async () => {
+      await axios({
+          method: "GET",
+          url: `http://localhost:8000/stores`,
+      })
+      .then((response) => {
+          console.log(response.data.stores);
+          setStores(response.data.stores);
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+    }
+    
+    useEffect(() => {
+        getStore();
+    }, []);
+
+    const displayStore = stores.map((store) => {
         return (
           <Card
             key={store._id}
@@ -45,7 +65,7 @@ const AllStores = () => {
             <CardMedia
               component="img"
               height="220"
-              image={store.storeFrontImage}
+              image={store.image}
               alt={store.name}
               sx={{
                 objectFit: "contain",
@@ -55,6 +75,10 @@ const AllStores = () => {
           </Card>
         );
     });
+
+    const enterStore = (storeId) => {
+      navigate(`/stores/${storeId}`)
+    }
 
   return (
     <>  
@@ -68,16 +92,24 @@ const AllStores = () => {
         </Grid>
         
 
-        <Grid container spacing={0} sx={{
-                                        bgcolor: '#c8b799',
-                                        justifyContent: "center",
-                                        paddingLeft: "8%",
-                                        paddingRight: "8%",
-                                        paddingTop: "3%",
-                                        paddingBottom: "3%"
-                                        }} >
-        {displayStore}
-        </Grid>
+        {stores.length === 0 ? (
+          <p>loading..</p>
+        ) : (
+          <Grid
+            container
+            spacing={0}
+            sx={{
+              bgcolor: "#c8b799",
+              justifyContent: "center",
+              paddingLeft: "8%",
+              paddingRight: "8%",
+              paddingTop: "3%",
+              paddingBottom: "3%",
+            }}
+          >
+            {displayStore}
+          </Grid>
+          )}
 
 
     </ThemeProvider>

@@ -25,13 +25,33 @@ import { CartContext } from "../CardContext";
 import { useCart } from "../CardContext";
 
 const ProductDetail = () => {
-  const { id } = useParams();
-  const product = store[0].products.find((item) => item._id === parseInt(id));
+  const { id, productId } = useParams();
+  const [currentProduct, setCurrentProduct] = useState([]);
+  // const product = store[0].products.find((item) => item._id === parseInt(id));
+
+  const getProduct = async ({id, productId}) => {
+    await axios({
+        method: "GET",
+        url: `http://localhost:8000/config/stores/${id}/products/${productId}`,
+    })
+    .then((response) => {
+        console.log(response.data);
+        setCurrentProduct(response.data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+  }
+  
+  useEffect(() => {
+      getProduct({id, productId});
+  }, [id, productId]);
+
   const navigate = useNavigate(); // Define the navigate function
 
   // cart context
   const cart = useContext(CartContext);
-  const productQuantity = cart.getProductQty(product._id);
+  const productQuantity = cart.getProductQty(currentProduct._id);
   console.log(cart.items);
 
   const [quantity, setQuantity] = useState(1);
@@ -40,11 +60,15 @@ const ProductDetail = () => {
     setQuantity(event.target.value);
   };
 
-  const handleAddToCart = () => {
-    cart.addToCart(product._id, quantity);
+  // const handleAddToCart = () => {
+  //   cart.addToCart(currentProduct._id, quantity);
+  // };
+
+    const handleAddToCart = () => {
+    cart.addToCart(id, productId, quantity, currentProduct.price);
   };
 
-  if (!product) {
+  if (!currentProduct) {
     // Handle the case where the product is not found
     return (
       <Container maxWidth="xs">
@@ -86,13 +110,13 @@ const ProductDetail = () => {
 
   return (
     <>
-      <RouteHistory page="stores/1" routeName="stores/1" />
+      <RouteHistory page={`stores/${id}`} routeName={`stores/${id}`} />
       <Container>
         <Grid container spacing={{ xs: 3, md: 2 }}>
           <Grid item xs={3} md={6} key={id}>
             <img
-              src={product.image}
-              alt={product.name}
+              src={currentProduct.image}
+              alt={currentProduct.name}
               style={{ width: "80%", margin: "0px 30px" }}
             />
           </Grid>
@@ -110,7 +134,7 @@ const ProductDetail = () => {
                 margin: "50px 0px 0px 0px",
               }}
             >
-              {product.name}
+              {currentProduct.name}
             </Typography>
             <Typography
               variant="h5"
@@ -126,7 +150,7 @@ const ProductDetail = () => {
                 textAlign: "left",
               }}
             >
-              ${product.price}
+              ${currentProduct.price}
             </Typography>
 
             <div>
@@ -200,7 +224,7 @@ const ProductDetail = () => {
               textAlign: "left",
             }}
           >
-            {product.description}
+            {currentProduct.description}
           </Typography>
         </Grid>
         <Divider variant="middle" />
@@ -218,7 +242,7 @@ const ProductDetail = () => {
               margin: "50px",
             }}
           >
-            customer reviews <Rating value={product.reviewRating} />
+            customer reviews <Rating value={currentProduct.reviewRating} />
           </Typography>
         </Grid>
         <Grid item sm={8}>
