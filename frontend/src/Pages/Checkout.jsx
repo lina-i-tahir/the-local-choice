@@ -19,7 +19,7 @@ const Checkout = () => {
 
     const orderItems = cart.items.map((item) => item )
     const proceedToPayment = () => {
-        console.log(orderItems[0].id)
+        console.log(orderItems)
     }
     
     // const proceedToCheckout = async () => {
