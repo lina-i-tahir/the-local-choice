@@ -24,6 +24,8 @@ import Logo from "./Logo";
 import { CartContext } from "../CardContext";
 import CartProduct from "./CartProduct";
 
+import { useNavigate } from "react-router-dom";
+
 const pages = ["stores", "about", "contact"];
 const settings = ["profile", "orders", "login", "logout", "signup"];
 const stores = ["handfully", "handxmade"];
@@ -74,6 +76,13 @@ function NavBar() {
     (sum, product) => sum + product.quantity,
     0
   );
+
+  // Go to Checkout - on Click
+  const navigate = useNavigate()
+  const goToCartPage = () => {
+    navigate(`/checkout`)
+    setOpenModal(false)
+  }
 
   return (
     <AppBar
@@ -225,7 +234,7 @@ function NavBar() {
                               <Button
                                 variant="contained"
                                 color="primary"
-                                // onClick={}
+                                onClick={goToCartPage}
                                 sx={{
                                   display: "flex",
                                   backgroundColor: "#99958C",

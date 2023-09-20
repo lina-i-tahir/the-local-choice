@@ -26,7 +26,7 @@ import CartProvider from "./CardContext";
 import AddProducts from "./Pages/AddProduct";
 import EditProduct from "./Pages/EditProduct";
 import OrderDetail from "./Pages/OrderDetail";
-import PlaceOrder from "./Pages/PlaceOrder";
+import Checkout from "./Pages/Checkout";
 import PlaceOrderCheckout from "./Pages/PlaceOrderCheckout";
 import AdminOrderStatus from "./Pages/AdminOrder";
 
@@ -91,9 +91,9 @@ function App() {
               path="/config/stores/:id/products/:productId"
               element={<EditProduct />}
             />
-            <Route path="/placeOrder" element={<PlaceOrder />} />
+            <Route path="/checkout" element={<Checkout />} />
             <Route
-              path="/placeOrder/Checkout/:id"
+              path="/checkout/:id"
               element={<PlaceOrderCheckout />}
             />
             <Route
