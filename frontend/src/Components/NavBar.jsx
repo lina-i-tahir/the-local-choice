@@ -19,9 +19,11 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Logo from "./Logo";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Notification from "./Notification";
 
-const pages = ["stores", "about", "contact"];
-const settings = ["profile", "orders", "login", "logout", "signup"];
+var pages = ["stores", "about", "contact"];
+var settings = ["profile", "orders", "login", "logout", "signup"];
+
 const stores = ["handfully", "handxmade"];
 
 const styleModal = {
@@ -38,6 +40,24 @@ const styleModal = {
 };
 
 function NavBar() {
+  // notification
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('');
+    
+  if (localStorage.getItem("role") === "admin") {
+    settings = ['login', 'logout']
+    pages = ["config"]
+  }
+  else{
+    settings = ["profile", "orders", "login", "logout", "signup"];
+    pages = ["stores", "about", "contact"];
+  }
+
+  // handle close snackbar
+  const handleCloseSnackbar = () => {
+      setOpenSnackbar(false);
+  };
   // const [anchorElNav, setAnchorElNav] = React.useState(null);
   // const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -72,6 +92,9 @@ function NavBar() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("role");
+    settings = ["profile", "orders", "login", "logout", "signup"];
+    pages = ["stores", "about", "contact"];
     navigate("/login");
     window.location.reload();
   }
@@ -89,11 +112,19 @@ function NavBar() {
         console.log(response);
         if (response.status === 200) {
           console.log("Logged out successfully");
-          handleLogout();
+          setSnackbarSeverity('success');
+          setOpenSnackbar(true);
+          setSnackbarMessage('Logged out successfully');
+          setTimeout(() => {
+            handleLogout();
+          },2000);
         }
       })
       .catch((error) => {
         console.log(error);
+        setSnackbarSeverity('error');
+        setOpenSnackbar(true);
+        setSnackbarMessage('Logout failed');
       });
   }
 
@@ -138,6 +169,12 @@ function NavBar() {
               }}
             >
               {pages.map((page) => (
+                page === "config" ?
+                <Link to={`/${page}/stores`} style={{ textDecoration: "none" }}>
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                </Link> :
                 <Link to={`/${page}`} style={{ textDecoration: "none" }}>
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">{page}</Typography>
@@ -149,6 +186,27 @@ function NavBar() {
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page, idx) => (
+              page === "config" ?
+              <Link to={`/${page}/stores`} style={{ textDecoration: "none" }}>
+                 <Typography
+                  key={idx}
+                  variant="h7"
+                  noWrap
+                  sx={{
+                    mr: 2,
+                    display: { xs: "none", md: "flex" },
+                    fontFamily: "ovo",
+                    fontWeight: 500,
+                    color: "#414B3B",
+                    textDecoration: "none",
+                    margin: "20px",
+                    fontSize: "16px",
+                  }}
+                >
+                  {page}
+                </Typography>
+              </Link>
+                :
               <Link to={`/${page}`} style={{ textDecoration: "none" }}>
                 <Typography
                   key={idx}
@@ -165,8 +223,13 @@ function NavBar() {
                     fontSize: "16px",
                   }}
                 >
+                  {page}
+                </Typography>
+              </Link>
+            ))}
+              
                   {/* {page} */}
-                  {page === "stores" ? (
+                  {/* {page === "stores" ? (
                     <span style={{ display: "flex" }}>
                       {page}
                       <ArrowDropDownIcon
@@ -178,7 +241,8 @@ function NavBar() {
                   )}
                 </Typography>
               </Link>
-            ))}
+              ) */}
+            
           </Box>
 
           {/* profile + cart*/}
@@ -302,6 +366,8 @@ function NavBar() {
             </Menu>
           </Box>
         </Toolbar>
+        <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
+
       </Container>
     </AppBar>
   );
