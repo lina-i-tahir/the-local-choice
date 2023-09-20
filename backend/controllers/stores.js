@@ -9,11 +9,19 @@ module.exports = {
     deleteStore,
 };
 
+// // @desc Get all stores
+// // @route GET /stores
+// // @access 
+
 async function index(req, res){
     const stores = await Store.find({});
     // res.render("movies/index", { title: "All Movies", movies });
     res.json({ title: "All Stores", stores });
 }
+
+// // @desc Get store by id
+// // @route GET /stores/:id
+// // @access 
 
 async function show(req, res){
     const store = await Store.findById(req.params.id);
@@ -21,6 +29,10 @@ async function show(req, res){
     res.json({ title: "Store Detail", store });
 }
 
+
+// // @desc create new store
+// // @route POST /stores
+// // @access 
 
 async function create (req, res) {
     console.log("Request body:", req.body);
@@ -35,6 +47,10 @@ async function create (req, res) {
       res.status(500).json({ errorMsg: err.message });
     }
 }
+
+// // @desc update a store
+// // @route PUT /stores/id:
+// // @access 
 
 
 async function updateOne (req, res) {
@@ -55,6 +71,11 @@ async function updateOne (req, res) {
     }
     
 }
+
+
+// // @desc delete a store
+// // @route DELETE /stores/id:
+// // @access 
 
 async function deleteStore(req, res){
     console.log("Request params:", req.params);
