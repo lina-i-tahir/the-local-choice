@@ -21,10 +21,12 @@ import AllStores from "./Pages/AllStores";
 // Shopping cart pages
 import SCCancel from "./Pages/SCCancel";
 import SCSuccess from "./Pages/SCSuccess";
+import CartProvider from "./CardContext";
+
 import AddProducts from "./Pages/AddProduct";
 import EditProduct from "./Pages/EditProduct";
 import OrderDetail from "./Pages/OrderDetail";
-import PlaceOrder from "./Pages/PlaceOrder";
+import Checkout from "./Pages/Checkout";
 import PlaceOrderCheckout from "./Pages/PlaceOrderCheckout";
 import AdminOrderStatus from "./Pages/AdminOrder";
 
@@ -33,11 +35,12 @@ function App() {
   const [user, setUser] = useState(null);
 
   return (
-    <div
-      className="App"
-      style={{ backgroundColor: "#E4DCCD", height: "100vh" }}
-    >
-      <Router>
+    <CartProvider>
+      <div
+        className="App"
+        style={{ backgroundColor: "#E4DCCD", height: "100vh" }}
+      >
+        <Router>
         <NavBar />
         <Routes>
           {/* public routes */}
@@ -70,8 +73,8 @@ function App() {
         </Routes>
         {/* <FooterContent /> */}
       </Router>
-
-    </div>
+      </div>
+    </CartProvider>
   );
 }
 
