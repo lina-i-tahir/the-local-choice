@@ -60,8 +60,12 @@ const ProductDetail = () => {
     setQuantity(event.target.value);
   };
 
-  const handleAddToCart = () => {
-    cart.addToCart(currentProduct._id, quantity);
+  // const handleAddToCart = () => {
+  //   cart.addToCart(currentProduct._id, quantity);
+  // };
+
+    const handleAddToCart = () => {
+    cart.addToCart(id, productId, quantity, currentProduct.price);
   };
 
   if (!currentProduct) {

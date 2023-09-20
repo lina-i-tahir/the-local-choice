@@ -225,7 +225,8 @@ function NavBar() {
                               {cart.items.map((currentProduct, idx) => (
                                 <CartProduct
                                   key={idx}
-                                  id={currentProduct.id}
+                                  storeId={currentProduct.storeId}
+                                  productId={currentProduct.productId}
                                   quantity={currentProduct.quantity}
                                 ></CartProduct>
                               ))}

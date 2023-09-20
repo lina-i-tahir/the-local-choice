@@ -17,45 +17,10 @@ const Checkout = () => {
     const navigate = useNavigate()
     const cart = useContext(CartContext);
 
-    // const cart = {
-    //     orderItems: [
-    //         {
-    //             name: "rainbox earrings",
-    //             qty: 2, 
-    //             image : "https://www.handfully.com/cdn/shop/files/image_5cea19a2-deed-447f-a2e1-173cb451a075_1024x1024@2x.jpg?v=1686143498",
-    //             price : 29.99,
-    //         },
-    //         {
-    //             name: "stickers",
-    //             qty: 10, 
-    //             image : "https://images.squarespace-cdn.com/content/v1/561debf1e4b08aeed3fd59c8/1553280098798-XINLBD55FOWYEXW4I9I8/P1170291+copy.jpg?format=1500w",
-    //             price : 5.99,
-    //         },
-    //         {
-    //             name: "stud earrings",
-    //             qty: 8, 
-    //             image : "https://www.handfully.com/cdn/shop/files/image_5cea19a2-deed-447f-a2e1-173cb451a075_1024x1024@2x.jpg?v=1686143498",
-    //             price : 10.99,
-    //         }
-    //     ],
-    //     shippingAddress: {
-    //         address: "Orchard Road",
-    //         city: "Town",
-    //         postalCode: "252432",
-    //         country: "Singapore"
-    //     }, 
-    //     paymentMethod: "paypal",
-    //     itemsPrice: 105.99,
-    //     taxPrice: 5.99,
-    //     shippingPrice: 5,
-    //     totalPrice: 115.27,
-    // }
-
     const orderItems = cart.items.map((item) => item )
-    const proceedToCheckout = () => {
+    const proceedToPayment = () => {
         console.log(orderItems[0].id)
     }
-    
     
     // const proceedToCheckout = async () => {
     //     try {
@@ -105,16 +70,17 @@ const Checkout = () => {
                                                         }}>
                                         <CartProduct
                                         key={idx}
-                                        id={currentProduct.id}
+                                        storeId={currentProduct.storeId}
+                                        productId={currentProduct.productId}
                                         quantity={currentProduct.quantity}
                                         ></CartProduct>
                                     </Grid>
                             ))}
-
+                <h2>Total Cost : ${cart.getTotalCost().toFixed(2)}</h2>
                 <Button
                     variant="contained"
                     color="primary"
-                    onClick={proceedToCheckout}
+                    onClick={proceedToPayment}
                     sx={{
                         backgroundColor: "#99958C",
                         color: "#E4DCCD",
@@ -127,7 +93,7 @@ const Checkout = () => {
                                 },
                         }}
                 >
-                    checkout ${cart.getTotalCost().toFixed(2)}
+                    proceed to payment
                 </Button>
             </Stack>
 
