@@ -139,6 +139,7 @@ function NavBar() {
         setOpenSnackbar(true);
         setSnackbarMessage("Logout failed");
       });
+    }
 
     // Go to Checkout - on Click
 
@@ -441,5 +442,4 @@ function NavBar() {
       </AppBar>
     );
   };
-}
 export default NavBar;
