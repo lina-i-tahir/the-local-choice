@@ -4,8 +4,16 @@ import { Box, TextField, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import RouteHistory from '../Components/RouteHistory';
+import Notification from '../Components/Notification';
 
 const SignUp = () => {
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('');
+
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+    };
     const navigate = useNavigate();
     const [form, setForm] = useState({
         firstName: '',
@@ -24,10 +32,24 @@ const SignUp = () => {
             data: form
         })
         .then(function (response) {
+            setSnackbarSeverity('success');
+            setOpenSnackbar(true);
+            setSnackbarMessage('User created successfully');
             console.log(response);
+            if (response.status === 201) {
+                setSnackbarSeverity('success');
+                setOpenSnackbar(true);
+                setSnackbarMessage('User created successfully');
+                setTimeout(() => {
+                    navigate('/login');
+                }, 2000);
+            }
         })
         .catch(function (error) {
             console.log(error);
+            setSnackbarSeverity('error');
+            setOpenSnackbar(true);
+            setSnackbarMessage('User creation failed');
         });
     }
 
@@ -47,7 +69,7 @@ const SignUp = () => {
     useEffect(() => {
         if (form.firstName !== '' && form.lastName !== '' && form.email !== '' && form.password !== '') {
             postUser();
-            navigate('/login');
+            // navigate('/login');
         }
     }, [form]);
 
@@ -129,6 +151,8 @@ const SignUp = () => {
                     Sign Up
                 </Button>
             </Box>
+            <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
+
         </div>
     );
 }

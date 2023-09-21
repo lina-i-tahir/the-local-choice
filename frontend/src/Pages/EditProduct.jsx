@@ -12,6 +12,7 @@ const EditProduct = (props) => {
     const { id, productId } = useParams();
     console.log("id", id);
     console.log("productId", productId);
+    const token = localStorage.getItem('token');
     const navigate = useNavigate();
     const [store, setStore] = useState(null);
     const [productForm, setProductForm] = useState({
@@ -27,6 +28,7 @@ const EditProduct = (props) => {
             url: `http://localhost:8000/config/stores/${id}/products/${productId}`,
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             },
             data: productForm,
         })
@@ -64,6 +66,10 @@ const EditProduct = (props) => {
         await axios({
             method: "GET",
             url: `http://localhost:8000/config/stores/${id}/products/${productId}`,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         })
         .then((response) => {
             console.log(response.data);

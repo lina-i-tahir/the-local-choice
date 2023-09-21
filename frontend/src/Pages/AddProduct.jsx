@@ -11,6 +11,7 @@ import Container from '@mui/material/Container';
 const AddProducts = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const token = localStorage.getItem('token');
     const [imageProductPreview, setImageProductPreview] = useState(null);
     const [productForm, setProductForm] = useState({
         name: "",
@@ -26,6 +27,7 @@ const AddProducts = () => {
             url: `http://localhost:8000/config/stores/${id}/products`,
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             },
             data: productForm,
         })

@@ -20,14 +20,18 @@ import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import { Link } from "react-router-dom";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Logo from "./Logo";
-// for cart modal
+
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Notification from "./Notification";
+
+var pages = ["stores", "about", "contact"];
+var settings = ["profile", "orders", "login", "logout", "signup"];
+
 import { CartContext } from "../CardContext";
 import CartProduct from "./CartProduct";
 
-import { useNavigate } from "react-router-dom";
 
-const pages = ["stores", "about", "contact"];
-const settings = ["profile", "orders", "login", "logout", "signup"];
 const stores = ["handfully", "handxmade"];
 
 // Shopping cart Modal style
@@ -45,10 +49,29 @@ const styleModal = {
 };
 
 function NavBar() {
+  // notification
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('');
+    
+  if (localStorage.getItem("role") === "admin") {
+    settings = ['login', 'logout']
+    pages = ["config"]
+  }
+  else{
+    settings = ["profile", "orders", "login", "logout", "signup"];
+    pages = ["stores", "about", "contact"];
+  }
+
+  // handle close snackbar
+  const handleCloseSnackbar = () => {
+      setOpenSnackbar(false);
+  };
   // const [anchorElNav, setAnchorElNav] = React.useState(null);
   // const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -70,6 +93,50 @@ function NavBar() {
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
 
+
+  const handleLogoutClick = () => {
+    handleCloseUserMenu();
+    postLogout();
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("role");
+    settings = ["profile", "orders", "login", "logout", "signup"];
+    pages = ["stores", "about", "contact"];
+    navigate("/login");
+    window.location.reload();
+  }
+
+  const postLogout = async () => {
+    await axios({
+      method: "POST",
+      url: "http://localhost:8000/logout",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          console.log("Logged out successfully");
+          setSnackbarSeverity('success');
+          setOpenSnackbar(true);
+          setSnackbarMessage('Logged out successfully');
+          setTimeout(() => {
+            handleLogout();
+          },2000);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setSnackbarSeverity('error');
+        setOpenSnackbar(true);
+        setSnackbarMessage('Logout failed');
+      });
+
   // Shopping cart Modal Badge
   const cart = useContext(CartContext);
   const productsCount = cart.items.reduce(
@@ -82,6 +149,7 @@ function NavBar() {
   const goToCartPage = () => {
     navigate(`/checkout`)
     setOpenModal(false)
+
   }
 
   return (
@@ -125,6 +193,12 @@ function NavBar() {
               }}
             >
               {pages.map((page) => (
+                page === "config" ?
+                <Link to={`/${page}/stores`} style={{ textDecoration: "none" }}>
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                </Link> :
                 <Link to={`/${page}`} style={{ textDecoration: "none" }}>
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">{page}</Typography>
@@ -136,6 +210,27 @@ function NavBar() {
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page, idx) => (
+              page === "config" ?
+              <Link to={`/${page}/stores`} style={{ textDecoration: "none" }}>
+                 <Typography
+                  key={idx}
+                  variant="h7"
+                  noWrap
+                  sx={{
+                    mr: 2,
+                    display: { xs: "none", md: "flex" },
+                    fontFamily: "ovo",
+                    fontWeight: 500,
+                    color: "#414B3B",
+                    textDecoration: "none",
+                    margin: "20px",
+                    fontSize: "16px",
+                  }}
+                >
+                  {page}
+                </Typography>
+              </Link>
+                :
               <Link to={`/${page}`} style={{ textDecoration: "none" }}>
                 <Typography
                   key={idx}
@@ -152,8 +247,13 @@ function NavBar() {
                     fontSize: "16px",
                   }}
                 >
+                  {page}
+                </Typography>
+              </Link>
+            ))}
+              
                   {/* {page} */}
-                  {page === "stores" ? (
+                  {/* {page === "stores" ? (
                     <span style={{ display: "flex" }}>
                       {page}
                       <ArrowDropDownIcon
@@ -165,7 +265,8 @@ function NavBar() {
                   )}
                 </Typography>
               </Link>
-            ))}
+              ) */}
+            
           </Box>
 
           {/* profile + cart*/}
@@ -286,6 +387,23 @@ function NavBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
+                setting === "logout" ?
+                <MenuItem
+                  key={setting}
+                  onClick={handleLogoutClick}
+                  sx={{ width: "100px", justifyContent: "center" }}
+                >
+                  <Typography
+                    sx={{
+                      color: "#414B3B",
+                      fontSize: "14px",
+                      fontFamily: "ovo",
+                    }}
+                  >
+                    {setting}
+                  </Typography>
+                </MenuItem> :
+                
                 <Link to={`/${setting}`} style={{ textDecoration: "none" }}>
                   <MenuItem
                     key={setting}
@@ -307,6 +425,8 @@ function NavBar() {
             </Menu>
           </Box>
         </Toolbar>
+        <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
+
       </Container>
     </AppBar>
   );

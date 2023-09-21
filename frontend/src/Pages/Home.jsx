@@ -18,6 +18,7 @@ const Home = () => {
     const [storeOverview, setStoreOverview] = useState([]);
     const [store, setStore] = useState([]);
     const maxCount = Math.floor(store.length / 2);
+    const token = localStorage.getItem('token');
 
     const storeDisplay = (item) => {
         return (
@@ -78,6 +79,10 @@ const Home = () => {
         await axios({
             method: "GET",
             url: `http://localhost:8000/stores`,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         })
         .then((response) => {
             console.log(response.data.stores);

@@ -5,13 +5,10 @@ const isUserAuthenticated = require('../middleware/isUserAuthenticated');
 const storeController = require('../controllers/stores');
 
 router.get('/', isUserAuthenticated("admin"), storeController.index);
-// router.get('/new', (req, res) => {
-//     res.json('create new');
-// });
-router.get('/:id', storeController.show);
-router.post('/', storeController.create);
-router.put('/:id', storeController.updateOne);
-router.delete('/:id', storeController.deleteStore);
+router.get('/:id', isUserAuthenticated("admin"), storeController.show);
+router.post('/', isUserAuthenticated("admin"), storeController.create);
+router.put('/:id', isUserAuthenticated("admin"), storeController.updateOne);
+router.delete('/:id', isUserAuthenticated("admin"), storeController.deleteStore);
 
 // router.get('/new', isUserAuthenticated, storeController.new);
 

@@ -20,7 +20,7 @@ import EditIcon from '@mui/icons-material/Edit';
 const EditForm = () => {
     const [storeDetails, setStoreDetails] = useState([]);
     const { id } = useParams();
-
+    const token = localStorage.getItem('token');
     const navigate = useNavigate();
     const [imageStorePreview, setImageStorePreview] = useState(null);
     
@@ -77,6 +77,10 @@ const EditForm = () => {
         await axios({
             method: "DELETE",
             url: `http://localhost:8000/config/stores/${id}/products/${productId}`,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         })
         .then((response) => {
             console.log(response);
@@ -103,6 +107,10 @@ const EditForm = () => {
         axios({
             method: "GET",
             url: `http://localhost:8000/config/stores/${id}`,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         })
         .then((response) => {
             console.log(response);

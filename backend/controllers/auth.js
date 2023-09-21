@@ -49,7 +49,7 @@ module.exports.login = async (req, res, next) => {
           maxAge: 1000 * 60 * 10,
         })
         .status(201)
-        .json({ message: "User logged in successfully", success: true, token });
+        .json({ message: "User logged in successfully", success: true, token, user });
     } catch (error) {
       console.error(error);
     }

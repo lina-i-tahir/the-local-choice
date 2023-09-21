@@ -25,7 +25,7 @@ function isUserAuthenticated(role){
         req.user = user;
       
         // if valid role, then continue
-        if (user.role === role) {
+        if (role.includes(user.role)) {
             next();
         }
         else {
