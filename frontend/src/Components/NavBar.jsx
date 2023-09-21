@@ -24,13 +24,11 @@ import Logo from "./Logo";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Notification from "./Notification";
-
-var pages = ["stores", "about", "contact"];
-var settings = ["profile", "orders", "login", "logout", "signup"];
-
 import { CartContext } from "../CardContext";
 import CartProduct from "./CartProduct";
 
+var pages = ["stores", "about", "contact"];
+var settings = ["profile", "orders", "login", "logout", "signup"];
 
 const stores = ["handfully", "handxmade"];
 
@@ -51,21 +49,20 @@ const styleModal = {
 function NavBar() {
   // notification
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState('');
-    
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("");
+
   if (localStorage.getItem("role") === "admin") {
-    settings = ['login', 'logout']
-    pages = ["config"]
-  }
-  else{
+    settings = ["login", "logout"];
+    pages = ["config"];
+  } else {
     settings = ["profile", "orders", "login", "logout", "signup"];
     pages = ["stores", "about", "contact"];
   }
 
   // handle close snackbar
   const handleCloseSnackbar = () => {
-      setOpenSnackbar(false);
+    setOpenSnackbar(false);
   };
   // const [anchorElNav, setAnchorElNav] = React.useState(null);
   // const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -93,7 +90,6 @@ function NavBar() {
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
 
-
   const handleLogoutClick = () => {
     handleCloseUserMenu();
     postLogout();
@@ -107,7 +103,14 @@ function NavBar() {
     pages = ["stores", "about", "contact"];
     navigate("/login");
     window.location.reload();
-  }
+  };
+
+  // Shopping cart Modal Badge
+  const cart = useContext(CartContext);
+  const productsCount = cart.items.reduce(
+    (sum, product) => sum + product.quantity,
+    0
+  );
 
   const postLogout = async () => {
     await axios({
@@ -122,138 +125,139 @@ function NavBar() {
         console.log(response);
         if (response.status === 200) {
           console.log("Logged out successfully");
-          setSnackbarSeverity('success');
+          setSnackbarSeverity("success");
           setOpenSnackbar(true);
-          setSnackbarMessage('Logged out successfully');
+          setSnackbarMessage("Logged out successfully");
           setTimeout(() => {
             handleLogout();
-          },2000);
+          }, 2000);
         }
       })
       .catch((error) => {
         console.log(error);
-        setSnackbarSeverity('error');
+        setSnackbarSeverity("error");
         setOpenSnackbar(true);
-        setSnackbarMessage('Logout failed');
+        setSnackbarMessage("Logout failed");
       });
 
-  // Shopping cart Modal Badge
-  const cart = useContext(CartContext);
-  const productsCount = cart.items.reduce(
-    (sum, product) => sum + product.quantity,
-    0
-  );
+    // Go to Checkout - on Click
 
-  // Go to Checkout - on Click
-  const navigate = useNavigate()
-  const goToCartPage = () => {
-    navigate(`/checkout`)
-    setOpenModal(false)
+    const goToCartPage = () => {
+      navigate(`/checkout`);
+      setOpenModal(false);
+    };
 
-  }
+    return (
+      <AppBar
+        position="static"
+        sx={{
+          backgroundColor: "#F3EFE7",
+          boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.2)",
+        }}
+      >
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Logo />
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="#414B3B"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}
+              >
+                {pages.map((page) =>
+                  page === "config" ? (
+                    <Link
+                      to={`/${page}/stores`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <MenuItem key={page} onClick={handleCloseNavMenu}>
+                        <Typography textAlign="center">{page}</Typography>
+                      </MenuItem>
+                    </Link>
+                  ) : (
+                    <Link to={`/${page}`} style={{ textDecoration: "none" }}>
+                      <MenuItem key={page} onClick={handleCloseNavMenu}>
+                        <Typography textAlign="center">{page}</Typography>
+                      </MenuItem>
+                    </Link>
+                  )
+                )}
+              </Menu>
+            </Box>
 
-  return (
-    <AppBar
-      position="static"
-      sx={{
-        backgroundColor: "#F3EFE7",
-        boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.2)",
-      }}
-    >
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Logo />
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="#414B3B"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages.map((page) => (
-                page === "config" ?
-                <Link to={`/${page}/stores`} style={{ textDecoration: "none" }}>
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                </Link> :
-                <Link to={`/${page}`} style={{ textDecoration: "none" }}>
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                </Link>
-              ))}
-            </Menu>
-          </Box>
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              {pages.map((page, idx) =>
+                page === "config" ? (
+                  <Link
+                    to={`/${page}/stores`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <Typography
+                      key={idx}
+                      variant="h7"
+                      noWrap
+                      sx={{
+                        mr: 2,
+                        display: { xs: "none", md: "flex" },
+                        fontFamily: "ovo",
+                        fontWeight: 500,
+                        color: "#414B3B",
+                        textDecoration: "none",
+                        margin: "20px",
+                        fontSize: "16px",
+                      }}
+                    >
+                      {page}
+                    </Typography>
+                  </Link>
+                ) : (
+                  <Link to={`/${page}`} style={{ textDecoration: "none" }}>
+                    <Typography
+                      key={idx}
+                      variant="h7"
+                      noWrap
+                      sx={{
+                        mr: 2,
+                        display: { xs: "none", md: "flex" },
+                        fontFamily: "ovo",
+                        fontWeight: 500,
+                        color: "#414B3B",
+                        textDecoration: "none",
+                        margin: "20px",
+                        fontSize: "16px",
+                      }}
+                    >
+                      {page}
+                    </Typography>
+                  </Link>
+                )
+              )}
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page, idx) => (
-              page === "config" ?
-              <Link to={`/${page}/stores`} style={{ textDecoration: "none" }}>
-                 <Typography
-                  key={idx}
-                  variant="h7"
-                  noWrap
-                  sx={{
-                    mr: 2,
-                    display: { xs: "none", md: "flex" },
-                    fontFamily: "ovo",
-                    fontWeight: 500,
-                    color: "#414B3B",
-                    textDecoration: "none",
-                    margin: "20px",
-                    fontSize: "16px",
-                  }}
-                >
-                  {page}
-                </Typography>
-              </Link>
-                :
-              <Link to={`/${page}`} style={{ textDecoration: "none" }}>
-                <Typography
-                  key={idx}
-                  variant="h7"
-                  noWrap
-                  sx={{
-                    mr: 2,
-                    display: { xs: "none", md: "flex" },
-                    fontFamily: "ovo",
-                    fontWeight: 500,
-                    color: "#414B3B",
-                    textDecoration: "none",
-                    margin: "20px",
-                    fontSize: "16px",
-                  }}
-                >
-                  {page}
-                </Typography>
-              </Link>
-            ))}
-              
-                  {/* {page} */}
-                  {/* {page === "stores" ? (
+              {/* {page} */}
+              {/* {page === "stores" ? (
                     <span style={{ display: "flex" }}>
                       {page}
                       <ArrowDropDownIcon
@@ -266,169 +270,176 @@ function NavBar() {
                 </Typography>
               </Link>
               ) */}
-            
-          </Box>
+            </Box>
 
-          {/* profile + cart*/}
-          <Box sx={{ flexGrow: 0, margin: "0px 30px" }}>
-            <Tooltip>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <PersonOutlineIcon sx={{ margin: "20px" }} />
-              </IconButton>
-              <Badge
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                badgeContent={productsCount}
-                sx={{
-                  "& .MuiBadge-badge": {
-                    color: "414B3B",
-                    backgroundColor: "#414B3B",
-                    margin: "20px",
-                  },
-                }}
-              >
-                <IconButton>
-                  <ShoppingBagOutlinedIcon
-                    onClick={handleOpenModal}
-                    sx={{ margin: "10px" }}
-                  />
+            {/* profile + cart*/}
+            <Box sx={{ flexGrow: 0, margin: "0px 30px" }}>
+              <Tooltip>
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <PersonOutlineIcon sx={{ margin: "20px" }} />
+                </IconButton>
+                <Badge
+                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                  badgeContent={productsCount}
+                  sx={{
+                    "& .MuiBadge-badge": {
+                      color: "414B3B",
+                      backgroundColor: "#414B3B",
+                      margin: "20px",
+                    },
+                  }}
+                >
+                  <IconButton>
+                    <ShoppingBagOutlinedIcon
+                      onClick={handleOpenModal}
+                      sx={{ margin: "10px" }}
+                    />
 
-                  <Modal
-                    open={openModal}
-                    onClose={handleCloseModal}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                  >
-                    <Box sx={styleModal}>
-                      <Typography
-                        id="modal-modal-title"
-                        variant="h6"
-                        component="h2"
-                        fontFamily="Poppins"
-                        fontWeight="400"
-                        color="#414B3B"
-                      >
-                        your shopping cart
-                      </Typography>
-
-                      <Container>
+                    <Modal
+                      open={openModal}
+                      onClose={handleCloseModal}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Box sx={styleModal}>
                         <Typography
-                          id="modal-modal-description"
-                          sx={{ mt: 2 }}
-                          variant="h7"
+                          id="modal-modal-title"
+                          variant="h6"
+                          component="h2"
                           fontFamily="Poppins"
-                          fontWeight="200"
+                          fontWeight="400"
                           color="#414B3B"
                         >
-                          <br />
-                          {productsCount > 0 ? (
-                            <>
-                              {/* <p>items in your cart</p> */}
-                              {cart.items.map((currentProduct, idx) => (
-                                <CartProduct
-                                  key={idx}
-                                  storeId={currentProduct.storeId}
-                                  productId={currentProduct.productId}
-                                  quantity={currentProduct.quantity}
-                                ></CartProduct>
-                              ))}
-                              {/* <h4>total: $ {cart.getTotalCost().toFixed(2)}</h4> */}
-                              <br />
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={goToCartPage}
-                                sx={{
-                                  display: "flex",
-                                  backgroundColor: "#99958C",
-                                  color: "#E4DCCD",
-                                  width: "20ch",
-                                  textAlign: "center",
-                                  margin: "0px 0px 0px 100px",
-                                  padding: "18px",
-                                  "&:hover": {
-                                    backgroundColor: "#737373",
-                                  },
-                                }}
-                              >
-                                checkout ${cart.getTotalCost().toFixed(2)}
-                              </Button>
-                            </>
-                          ) : (
-                            <h4> add our awesome items to your cart!</h4>
-                          )}
+                          your shopping cart
                         </Typography>
-                      </Container>
-                    </Box>
-                  </Modal>
-                </IconButton>
-              </Badge>
-            </Tooltip>
 
-            <Menu
-              sx={{
-                mt: "50px",
-                ml: "-20px",
-                "& .MuiPaper-root": {
-                  backgroundColor: "#EFE9DD",
-                },
-              }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                setting === "logout" ?
-                <MenuItem
-                  key={setting}
-                  onClick={handleLogoutClick}
-                  sx={{ width: "100px", justifyContent: "center" }}
-                >
-                  <Typography
-                    sx={{
-                      color: "#414B3B",
-                      fontSize: "14px",
-                      fontFamily: "ovo",
-                    }}
-                  >
-                    {setting}
-                  </Typography>
-                </MenuItem> :
-                
-                <Link to={`/${setting}`} style={{ textDecoration: "none" }}>
-                  <MenuItem
-                    key={setting}
-                    onClick={handleCloseUserMenu}
-                    sx={{ width: "100px", justifyContent: "center" }}
-                  >
-                    <Typography
-                      sx={{
-                        color: "#414B3B",
-                        fontSize: "14px",
-                        fontFamily: "ovo",
-                      }}
+                        <Container>
+                          <Typography
+                            id="modal-modal-description"
+                            sx={{ mt: 2 }}
+                            variant="h7"
+                            fontFamily="Poppins"
+                            fontWeight="200"
+                            color="#414B3B"
+                          >
+                            <br />
+                            {productsCount > 0 ? (
+                              <>
+                                {/* <p>items in your cart</p> */}
+                                {cart.items.map((currentProduct, idx) => (
+                                  <CartProduct
+                                    key={idx}
+                                    storeId={currentProduct.storeId}
+                                    productId={currentProduct.productId}
+                                    quantity={currentProduct.quantity}
+                                  ></CartProduct>
+                                ))}
+                                {/* <h4>total: $ {cart.getTotalCost().toFixed(2)}</h4> */}
+                                <br />
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={goToCartPage}
+                                  sx={{
+                                    display: "flex",
+                                    backgroundColor: "#99958C",
+                                    color: "#E4DCCD",
+                                    width: "20ch",
+                                    textAlign: "center",
+                                    margin: "0px 0px 0px 100px",
+                                    padding: "18px",
+                                    "&:hover": {
+                                      backgroundColor: "#737373",
+                                    },
+                                  }}
+                                >
+                                  checkout ${cart.getTotalCost().toFixed(2)}
+                                </Button>
+                              </>
+                            ) : (
+                              <h4> add our awesome items to your cart!</h4>
+                            )}
+                          </Typography>
+                        </Container>
+                      </Box>
+                    </Modal>
+                  </IconButton>
+                </Badge>
+              </Tooltip>
+
+              <Menu
+                sx={{
+                  mt: "50px",
+                  ml: "-20px",
+                  "& .MuiPaper-root": {
+                    backgroundColor: "#EFE9DD",
+                  },
+                }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) =>
+                  setting === "logout" ? (
+                    <MenuItem
+                      key={setting}
+                      onClick={handleLogoutClick}
+                      sx={{ width: "100px", justifyContent: "center" }}
                     >
-                      {setting}
-                    </Typography>
-                  </MenuItem>
-                </Link>
-              ))}
-            </Menu>
-          </Box>
-        </Toolbar>
-        <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
-
-      </Container>
-    </AppBar>
-  );
+                      <Typography
+                        sx={{
+                          color: "#414B3B",
+                          fontSize: "14px",
+                          fontFamily: "ovo",
+                        }}
+                      >
+                        {setting}
+                      </Typography>
+                    </MenuItem>
+                  ) : (
+                    <Link to={`/${setting}`} style={{ textDecoration: "none" }}>
+                      <MenuItem
+                        key={setting}
+                        onClick={handleCloseUserMenu}
+                        sx={{ width: "100px", justifyContent: "center" }}
+                      >
+                        <Typography
+                          sx={{
+                            color: "#414B3B",
+                            fontSize: "14px",
+                            fontFamily: "ovo",
+                          }}
+                        >
+                          {setting}
+                        </Typography>
+                      </MenuItem>
+                    </Link>
+                  )
+                )}
+              </Menu>
+            </Box>
+          </Toolbar>
+          <Notification
+            openSnackbar={openSnackbar}
+            handleCloseSnackbar={handleCloseSnackbar}
+            snackbarMessage={snackbarMessage}
+            snackbarSeverity={snackbarSeverity}
+            vertical="bottom"
+            horizontal="right"
+          />
+        </Container>
+      </AppBar>
+    );
+  };
 }
 export default NavBar;

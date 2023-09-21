@@ -30,7 +30,6 @@ import Checkout from "./Pages/Checkout";
 import PlaceOrderCheckout from "./Pages/PlaceOrderCheckout";
 import AdminOrderStatus from "./Pages/AdminOrder";
 
-
 function App() {
   const [user, setUser] = useState(null);
 
@@ -41,38 +40,47 @@ function App() {
         style={{ backgroundColor: "#E4DCCD", height: "100vh" }}
       >
         <Router>
-        <NavBar />
-        <Routes>
-          {/* public routes */}
-          <Route path="/" element={<h1>landing page</h1>} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
-          {/* user + admin routes */}
-          <Route path="/home" element={<Home />} />
-          <Route path="*" element={<Error />} />
-          <Route path="/stores" element={<AllStores />} />
-          <Route path="/stores/:id" element={<Store />} />
-          <Route path="/stores/:id/:id" element={<ProductDetail />} />
-          <Route path="/products" element={<Products />} />
-          {/* user routes mainly */}
-          <Route path="/sccancel" element={<SCCancel />} />
-          <Route path="/scsuccess" element={<SCSuccess />} />
-          <Route path="/products/:id" element={<ProductDetail />} />
-          <Route path="/orders" element={<Orders/>} />
-          <Route path="/orders/:id" element={<OrderDetail/>} />
-          <Route path="/placeOrder" element={<PlaceOrder/>} />
-          <Route path="/placeOrder/Checkout/:id" element={<PlaceOrderCheckout/>} />
-          <Route path="/profile" element={<Profile/>} /> 
-          {/* admin routes */}
-          <Route path="/config/stores" element={<Admin />} />
-          <Route path="/config/stores/new" element={<NewStore/>} />
-          <Route path="/config/stores/:id" element={<EditForm/>} />
-          <Route path="/config/stores/:id/products" element={<AddProducts/>} />
-          <Route path="/config/stores/:id/products/:productId" element={<EditProduct/>} />
-          <Route path="/config/stores/orders" element={<AdminOrderStatus/>} />
-        </Routes>
-        {/* <FooterContent /> */}
-      </Router>
+          <NavBar />
+          <Routes>
+            {/* public routes */}
+            <Route path="/" element={<h1>landing page</h1>} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+            {/* user + admin routes */}
+            <Route path="/home" element={<Home />} />
+            <Route path="*" element={<Error />} />
+            <Route path="/stores" element={<AllStores />} />
+            <Route path="/stores/:id" element={<Store />} />
+            <Route path="/stores/:id/:id" element={<ProductDetail />} />
+            <Route path="/products" element={<Products />} />
+            {/* user routes mainly */}
+            <Route path="/sccancel" element={<SCCancel />} />
+            <Route path="/scsuccess" element={<SCSuccess />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/orders/:id" element={<OrderDetail />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/checkout/:id" element={<PlaceOrderCheckout />} />
+            <Route path="/profile" element={<Profile />} />
+            {/* admin routes */}
+            <Route path="/config/stores" element={<Admin />} />
+            <Route path="/config/stores/new" element={<NewStore />} />
+            <Route path="/config/stores/:id" element={<EditForm />} />
+            <Route
+              path="/config/stores/:id/products"
+              element={<AddProducts />}
+            />
+            <Route
+              path="/config/stores/:id/products/:productId"
+              element={<EditProduct />}
+            />
+            <Route
+              path="/config/stores/orders"
+              element={<AdminOrderStatus />}
+            />
+          </Routes>
+          {/* <FooterContent /> */}
+        </Router>
       </div>
     </CartProvider>
   );
