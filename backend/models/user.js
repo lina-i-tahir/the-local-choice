@@ -29,6 +29,22 @@ const userSchema = new mongoose.Schema({
             type: String,
             default: ''
         },
+        postalCode: {
+            type: String,
+            default: ''
+        },
+        unitNumber: {
+            type: String,
+            default: ''
+        },
+        country:{
+            type: String,
+            default: ''
+        },
+        city:{
+            type: String,
+            default: ''
+        },
         phoneNumber: {
             type: String,
             default: ''
@@ -38,8 +54,18 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 });
 
-userSchema.pre("save", async function () {
+// userSchema.pre("save", async function () {
+//     this.password = await bcrypt.hash(this.password, 12);
+// });
+
+
+userSchema.pre("save", async function (next) {
+    // Only hash the password if it has been modified (or is new)
+    if (!this.isModified("password")) {
+        return next();
+    }
     this.password = await bcrypt.hash(this.password, 12);
+    next();
 });
 
 module.exports = mongoose.model('User', userSchema);

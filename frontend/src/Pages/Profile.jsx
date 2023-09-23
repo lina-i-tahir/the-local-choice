@@ -1,160 +1,141 @@
-import { Container, Grid, Box, Hidden, Typography } from "@mui/material"
-import Stack from '@mui/system/Stack';
-import RouteHistory from "../Components/RouteHistory";
-import Button from '@mui/material/Button';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import SidePanel from "../Components/SidePanel";
+import { Container, Grid, Typography, Button, TextField } from "@mui/material";
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import TextField from '@mui/material/TextField';
-import FieldDisabled from "../Components/FieldDisabled";
+import SidePanel from "../Components/SidePanel";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+const formStyles = {
+    width: "60%",
+    backgroundColor: "#F3EFE7",
+    borderRadius: "5px",
+    margin: "0px 20px",
+    color: "#645B4F",
+    borderColor: "#E4DCCD",
+    '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+            borderColor: '#E4DCCD',
+        },
+        '&:hover fieldset': {
+            borderColor: '#E4DCCD',
+        },
+        '&.Mui-focused fieldset': {
+            borderColor: '#E4DCCD',
+        },
+    }
+};
+
+const RenderTextField = ({ label, placeholder, type = "text", defaultValue, disabled = false, id }) => (
+    <Container maxWidth="sm" sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "15px", width: "100%" }}>
+        <Typography variant="subtitle1" sx={{ fontFamily: "Poppins", fontSize: "16px", width: "20%", textAlign: "right", color: "#99958C" }}>
+            {label}
+        </Typography>
+        <TextField
+            required
+            id={id}
+            size="small"
+            variant="outlined"
+            type={type}
+            defaultValue={defaultValue}
+            placeholder={placeholder}
+            sx={formStyles}
+            disabled={disabled}
+        />
+    </Container>
+);
+
 
 const Profile = () => {
-    return ( 
+    const token = localStorage.getItem('token');
+    const userDetails = JSON.parse(localStorage.getItem('user'));
+    const navigate = useNavigate();
+    const [form, setForm] = useState({
+        firstName: userDetails.firstName,
+        lastName: userDetails.lastName,
+        email: userDetails.email,
+        password: userDetails.password,
+        profile: {
+            phoneNumber: userDetails.profile.phoneNumber,
+            address: userDetails.profile.address,
+            unitNumber: userDetails.profile.unitNumber,
+            postalCode: userDetails.profile.postalCode,
+            country: userDetails.profile.country,
+            city: userDetails.profile.city,
+        }
+    })
+
+    console.log(userDetails);
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        console.log("submit");
+        setForm({
+            firstName: e.target.firstName.value,
+            lastName: e.target.lastName.value,
+            email: e.target.email.value,
+            password: e.target.password.value,
+            profile: {
+                phoneNumber: e.target.phoneNumber.value,
+                address: e.target.address.value,
+                unitNumber: e.target.unitNumber.value,
+                postalCode: e.target.postalCode.value,
+                country: e.target.country.value,
+                city: e.target.city.value,
+            }
+        });
+    }
+
+    const postProfile = () => {
+        axios({
+            method: "PUT",
+            url: "http://localhost:8000/profile/update",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            data: form,
+        })
+        .then(function (response) {
+            console.log(response);
+            if (response.status === 201) {
+                console.log("updated successfully");
+                localStorage.setItem('user', JSON.stringify(response.data));
+                navigate(`/profile`);
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    };
+
+    useEffect(() => {
+        if (form.firstName && form.lastName && form.email && form.password && form.profile.phoneNumber && form.profile.address && form.profile.unitNumber && form.profile.postalCode && form.profile.country && form.profile.city) {
+            postProfile();
+        }
+    }, [form]);
+
+
+    return (
         <>
-            <Grid container spacing={0} style={{height: '80vh' }}>
-                <SidePanel page={"profile"} route={"profile"}/>
-                <Grid item xs={8.5} sx={{ backgroundColor: '#F8F5ED', margin:"30px 0px", borderRadius:"15px", flexGrow:"1"}}>
-                    {/* <Typography gutterBottom variant="h6" component="div"
-                        sx={{
-                            fontFamily: "Poppins",
-                            fontSize: "20px",
-                            margin: "10px 30px",
-                            display: "flex",
-                            justifyContent: "flex-start",
-                        }}>
-                        Profile
-                    </Typography> */}
-                    <Container maxWidth="sm" sx={{display:"flex",flexDirection:"column", justifyContent:"center", alignItems:"center", backgroundColor:"#E4DCCD", minWidth:"80%", minHeight:"70vh", margin:"40px auto", borderRadius:"10px"}}>
-                        <Container maxWidth="sm" sx={{display:"flex", justifyContent:"center", alignItems:"center", backgroundColor:"#F3EFE7", width:"60px", height:"60px", borderRadius:"50%", marginTop:"15px"}}>
-                            <PersonOutlineIcon sx={{fontSize:"30px", color:"#645B4F"}}/>
+            <Grid container spacing={0} style={{ height: '90vh' }} component="form" onSubmit={onSubmit}>
+                <SidePanel page={"profile"} route={"profile"} />
+                <Grid item xs={8.5} sx={{ backgroundColor: '#F8F5ED', margin: "30px 0px", borderRadius: "15px", flexGrow: "1" }}>
+                    <Container maxWidth="sm" sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "#E4DCCD", minWidth: "80%", minHeight: "70vh", margin: "40px auto", borderRadius: "10px" }}>
+                        <Container maxWidth="sm" sx={{ display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#F3EFE7", width: "60px", height: "60px", borderRadius: "50%", marginTop: "15px" }}>
+                            <PersonOutlineIcon sx={{ fontSize: "30px", color: "#645B4F" }} />
                         </Container>
-                        <FieldDisabled property={"first name"}/>
-                        <FieldDisabled property={"last name"}/>
-                        <FieldDisabled property={"email"}/>
-                        <Container maxWidth="sm" sx={{display:"flex", justifyContent:"space-between", alignItems:"center", marginTop:"15px", width:"100%"}}>
-                            <Typography variant="subtitle1" sx={{fontFamily: "Poppins", fontSize: "16px", width: "20%", textAlign: "right", color:"#99958C"}}>
-                                address
-                            </Typography>
-                            <TextField
-                                required
-                                size="small"
-                                variant="outlined"
-                                defaultValue="Hello World"
-                                placeholder="1234 Main St"
-                                sx={{
-                                    width:"60%",
-                                    backgroundColor:"#F3EFE7",
-                                    borderRadius:"5px",
-                                    margin:"0px 20px",
-                                    color: "#645B4F",
-                                    borderColor: "#E4DCCD",
-                                    '& .MuiOutlinedInput-root': {
-                                        '& fieldset': {
-                                            borderColor: '#E4DCCD',
-                                        },
-                                        '&:hover fieldset': {
-                                            borderColor: '#E4DCCD',
-                                        },
-                                        '&.Mui-focused fieldset': {
-                                            borderColor: '#E4DCCD',
-                                        },
-                                    }
-                                }}
-                            />
-                        </Container>
-                        <Container maxWidth="sm" sx={{display:"flex", justifyContent:"space-between", alignItems:"center", marginTop:"15px", width:"100%"}}>
-                            <Typography variant="subtitle1" sx={{fontFamily: "Poppins", fontSize: "16px", width: "20%", textAlign: "right", color:"#99958C"}}>
-                                unit number
-                            </Typography>
-                            <TextField
-                                required
-                                size="small"
-                                variant="outlined"
-                                defaultValue="Hello World"
-                                placeholder="#1-123"
-                                sx={{
-                                    width:"60%",
-                                    backgroundColor:"#F3EFE7",
-                                    borderRadius:"5px",
-                                    margin:"0px 20px",
-                                    color: "#645B4F",
-                                    borderColor: "#E4DCCD",
-                                    '& .MuiOutlinedInput-root': {
-                                        '& fieldset': {
-                                            borderColor: '#E4DCCD',
-                                        },
-                                        '&:hover fieldset': {
-                                            borderColor: '#E4DCCD',
-                                        },
-                                        '&.Mui-focused fieldset': {
-                                            borderColor: '#E4DCCD',
-                                        },
-                                    }
-                                }}
-                            />
-                        </Container>
-                        <Container maxWidth="sm" sx={{display:"flex", justifyContent:"space-between", alignItems:"center", marginTop:"15px", width:"100%"}}>
-                            <Typography variant="subtitle1" sx={{fontFamily: "Poppins", fontSize: "16px", width: "20%", textAlign: "right", color:"#99958C"}}>
-                                postal code
-                            </Typography>
-                            <TextField
-                                required
-                                size="small"
-                                variant="outlined"
-                                defaultValue="Hello World"
-                                placeholder="123456"
-                                sx={{
-                                    width:"60%",
-                                    backgroundColor:"#F3EFE7",
-                                    borderRadius:"5px",
-                                    margin:"0px 20px",
-                                    color: "#645B4F",
-                                    borderColor: "#E4DCCD",
-                                    '& .MuiOutlinedInput-root': {
-                                        '& fieldset': {
-                                            borderColor: '#E4DCCD',
-                                        },
-                                        '&:hover fieldset': {
-                                            borderColor: '#E4DCCD',
-                                        },
-                                        '&.Mui-focused fieldset': {
-                                            borderColor: '#E4DCCD',
-                                        },
-                                    }
-                                }}
-                            />
-                        </Container>
-                        <Container maxWidth="sm" sx={{display:"flex", justifyContent:"space-between", alignItems:"center", marginTop:"15px", width:"100%"}}>
-                            <Typography variant="subtitle1" sx={{fontFamily: "Poppins", fontSize: "16px", width: "20%", textAlign: "right", color:"#99958C"}}>
-                                password
-                            </Typography>
-                            <TextField
-                                required
-                                size="small"
-                                variant="outlined"
-                                type="password"
-                                defaultValue="1234"
-                                sx={{
-                                    width:"60%",
-                                    backgroundColor:"#F3EFE7",
-                                    borderRadius:"5px",
-                                    margin:"0px 20px",
-                                    color: "#645B4F",
-                                    borderColor: "#E4DCCD",
-                                    '& .MuiOutlinedInput-root': {
-                                        '& fieldset': {
-                                            borderColor: '#E4DCCD',
-                                        },
-                                        '&:hover fieldset': {
-                                            borderColor: '#E4DCCD',
-                                        },
-                                        '&.Mui-focused fieldset': {
-                                            borderColor: '#E4DCCD',
-                                        },
-                                    }
-                                }}
-                            />
-                        </Container>
+
+                        <RenderTextField label="first name" defaultValue={userDetails.firstName} id={"firstName"} />
+                        <RenderTextField label="last name" defaultValue={userDetails.lastName} id={"lastName"} />
+                        <RenderTextField label="email" defaultValue={userDetails.email} id={"email"} />
+                        <RenderTextField label="phone number" defaultValue={userDetails.profile.phoneNumber} placeholder="12345678" id = {"phoneNumber"} />
+                        <RenderTextField label="address" defaultValue={userDetails.profile.address} placeholder="1234 Main St" id = {"address"} />
+                        <RenderTextField label="unit number" defaultValue={userDetails.profile.unitNumber} placeholder="#1-123" id={"unitNumber"} />
+                        <RenderTextField label="postal code" defaultValue={userDetails.profile.postalCode} placeholder="123456" id={"postalCode"} />
+                        <RenderTextField label="country" defaultValue={userDetails.profile.country} placeholder="Singapore" id={"country"} />
+                        <RenderTextField label="city" defaultValue={userDetails.profile.city} placeholder="Singapore" id={"city"} />
+                        <RenderTextField label="password" defaultValue={userDetails.password} type="password" disabled={true} id = {"password"} />
+
                         <Button type="submit" variant="contained"
                             sx={{
                                 display: "flex",
@@ -172,14 +153,10 @@ const Profile = () => {
                         </Button>
 
                     </Container>
-                    
                 </Grid>
-                
-            
             </Grid>
-
         </>
-     );
+    );
 }
- 
+
 export default Profile;
