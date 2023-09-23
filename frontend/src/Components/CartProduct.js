@@ -15,32 +15,32 @@ const CartProduct = (props) => {
   const [productData, setProductData] = useState(null);
   // const product = store[0].products.find((item) => item._id === parseInt(id));
 
-  const getProduct = async ({storeId, productId}) => {
+  const getProduct = async ({ storeId, productId }) => {
     await axios({
-        method: "GET",
-        url: `http://localhost:8000/config/stores/${storeId}/products/${productId}`,
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
+      method: "GET",
+      url: `http://localhost:8000/config/stores/${storeId}/products/${productId}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
-    .then((response) => {
+      .then((response) => {
         console.log(response.data);
         setProductData(response.data);
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
         console.log(error);
-    });
-  }
-  
+      });
+  };
+
   useEffect(() => {
-      getProduct({storeId, productId});
+    getProduct({ storeId, productId });
   }, [storeId, productId]);
-  
+
   // const productData = store[0].products.find(
   //   (item) => item._id === parseInt(id)
   // );
-  
+
   return (
     <>
       {productData === null ? ( // Render loading indicator while productData is null
