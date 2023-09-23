@@ -1,14 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import {
-  Box,
-  TextField,
-  Button,
-  Container,
-  Grid,
-  Divider,
-} from "@mui/material";
+import { Box, Button, Container, Grid, Divider } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -64,9 +57,14 @@ const ProductDetail = () => {
   //   cart.addToCart(currentProduct._id, quantity);
   // };
 
+  const { id } = useParams();
+  const product = store[0].products.find((item) => item._id === parseInt(id));
+  const navigate = useNavigate(); // Define the navigate function
+
     const handleAddToCart = () => {
     cart.addToCart(id, productId, quantity, currentProduct.price);
   };
+
 
   if (!currentProduct) {
     // Handle the case where the product is not found
