@@ -78,10 +78,10 @@ const Checkout = () => {
             </Grid>
           ))}
           <h2>Total Cost : ${cart.getTotalCost().toFixed(2)}</h2>
-          <Button
+          {/* {/* <Button
             variant="contained"
             color="primary"
-            onClick={proceedToPayment}
+            onClick={() =>  />}
             sx={{
               backgroundColor: "#99958C",
               color: "#E4DCCD",
@@ -94,8 +94,8 @@ const Checkout = () => {
               },
             }}
           >
-            proceed to payment
-          </Button>
+            proceed to payment?
+          </Button> */}
           <PayButton cartItems={orderItems} />
         </Stack>
       </Container>

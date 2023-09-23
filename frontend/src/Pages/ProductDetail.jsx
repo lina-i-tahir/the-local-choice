@@ -17,33 +17,33 @@ import Rating from "../Components/Rating";
 import { CartContext } from "../CardContext";
 import { useCart } from "../CardContext";
 
-const token = localStorage.getItem('token');
+const token = localStorage.getItem("token");
 
 const ProductDetail = () => {
   const { id, productId } = useParams();
   const [currentProduct, setCurrentProduct] = useState([]);
   // const product = store[0].products.find((item) => item._id === parseInt(id));
 
-  const getProduct = async ({id, productId}) => {
+  const getProduct = async ({ id, productId }) => {
     await axios({
-        method: "GET",
-        url: `http://localhost:8000/config/stores/${id}/products/${productId}`,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-          },
+      method: "GET",
+      url: `http://localhost:8000/config/stores/${id}/products/${productId}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     })
-    .then((response) => {
+      .then((response) => {
         console.log(response.data);
         setCurrentProduct(response.data);
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
         console.log(error);
-    });
-  }
-  
+      });
+  };
+
   useEffect(() => {
-      getProduct({id, productId});
+    getProduct({ id, productId });
   }, [id, productId]);
 
   const navigate = useNavigate(); // Define the navigate function
@@ -67,10 +67,9 @@ const ProductDetail = () => {
   const product = store[0].products.find((item) => item._id === parseInt(id));
   // const navigate = useNavigate(); // Define the navigate function
 
-    const handleAddToCart = () => {
+  const handleAddToCart = () => {
     cart.addToCart(id, productId, quantity, currentProduct.price);
   };
-
 
   if (!currentProduct) {
     // Handle the case where the product is not found
