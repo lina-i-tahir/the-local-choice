@@ -47,24 +47,21 @@ const RenderTextField = ({ label, placeholder, type = "text", defaultValue, disa
 
 const Profile = () => {
     const token = localStorage.getItem('token');
-    const userDetails = JSON.parse(localStorage.getItem('user'));
     const navigate = useNavigate();
     const [form, setForm] = useState({
-        firstName: userDetails.firstName,
-        lastName: userDetails.lastName,
-        email: userDetails.email,
-        password: userDetails.password,
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
         profile: {
-            phoneNumber: userDetails.profile.phoneNumber,
-            address: userDetails.profile.address,
-            unitNumber: userDetails.profile.unitNumber,
-            postalCode: userDetails.profile.postalCode,
-            country: userDetails.profile.country,
-            city: userDetails.profile.city,
+            phoneNumber: "",
+            address: "",
+            unitNumber: "",
+            postalCode: "",
+            country: "",
+            city: "",
         }
     })
-
-    console.log(userDetails);
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -85,6 +82,29 @@ const Profile = () => {
         });
     }
 
+    const getProfile = () => { 
+        axios({
+            method: "GET",
+            url: "http://localhost:8000/profile",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then(function (response) {
+            console.log(response);
+            if (response.status === 200) {
+                console.log("get successfully");
+                setForm(response.data.user);
+            }
+        }
+        ) 
+        .catch(function (error) {
+            console.log(error);
+        }
+        );
+    };
+
     const postProfile = () => {
         axios({
             method: "PUT",
@@ -97,9 +117,8 @@ const Profile = () => {
         })
         .then(function (response) {
             console.log(response);
-            if (response.status === 201) {
+            if (response.status === 200) {
                 console.log("updated successfully");
-                localStorage.setItem('user', JSON.stringify(response.data));
                 navigate(`/profile`);
             }
         })
@@ -113,48 +132,54 @@ const Profile = () => {
             postProfile();
         }
     }, [form]);
+    
+    useEffect(() => {
+        getProfile();
+    }, []);
 
 
     return (
         <>
+            {form.firstName && form.lastName && form.email && form.password && form.profile.phoneNumber && form.profile.address && form.profile.unitNumber && form.profile.postalCode && form.profile.country && form.profile.city ?
             <Grid container spacing={0} style={{ height: '90vh' }} component="form" onSubmit={onSubmit}>
-                <SidePanel page={"profile"} route={"profile"} />
-                <Grid item xs={8.5} sx={{ backgroundColor: '#F8F5ED', margin: "30px 0px", borderRadius: "15px", flexGrow: "1" }}>
-                    <Container maxWidth="sm" sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "#E4DCCD", minWidth: "80%", minHeight: "70vh", margin: "40px auto", borderRadius: "10px" }}>
-                        <Container maxWidth="sm" sx={{ display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#F3EFE7", width: "60px", height: "60px", borderRadius: "50%", marginTop: "15px" }}>
-                            <PersonOutlineIcon sx={{ fontSize: "30px", color: "#645B4F" }} />
-                        </Container>
-
-                        <RenderTextField label="first name" defaultValue={userDetails.firstName} id={"firstName"} />
-                        <RenderTextField label="last name" defaultValue={userDetails.lastName} id={"lastName"} />
-                        <RenderTextField label="email" defaultValue={userDetails.email} id={"email"} />
-                        <RenderTextField label="phone number" defaultValue={userDetails.profile.phoneNumber} placeholder="12345678" id = {"phoneNumber"} />
-                        <RenderTextField label="address" defaultValue={userDetails.profile.address} placeholder="1234 Main St" id = {"address"} />
-                        <RenderTextField label="unit number" defaultValue={userDetails.profile.unitNumber} placeholder="#1-123" id={"unitNumber"} />
-                        <RenderTextField label="postal code" defaultValue={userDetails.profile.postalCode} placeholder="123456" id={"postalCode"} />
-                        <RenderTextField label="country" defaultValue={userDetails.profile.country} placeholder="Singapore" id={"country"} />
-                        <RenderTextField label="city" defaultValue={userDetails.profile.city} placeholder="Singapore" id={"city"} />
-                        <RenderTextField label="password" defaultValue={userDetails.password} type="password" disabled={true} id = {"password"} />
-
-                        <Button type="submit" variant="contained"
-                            sx={{
-                                display: "flex",
-                                backgroundColor: "#99958C",
-                                color: "#E4DCCD",
-                                width: "50%",
-                                textAlign: "center",
-                                margin: "30px 0px 30px 0px",
-                                '&:hover': {
-                                    backgroundColor: "#737373",
-                                },
-                            }}
-                        >
-                            update profile
-                        </Button>
-
+            <SidePanel page={"profile"} route={"profile"} />
+            <Grid item xs={8.5} sx={{ backgroundColor: '#F8F5ED', margin: "30px 0px", borderRadius: "15px", flexGrow: "1" }}>
+                <Container maxWidth="sm" sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "#E4DCCD", minWidth: "80%", minHeight: "70vh", margin: "40px auto", borderRadius: "10px" }}>
+                    <Container maxWidth="sm" sx={{ display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#F3EFE7", width: "60px", height: "60px", borderRadius: "50%", marginTop: "15px" }}>
+                        <PersonOutlineIcon sx={{ fontSize: "30px", color: "#645B4F" }} />
                     </Container>
-                </Grid>
+
+                    <RenderTextField label="first name" defaultValue={form.firstName} id={"firstName"} />
+                    <RenderTextField label="last name" defaultValue={form.lastName} id={"lastName"} />
+                    <RenderTextField label="email" defaultValue={form.email} id={"email"} />
+                    <RenderTextField label="phone number" defaultValue={form.profile.phoneNumber} placeholder="12345678" id = {"phoneNumber"} />
+                    <RenderTextField label="address" defaultValue={form.profile.address} placeholder="1234 Main St" id = {"address"} />
+                    <RenderTextField label="unit number" defaultValue={form.profile.unitNumber} placeholder="#1-123" id={"unitNumber"} />
+                    <RenderTextField label="postal code" defaultValue={form.profile.postalCode} placeholder="123456" id={"postalCode"} />
+                    <RenderTextField label="country" defaultValue={form.profile.country} placeholder="Singapore" id={"country"} />
+                    <RenderTextField label="city" defaultValue={form.profile.city} placeholder="Singapore" id={"city"} />
+                    <RenderTextField label="password" defaultValue={form.password} type="password" disabled={true} id = {"password"} />
+
+                    <Button type="submit" variant="contained"
+                        sx={{
+                            display: "flex",
+                            backgroundColor: "#99958C",
+                            color: "#E4DCCD",
+                            width: "50%",
+                            textAlign: "center",
+                            margin: "30px 0px 30px 0px",
+                            '&:hover': {
+                                backgroundColor: "#737373",
+                            },
+                        }}
+                    >
+                        update profile
+                    </Button>
+
+                </Container>
             </Grid>
+        </Grid>: null}
+
         </>
     );
 }
