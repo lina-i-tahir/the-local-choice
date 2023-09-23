@@ -15,7 +15,7 @@ export const storesApiSlice = apiSlice.injectEndpoints({
                 Authorization: `Bearer ${token}`,
                 },
             }),
-            keepUnusedDataFor: 5
+            keepUnusedDataFor: 30
         }), 
         getStoreById: builder.query({
             query: (storeId) =>({
@@ -26,7 +26,7 @@ export const storesApiSlice = apiSlice.injectEndpoints({
                 Authorization: `Bearer ${token}`,
                 },
             }),
-            keepUnusedDataFor: 5
+            keepUnusedDataFor: 30
         }), 
         // payOrder: builder.mutation({
         //     query: (orderId, details) => ({
