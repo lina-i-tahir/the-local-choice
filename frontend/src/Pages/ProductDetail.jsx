@@ -57,9 +57,9 @@ const ProductDetail = () => {
   //   cart.addToCart(currentProduct._id, quantity);
   // };
 
-  const { id } = useParams();
+  // const { id } = useParams();
   const product = store[0].products.find((item) => item._id === parseInt(id));
-  const navigate = useNavigate(); // Define the navigate function
+  // const navigate = useNavigate(); // Define the navigate function
 
     const handleAddToCart = () => {
     cart.addToCart(id, productId, quantity, currentProduct.price);
