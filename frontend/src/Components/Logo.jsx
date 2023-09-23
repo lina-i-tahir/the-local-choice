@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Logo = () => {
     return ( 
         <div style={{margin:"20px 30px"}}>
-            <Link to="/" style={{textDecoration:"none"}}> 
+            <Link to="/home" style={{textDecoration:"none"}}> 
             <Typography
               variant="h7"
               noWrap

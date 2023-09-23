@@ -18,57 +18,71 @@ import ProductDetail from "./Pages/ProductDetail";
 
 import EditForm from "./Pages/EditForm";
 import AllStores from "./Pages/AllStores";
+// Shopping cart pages
+import SCCancel from "./Pages/SCCancel";
+import SCSuccess from "./Pages/SCSuccess";
+import CartProvider from "./CardContext";
+
+import AddProducts from "./Pages/AddProduct";
+import EditProduct from "./Pages/EditProduct";
+import OrderDetail from "./Pages/OrderDetail";
+import Checkout from "./Pages/Checkout";
+import PlaceOrderCheckout from "./Pages/PlaceOrderCheckout";
+import AdminOrderStatus from "./Pages/AdminOrder";
 
 function App() {
   const [user, setUser] = useState(null);
 
-  // const postLogin = async () => {
-  //   await axios({
-  //       method: 'GET',
-  //       url: 'http://localhost:8000/login',
-  //       headers: {
-  //           "Content-Type": "application/json"
-  //       },
-  //       data: form
-  //   })
-  //   .then(function (response) {
-  //       console.log(response);
-  //       navigate('/');
-  //   })
-  //   .catch(function (error) {
-  //       console.log(error);
-  //   });
-  // }
   return (
-    <div
-      className="App"
-      style={{ backgroundColor: "#E4DCCD", height: "100vh" }}
-    >
-      <Router>
-        {/* <nav style={{display:"flex", justifyContent:"space-around"}}>
-          <Link to="/signup">Sign Up</Link>
-          <Link to="/login">Login</Link>
-          <Link to="/">Home</Link>
-        </nav> */}
-        <NavBar />
-        <Routes>
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/config/stores" element={<Admin />} />
-          <Route path="/" element={<Home />} />
-          <Route path="*" element={<Error />} />
-          <Route path="/stores" element={<AllStores />} />
-          <Route path="/stores/:id" element={<Store />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="//stores/:id/:id" element={<ProductDetail />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/config/stores/new" element={<NewStore />} />
-          <Route path="/config/stores/:id" element={<EditForm />} />
-        </Routes>
-        {/* <FooterContent /> */}
-      </Router>
-    </div>
+    <CartProvider>
+      <div
+        className="App"
+        style={{ backgroundColor: "#E4DCCD", height: "100vh" }}
+      >
+        <Router>
+          <NavBar />
+          <Routes>
+            {/* public routes */}
+            <Route path="/" element={<h1>landing page</h1>} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+            {/* user + admin routes */}
+            <Route path="/home" element={<Home />} />
+            <Route path="*" element={<Error />} />
+            <Route path="/stores" element={<AllStores />} />
+            <Route path="/stores/:id" element={<Store />} />
+            <Route path="/stores/:id/:id" element={<ProductDetail />} />
+            <Route path="/products" element={<Products />} />
+            {/* user routes mainly */}
+            <Route path="/sccancel" element={<SCCancel />} />
+            <Route path="/scsuccess" element={<SCSuccess />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/orders/:id" element={<OrderDetail />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/checkout/:id" element={<PlaceOrderCheckout />} />
+            <Route path="/profile" element={<Profile />} />
+            {/* admin routes */}
+            <Route path="/config/stores" element={<Admin />} />
+            <Route path="/config/stores/new" element={<NewStore />} />
+            <Route path="/config/stores/:id" element={<EditForm />} />
+            <Route
+              path="/config/stores/:id/products"
+              element={<AddProducts />}
+            />
+            <Route
+              path="/config/stores/:id/products/:productId"
+              element={<EditProduct />}
+            />
+            <Route
+              path="/config/stores/orders"
+              element={<AdminOrderStatus />}
+            />
+          </Routes>
+          {/* <FooterContent /> */}
+        </Router>
+      </div>
+    </CartProvider>
   );
 }
 

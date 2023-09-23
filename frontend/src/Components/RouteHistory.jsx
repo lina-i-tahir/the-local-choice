@@ -14,9 +14,11 @@ const RouteHistory = (props) => {
             color: "#737373"}
     }
 
+    const home = localStorage.getItem('role') === 'user' ? '/home' : '/config/stores';
+
     return ( 
         <div style={{display:'flex'}}>
-                <Link to="/" style={{textDecoration:"none"}}>
+                <Link to={home} style={{textDecoration:"none"}}>
                     <Typography
                         variant="h7"
                         noWrap

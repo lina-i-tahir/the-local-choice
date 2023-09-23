@@ -15,7 +15,7 @@ const Cancel = () => {
   return (
     <>
       {" "}
-      <RouteHistory page="error" routeName="error" />
+      <RouteHistory page="orders" routeName="orders" />
       <Container maxWidth="xs">
         <Typography
           variant="h4"
@@ -30,8 +30,7 @@ const Cancel = () => {
             margin: "150px 0px 0px 0px",
           }}
         >
-          Oh uh!
-          <br /> Page not found
+          Sad to see you go ):
         </Typography>
         <Button
           onClick={() => navigate("/")}

@@ -10,19 +10,18 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { Typography } from "@mui/material";
 import RouteHistory from "../Components/RouteHistory";
 
-const Cancel = () => {
+const Success = () => {
   const navigate = useNavigate(); // Define the navigate function
   return (
     <>
-      {" "}
-      <RouteHistory page="error" routeName="error" />
-      <Container maxWidth="xs">
+      <RouteHistory page="orders" routeName="orders" />
+      <Container maxWidth="xs" zeroMinWidth>
         <Typography
           variant="h4"
-          noWrap
           sx={{
             display: "flex",
             justifyContent: "center ",
+
             fontFamily: "Poppins",
             fontWeight: 300,
             color: "#414B3B",
@@ -30,14 +29,14 @@ const Cancel = () => {
             margin: "150px 0px 0px 0px",
           }}
         >
-          Oh uh!
-          <br /> Page not found
+          Thank you for your purchase you awesome person!
         </Typography>
         <Button
           onClick={() => navigate("/")}
           variant="contained"
           sx={{
             display: "flex",
+
             justifyContent: "center",
             backgroundColor: "#99958C",
             color: "#E4DCCD",
@@ -55,4 +54,4 @@ const Cancel = () => {
   );
 };
 
-export default Cancel;
+export default Success;

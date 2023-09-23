@@ -1,10 +1,10 @@
-import { Container, Grid, Box, Hidden } from "@mui/material"
+import { Grid, Card, CardMedia, CardContent, Link, Typography, circularProgressClasses} from "@mui/material"
 import drawer from "../assets/drawer.png";
 import hangingPlant from "../assets/hangingPlant.png";
 import handxmadeLogo from "../assets/handxmadeLogo.png";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import acStickers from "../assets/productImages/acStickers.png"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useGetStoreByIdQuery } from "../Slices/storeSlice";
 
 const Store = () => {
 
@@ -25,96 +25,105 @@ const Store = () => {
         },
       });
 
+    const { id } = useParams();
+    const { data: currentStore, isLoading, error } = useGetStoreByIdQuery(id)
+
     const navigate = useNavigate();
 
-    const handleClick = () => {
-        const productId = 1;
-        const storeId = 1;
-        navigate(`/stores/${storeId}/${productId}`)
+    const viewProduct = (productId) => {
+        navigate(`/stores/${id}/${productId}`)
     }
 
   return (
     <>  
-        <ThemeProvider theme={theme}>
-        <Grid container spacing={0}>
-            <Grid item md={4} sx={{ display: { xs: 'none', md: 'inline' }}}>
-                <img src={hangingPlant} style={{ width: "250px"}}/>
+    <ThemeProvider theme={theme}>
+          { isLoading ? 
+            (<h2>Loading..</h2>) 
+          : error ? 
+            (<div>{error?.data?.message || error.error}</div>) 
+          : (
+            <>
+            <Grid container spacing={0}>
+                <Grid item md={4} sx={{ display: { xs: 'none', md: 'inline' }}}>
+                    <img src={hangingPlant} style={{ width: "250px"}}/>
+                </Grid>
+                <Grid item md={4} xs={12} style={{ justifyContent: 'center' }}>
+                    <img src={currentStore.store.image} style={{ width: "250px"}}/>
+                </Grid>
+                <Grid item md={4} sx={{ display: { xs: 'none', md: 'inline' }}}>
+                    <img src={drawer} style={{ width: "250px"}}/>
+                </Grid>
             </Grid>
-            <Grid item md={4} xs={12} style={{ justifyContent: 'center' }}>
-                <img src={handxmadeLogo} style={{ width: "250px"}}/>
-            </Grid>
-            <Grid item md={4} sx={{ display: { xs: 'none', md: 'inline' }}}>
-                <img src={drawer} style={{ width: "250px"}}/>
-            </Grid>
-        </Grid>
 
-        <Grid container spacing={0} sx={{
-                                        bgcolor: 'primary.light',
-                                        p: 3,
-                                        justifyContent: "flex-start",
-                                        }} >
-            <Grid item sx={{marginInlineStart: 7}}>
-                Sort By : ____
+            <Grid container spacing={0} sx={{
+                                            bgcolor: 'primary.light',
+                                            p: 3,
+                                            justifyContent: "flex-start",
+                                            }} >
+                <Grid item sx={{marginInlineStart: 7}}>
+                    Sort By : ____
+                </Grid>
             </Grid>
-        </Grid>
 
-        <Grid container rowSpacing={5} spacing={1} sx={{
-                                        bgcolor: 'primary.light',
-                                        paddingTop: 1,
-                                        paddingLeft: 8,
-                                        paddingRight: 8, 
-                                        justifyContent: "flex-start",
-                                        }} >
-            <Grid item md={4} sm={6} xs={12}>
-                <img src={acStickers} 
-                    style={{ width: "62%"}}
-                    onClick={handleClick}/>
-                <h4 style={{ margin: '8px'}}
-                    onClick={handleClick}>sticker pack</h4>
-                <p style={{ margin: '8px'}}
-                    onClick={handleClick}>$5.99</p>
+            <Grid container rowSpacing={5} spacing={1} sx={{
+                                            bgcolor: 'primary.light',
+                                            paddingTop: 1,
+                                            paddingLeft: 8,
+                                            paddingRight: 8, 
+                                            justifyContent: "center",
+                                            }} >
+
+              {(currentStore.store.products).map((product) => (
+              <Card
+              key={product._id}
+              sx={{
+                minWidth: 345,
+                margin: "30px 15px",
+                borderRadius: "10px",
+                backgroundColor: "transparent",
+                boxShadow: "none",
+                outline: "none",
+              }}
+              onClick={() => viewProduct(product._id)}
+            >
+              <CardMedia
+                component="img"
+                height="200"
+                image={product.image}
+                alt={product.name}
+                sx={{
+                  objectFit: "contain",
+                  width: "90%",
+                  margin: "0 auto",
+                }}
+              />
+              <CardContent>
+                <Link key={product._id} to={`/products/${product._id}`}>
+                  <Typography
+                    gutterBottom
+                    variant="h6"
+                    component="div"
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      fontFamily: "Poppins",
+                      fontWeight: 500,
+                      color: "#75695A",
+                      textDecoration: "none",
+                      margin: "0px",
+                    }}
+                  >
+                  {product.name}
+                  <br />
+                  {product.price}
+                  </Typography>
+                </Link>
+              </CardContent>
+              </Card>
+              ))}
             </Grid>
-            <Grid item md={4} sm={6} xs={12}>
-                <img src={acStickers} style={{ width: "62%"}}/>
-                <h4 style={{ margin: '8px'}}>sticker pack</h4>
-                <p style={{ margin: '8px'}}>$5.99</p>
-            </Grid>
-            <Grid item md={4} sm={6} xs={12}>
-                <img src={acStickers} style={{ width: "62%"}}/>
-                <h4 style={{ margin: '8px'}}>sticker pack</h4>
-                <p style={{ margin: '8px'}}>$5.99</p>
-            </Grid>
-            <Grid item md={4} sm={6} xs={12}>
-                <img src={acStickers} style={{ width: "62%"}}/>
-                <h4 style={{ margin: '8px'}}>sticker pack</h4>
-                <p style={{ margin: '8px'}}>$5.99</p>
-            </Grid>
-            <Grid item md={4} sm={6} xs={12}>
-                <img src={acStickers} style={{ width: "62%"}}/>
-                <h4 style={{ margin: '8px'}}>sticker pack</h4>
-                <p style={{ margin: '8px'}}>$5.99</p>
-            </Grid>
-            <Grid item md={4} sm={6} xs={12}>
-                <img src={acStickers} style={{ width: "62%"}}/>
-                <h4 style={{ margin: '8px'}}>sticker pack</h4>
-                <p style={{ margin: '8px'}}>$5.99</p>
-            </Grid>
-            <Grid item md={4} sm={6} xs={12}>
-                <img src={acStickers} style={{ width: "62%"}}/>
-                <h4 style={{ margin: '8px'}}>sticker pack</h4>
-                <p style={{ margin: '8px'}}>$5.99</p>
-            </Grid>
-            <Grid item md={4} sm={6} xs={12}>
-                <img src={acStickers} style={{ width: "62%"}}/>
-                <h4 style={{ margin: '8px'}}>sticker pack</h4>
-                <p style={{ margin: '8px'}}>$5.99</p>
-            </Grid>
-            <Grid item md={4} sm={6} xs={12}>
-                <img src={acStickers} style={{ width: "62%"}}/>
-                <h4 style={{ margin: '8px'}}>sticker pack</h4>
-                <p style={{ margin: '8px'}}>$5.99</p>
-            </Grid>
-        </Grid>
+            </>
+          )}
 
         <Grid container spacing={0} sx={{
                                         bgcolor: 'primary.light',

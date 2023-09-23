@@ -8,19 +8,49 @@ import CardMedia from '@mui/material/CardMedia';
 import { Typography } from "@mui/material";
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const Admin = () => {
-
+    const navigate = useNavigate();
     const [store, setStore] = useState([]);
+    const token = localStorage.getItem('token');
 
     const getStores = async () => {
         await axios({
             method: "GET",
             url: "http://localhost:8000/config/stores",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
         })
         .then((response) => {
             console.log(response);
             setStore(response.data.stores);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+
+    const handleDelete = (storeId) => {
+        if (window.confirm("Are you sure you want to delete this store?")) {
+            deleteStore(storeId);
+        }
+    }
+
+    const deleteStore = async (storeId) => {
+        await axios({
+            method: "DELETE",
+            url: `http://localhost:8000/config/stores/${storeId}`,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then((response) => {
+            console.log(response);
+            getStores();
         })
         .catch((error) => {
             console.log(error);
@@ -81,6 +111,7 @@ const Admin = () => {
                     </Link>
                     <Typography gutterBottom variant="h6" component="div"
                     noWrap
+                    onClick={() => handleDelete(item._id)}
                     sx={actionStyle}>
                         delete
                     </Typography>
@@ -92,7 +123,8 @@ const Admin = () => {
     return ( 
         <div style={{display:"flex", flexDirection:"column"}}>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", width:"100%" }}>
-                {store.length > 0 ? displayStore : <Typography variant="h6" component="div"
+                {store.length > 0 ? displayStore : 
+                <Typography variant="h6" component="div"
                 sx ={{
                     textAlign: "center",
                     fontFamily: "Poppins",
@@ -112,6 +144,17 @@ const Admin = () => {
                 href = "/config/stores/new"
                 >
                 Add New Store
+            </Button>
+            <Button variant="contained"
+            sx={{backgroundColor:"#99958C", 
+                color:"#E4DCCD", 
+                width:"50ch",
+                margin:"auto",
+                '&:hover': {
+                backgroundColor: "#737373"}}}
+                href = "/config/stores/orders"
+                >
+                Manage Order Status
             </Button>
 
         </div>

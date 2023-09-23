@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { Box, Button, Container, Grid, Divider } from "@mui/material";
@@ -9,25 +9,64 @@ import Select from "@mui/material/Select";
 
 import { Typography } from "@mui/material";
 import RouteHistory from "../Components/RouteHistory";
-import products from "../products";
+// import products from "../products";
 import store from "../store";
 import Rating from "../Components/Rating";
 
-const ProductDetail = () => {
-  // qty-countInStock
-  const [qty, setQty] = useState("");
+// cart context
+import { CartContext } from "../CardContext";
+import { useCart } from "../CardContext";
 
-  const handleChange = (event) => {
-    setQty(event.target.value);
+const ProductDetail = () => {
+  const { id, productId } = useParams();
+  const [currentProduct, setCurrentProduct] = useState([]);
+  // const product = store[0].products.find((item) => item._id === parseInt(id));
+
+  const getProduct = async ({id, productId}) => {
+    await axios({
+        method: "GET",
+        url: `http://localhost:8000/config/stores/${id}/products/${productId}`,
+    })
+    .then((response) => {
+        console.log(response.data);
+        setCurrentProduct(response.data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+  }
+  
+  useEffect(() => {
+      getProduct({id, productId});
+  }, [id, productId]);
+
+  const navigate = useNavigate(); // Define the navigate function
+
+  // cart context
+  const cart = useContext(CartContext);
+  const productQuantity = cart.getProductQty(currentProduct._id);
+  console.log(cart.items);
+
+  const [quantity, setQuantity] = useState(1);
+
+  const handleQuantityChange = (event) => {
+    setQuantity(event.target.value);
   };
 
-  //
+  // const handleAddToCart = () => {
+  //   cart.addToCart(currentProduct._id, quantity);
+  // };
 
   const { id } = useParams();
   const product = store[0].products.find((item) => item._id === parseInt(id));
   const navigate = useNavigate(); // Define the navigate function
 
-  if (!product) {
+    const handleAddToCart = () => {
+    cart.addToCart(id, productId, quantity, currentProduct.price);
+  };
+
+
+  if (!currentProduct) {
     // Handle the case where the product is not found
     return (
       <Container maxWidth="xs">
@@ -69,13 +108,13 @@ const ProductDetail = () => {
 
   return (
     <>
-      <RouteHistory page="stores/1" routeName="stores/1" />
+      <RouteHistory page={`stores/${id}`} routeName={`stores/${id}`} />
       <Container>
         <Grid container spacing={{ xs: 3, md: 2 }}>
           <Grid item xs={3} md={6} key={id}>
             <img
-              src={product.image}
-              alt={product.name}
+              src={currentProduct.image}
+              alt={currentProduct.name}
               style={{ width: "80%", margin: "0px 30px" }}
             />
           </Grid>
@@ -93,7 +132,7 @@ const ProductDetail = () => {
                 margin: "50px 0px 0px 0px",
               }}
             >
-              {product.name}
+              {currentProduct.name}
             </Typography>
             <Typography
               variant="h5"
@@ -109,57 +148,46 @@ const ProductDetail = () => {
                 textAlign: "left",
               }}
             >
-              ${product.price}
+              ${currentProduct.price}
             </Typography>
 
-            <Box sx={{ maxWidth: 100 }}>
+            <div>
               <FormControl fullWidth>
-                <InputLabel id="qty-countInStock">qty</InputLabel>
+                <InputLabel id="quantity-label">Quantity</InputLabel>
                 <Select
-                  labelId="qty-countInStock"
-                  id="demo-simple-select"
-                  value={qty}
-                  label="Qty"
-                  onChange={handleChange}
+                  labelId="quantity-label"
+                  id="quantity-select"
+                  value={quantity}
+                  onChange={handleQuantityChange} // Update the quantity when selection changes
+                  sx={{ maxWidth: "100px", backgroundColor: "#F8F5ED" }}
                 >
-                  <MenuItem value={product.quantity}></MenuItem>
+                  {Array.from({ length: 10 }, (_, index) => (
+                    <MenuItem key={index + 1} value={index + 1}>
+                      {index + 1}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
-            </Box>
-            {/* <Typography
-              variant="h7"
-              noWrap
-              sx={{
-                display: "flex",
-                justifyContent: "left",
-                fontFamily: "Poppins",
-                fontWeight: 100,
-                color: "#414B3B",
-                textDecoration: "none",
-                margin: "20px 0px 0px 0px",
-                textAlign: "left",
-              }}
-            >
-              qty (countInStock dropdown)
-            </Typography> */}
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                display: "flex",
-                backgroundColor: "#99958C",
-                color: "#E4DCCD",
-                width: "20ch",
-                textAlign: "center",
-                margin: "50px 0px 0px 0px",
-                padding: "20px",
-                "&:hover": {
-                  backgroundColor: "#737373",
-                },
-              }}
-            >
-              add to cart
-            </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleAddToCart}
+                sx={{
+                  display: "flex",
+                  backgroundColor: "#99958C",
+                  color: "#E4DCCD",
+                  width: "20ch",
+                  textAlign: "center",
+                  margin: "30px 0px 0px 0px",
+                  padding: "20px",
+                  "&:hover": {
+                    backgroundColor: "#737373",
+                  },
+                }}
+              >
+                Add to Cart
+              </Button>
+            </div>
           </Grid>
         </Grid>
         <Grid item sm={8}>
@@ -194,7 +222,7 @@ const ProductDetail = () => {
               textAlign: "left",
             }}
           >
-            {product.description}
+            {currentProduct.description}
           </Typography>
         </Grid>
         <Divider variant="middle" />
@@ -212,7 +240,7 @@ const ProductDetail = () => {
               margin: "50px",
             }}
           >
-            customer reviews <Rating value={product.reviewRating} />
+            customer reviews <Rating value={currentProduct.reviewRating} />
           </Typography>
         </Grid>
         <Grid item sm={8}>
