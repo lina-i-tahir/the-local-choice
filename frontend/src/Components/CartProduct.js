@@ -19,6 +19,10 @@ const CartProduct = (props) => {
     await axios({
         method: "GET",
         url: `http://localhost:8000/config/stores/${storeId}/products/${productId}`,
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
     })
     .then((response) => {
         console.log(response.data);

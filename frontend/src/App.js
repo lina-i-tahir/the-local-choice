@@ -51,7 +51,7 @@ function App() {
             <Route path="*" element={<Error />} />
             <Route path="/stores" element={<AllStores />} />
             <Route path="/stores/:id" element={<Store />} />
-            <Route path="/stores/:id/:id" element={<ProductDetail />} />
+            <Route path="/stores/:id/:productId" element={<ProductDetail />} />
             <Route path="/products" element={<Products />} />
             {/* user routes mainly */}
             <Route path="/sccancel" element={<SCCancel />} />

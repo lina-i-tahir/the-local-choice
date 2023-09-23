@@ -17,7 +17,7 @@ import Rating from "../Components/Rating";
 import { CartContext } from "../CardContext";
 import { useCart } from "../CardContext";
 
-// const token = localStorage.getItem('token');
+const token = localStorage.getItem('token');
 
 const ProductDetail = () => {
   const { id, productId } = useParams();
@@ -28,10 +28,10 @@ const ProductDetail = () => {
     await axios({
         method: "GET",
         url: `http://localhost:8000/config/stores/${id}/products/${productId}`,
-        // headers: {
-        //   "Content-Type": "application/json",
-        //   Authorization: `Bearer ${token}`,
-        //   },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          },
     })
     .then((response) => {
         console.log(response.data);
