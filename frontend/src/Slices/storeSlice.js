@@ -1,11 +1,19 @@
 import { STORE_URL } from "../constants";
 import { apiSlice } from "./apiSlice";
+// import authSliceReducer from "./authSlice";
+
+const token = localStorage.getItem('token');
 
 export const storesApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getStores: builder.query({
             query: () =>({
                 url: STORE_URL,
+                method: "GET",
+                headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+                },
             }),
             keepUnusedDataFor: 5
         }), 
