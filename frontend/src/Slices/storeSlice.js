@@ -20,6 +20,11 @@ export const storesApiSlice = apiSlice.injectEndpoints({
         getStoreById: builder.query({
             query: (storeId) =>({
                 url: `stores/${storeId}`,
+                method: "GET",
+                headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+                },
             }),
             keepUnusedDataFor: 5
         }), 
