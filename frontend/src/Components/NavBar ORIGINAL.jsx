@@ -109,14 +109,13 @@ function NavBar() {
 
   // Shopping cart Modal Badge
   const { cartItems } = useSelector((state) => state.cart)
-  const { totalPrice } = useSelector((state) => state.cart)
-  const totalQty = cartItems.reduce((acc, item) => acc + item.quantity, 0)
+  console.log("cart items", cartItems)
 
-  // const cart = useContext(CartContext);
-  // const productsCount = cart.items.reduce(
-  //   (sum, product) => sum + product.quantity,
-  //   0
-  // );
+  const cart = useContext(CartContext);
+  const productsCount = cart.items.reduce(
+    (sum, product) => sum + product.quantity,
+    0
+  );
 
   const postLogout = async () => {
     await axios({
@@ -283,7 +282,7 @@ function NavBar() {
                 </IconButton>
                 <Badge
                   anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                  badgeContent={totalQty}
+                  badgeContent={productsCount}
                   sx={{
                     "& .MuiBadge-badge": {
                       color: "414B3B",
@@ -326,17 +325,15 @@ function NavBar() {
                             color="#414B3B"
                           >
                             <br />
-                            {cartItems.length > 0 ? (
+                            {productsCount > 0 ? (
                               <>
                                 {/* <p>items in your cart</p> */}
-                                {cartItems.map((currentProduct, idx) => (
+                                {cart.items.map((currentProduct, idx) => (
                                   <CartProduct
                                     key={idx}
-                                    productName={currentProduct.name}
-                                    productId={currentProduct._id}
+                                    storeId={currentProduct.storeId}
+                                    productId={currentProduct.productId}
                                     quantity={currentProduct.quantity}
-                                    productPrice={currentProduct.price}
-                                    productImage={currentProduct.image}
                                   ></CartProduct>
                                 ))}
                                 {/* <h4>total: $ {cart.getTotalCost().toFixed(2)}</h4> */}
@@ -358,7 +355,7 @@ function NavBar() {
                                     },
                                   }}
                                 >
-                                  checkout ${totalPrice}
+                                  checkout ${cart.getTotalCost().toFixed(2)}
                                 </Button>
                               </>
                             ) : (

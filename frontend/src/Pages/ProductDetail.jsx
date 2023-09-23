@@ -17,12 +17,15 @@ import Rating from "../Components/Rating";
 import { CartContext } from "../CardContext";
 import { useCart } from "../CardContext";
 import { useGetStoreByIdQuery } from "../Slices/storeSlice";
+import { addToCart } from "../Slices/cartSlice";
+import { useDispatch } from "react-redux";
 
 const token = localStorage.getItem('token');
 
 const ProductDetail = () => {
   const { id, productId } = useParams();
   const [currentProduct, setCurrentProduct] = useState({});
+  const dispatch = useDispatch()
 
   const { data: currentStore, isLoading, error } = useGetStoreByIdQuery(id)
 
@@ -50,7 +53,7 @@ const ProductDetail = () => {
 
 
   const handleAddToCart = () => {
-    cart.addToCart(id, productId, quantity, currentProduct.price);
+    dispatch(addToCart({ ...currentProduct, quantity}))
   };
 
 

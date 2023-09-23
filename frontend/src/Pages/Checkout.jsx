@@ -12,36 +12,19 @@ import store from "../store"
 
 
 const Checkout = () => {
-    // const userData = localStorage.getItem('user');
-    // const user = JSON.parse(userData);
-    // console.log(user._id)
-   
+
     const [createOrder, { isLoading, error }] = useCreateOrderMutation()
     const navigate = useNavigate()
     const cart = useContext(CartContext);
+    const { cartItems } = useSelector((state) => state.cart)
+    const { totalPrice } = useSelector((state) => state.cart)
 
     const orderItems = cart.items.map((item) => item )
+
     const proceedToPayment = () => {
         console.log(orderItems)
     }
     
-    // const proceedToCheckout = async () => {
-    //     try {
-    //         const res = await createOrder({
-    //             orderItems: cart.orderItems, 
-    //             shippingAddress: cart.shippingAddress,
-    //             paymentMethod: cart.paymentMethod,
-    //             itemsPrice: cart.itemsPrice,
-    //             shippingPrice: cart.shippingPrice,
-    //             taxPrice: cart.taxPrice,
-    //             totalPrice: cart.totalPrice,
-    //         }).unwrap()
-    //         navigate(`/checkout/${res._id}`)
-    //     } catch (error) {
-    //         toast.error(error)
-    //     }
-    // }
-
 
   return (
     <>  
@@ -63,7 +46,7 @@ const Checkout = () => {
             <Stack spacing={1} 
                     alignItems="center"
                     >
-            {cart.items.map((currentProduct, idx) => (
+            {cartItems.map((currentProduct, idx) => (
                                     <Grid container spacing={0}
                                                     sx={{backgroundColor: "#f3efe7",
                                                         justifyContent: "center",
@@ -71,15 +54,18 @@ const Checkout = () => {
                                                         padding: "10px",
                                                         maxWidth: "75%",
                                                         }}>
+
                                         <CartProduct
-                                        key={idx}
-                                        storeId={currentProduct.storeId}
-                                        productId={currentProduct.productId}
-                                        quantity={currentProduct.quantity}
+                                            key={idx}
+                                            productName={currentProduct.name}
+                                            productId={currentProduct._id}
+                                            quantity={currentProduct.quantity}
+                                            productPrice={currentProduct.price}
+                                            productImage={currentProduct.image}
                                         ></CartProduct>
                                     </Grid>
                             ))}
-                <h2>Total Cost : ${cart.getTotalCost().toFixed(2)}</h2>
+                <h2>Total Cost : ${totalPrice}</h2>
                 <Button
                     variant="contained"
                     color="primary"
@@ -102,34 +88,6 @@ const Checkout = () => {
 
             
         </Container>
-
-
-        {/* <div>
-        <h1>PLACING ORDER</h1>
-        <h3>Shipping</h3>
-        <p> 
-            Address: {cart.shippingAddress.address}
-            <br/>
-            City : {cart.shippingAddress.city}
-            <br/>
-            Postal Code : {cart.shippingAddress.postalCode}
-            <br/>
-            Country: {cart.shippingAddress.country}
-        </p>
-
-        <h3>Payment Method</h3>
-        <p>{cart.paymentMethod}</p>
-
-        <h3>Order Items</h3>
-        {cart.orderItems.map((item, index) => (
-            <>
-            <img style= {{width: "150px"}} src={item.image}/>
-            <p>{item.name}</p>
-            <p>{item.qty} x ${item.price} = ${item.qty * item.price}</p>
-            </>
-            ))}
-        </div>
-        <button onClick={CheckoutHandler}>place order</button> */}
     </>
   )
 }
