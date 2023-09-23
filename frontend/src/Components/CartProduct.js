@@ -5,73 +5,50 @@ import store from "../store";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { removeFromCart } from "../Slices/cartSlice";
 
 const CartProduct = (props) => {
   const cart = useContext(CartContext);
-  const storeId = props.storeId;
+  const productName = props.productName;
   const productId = props.productId;
   const quantity = props.quantity;
+  const productPrice = props.productPrice
+  const productImage = props.productImage
 
-  const [productData, setProductData] = useState(null);
-  // const product = store[0].products.find((item) => item._id === parseInt(id));
+  const dispatch = useDispatch()
 
-  const getProduct = async ({storeId, productId}) => {
-    await axios({
-        method: "GET",
-        url: `http://localhost:8000/config/stores/${storeId}/products/${productId}`,
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-    })
-    .then((response) => {
-        console.log(response.data);
-        setProductData(response.data);
-    })
-    .catch((error) => {
-        console.log(error);
-    });
+  const removeFromCartHandler = async (id) => {
+      dispatch(removeFromCart(id))
   }
-  
-  useEffect(() => {
-      getProduct({storeId, productId});
-  }, [storeId, productId]);
-  
-  // const productData = store[0].products.find(
-  //   (item) => item._id === parseInt(id)
-  // );
-  
+
   return (
     <>
-      {productData === null ? ( // Render loading indicator while productData is null
-        <CircularProgress />
-      ) : (
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={1}>
             <IconButton>
               <DeleteOutlinedIcon
-                onClick={() => cart.deleteFromCart(productId)}
+                onClick={() => removeFromCartHandler(productId)}
                 sx={{ position: "absolute", transform: "-50" }}
               />
             </IconButton>
           </Grid>
           <Grid item xs={5}>
             <img
-              src={productData.image}
-              alt={productData.name}
+              src={productImage}
+              alt={productName}
               style={{ width: "100%", margin: "0px 0px" }}
             />
           </Grid>
           <Grid item xs={6}>
-            <h4>{productData.name}</h4>
+            <h4>{productName}</h4>
             qty: {quantity}
             <br />
-            cost: ${(quantity * productData.price).toFixed(2)}
+            cost: ${(quantity * productPrice).toFixed(2)}
             <br />
             <br />
           </Grid>
         </Grid>
-      )}
       <Divider variant="middle" />
     </>
   );

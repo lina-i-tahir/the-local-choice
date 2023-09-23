@@ -26,21 +26,11 @@ import { useNavigate } from "react-router-dom";
 import Notification from "./Notification";
 import { CartContext } from "../CardContext";
 import CartProduct from "./CartProduct";
-import LogoutIcon from '@mui/icons-material/Logout';
-import ContentPasteIcon from '@mui/icons-material/ContentPaste';
-import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
-import LoginIcon from '@mui/icons-material/Login';
-import { useEffect } from "react";
 
 import { useSelector } from "react-redux";
 
 var pages = ["stores", "about", "contact"];
-var settings = ["profile", "orders", "login", "logout"];
-const obj ={
-  profile: <EmojiPeopleIcon sx={{marginRight:"10px", width:"15px", color:"gray"}}/>,
-  orders: <ContentPasteIcon sx={{marginRight:"10px", width:"15px", color:"gray"}}/>,
-  login: <LoginIcon sx={{marginRight:"16px", width:"15px", color:"gray"}}/>,
-}
+var settings = ["profile", "orders", "login", "logout", "signup"];
 
 const stores = ["handfully", "handxmade"];
 
@@ -65,18 +55,12 @@ function NavBar() {
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
 
   if (localStorage.getItem("role") === "admin") {
-    settings = [ "logout"];
+    settings = ["login", "logout"];
     pages = ["config"];
-  } 
-  else if (localStorage.getItem("role") === "user") {
-    settings = ["profile", "orders", "logout"];
+  } else {
+    settings = ["profile", "orders", "login", "logout", "signup"];
     pages = ["stores", "about", "contact"];
   }
-  else {
-    settings = ["login", "logout"];
-    pages =[];
-  }
-
 
   // handle close snackbar
   const handleCloseSnackbar = () => {
@@ -125,14 +109,13 @@ function NavBar() {
 
   // Shopping cart Modal Badge
   const { cartItems } = useSelector((state) => state.cart)
-  const { totalPrice } = useSelector((state) => state.cart)
-  const totalQty = cartItems.reduce((acc, item) => acc + item.quantity, 0)
+  console.log("cart items", cartItems)
 
-  // const cart = useContext(CartContext);
-  // const productsCount = cart.items.reduce(
-  //   (sum, product) => sum + product.quantity,
-  //   0
-  // );
+  const cart = useContext(CartContext);
+  const productsCount = cart.items.reduce(
+    (sum, product) => sum + product.quantity,
+    0
+  );
 
   const postLogout = async () => {
     await axios({
@@ -299,7 +282,7 @@ function NavBar() {
                 </IconButton>
                 <Badge
                   anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                  badgeContent={totalQty}
+                  badgeContent={productsCount}
                   sx={{
                     "& .MuiBadge-badge": {
                       color: "414B3B",
@@ -342,17 +325,15 @@ function NavBar() {
                             color="#414B3B"
                           >
                             <br />
-                            {cartItems.length > 0 ? (
+                            {productsCount > 0 ? (
                               <>
                                 {/* <p>items in your cart</p> */}
-                                {cartItems.map((currentProduct, idx) => (
+                                {cart.items.map((currentProduct, idx) => (
                                   <CartProduct
                                     key={idx}
-                                    productName={currentProduct.name}
-                                    productId={currentProduct._id}
+                                    storeId={currentProduct.storeId}
+                                    productId={currentProduct.productId}
                                     quantity={currentProduct.quantity}
-                                    productPrice={currentProduct.price}
-                                    productImage={currentProduct.image}
                                   ></CartProduct>
                                 ))}
                                 {/* <h4>total: $ {cart.getTotalCost().toFixed(2)}</h4> */}
@@ -374,7 +355,7 @@ function NavBar() {
                                     },
                                   }}
                                 >
-                                  checkout ${totalPrice}
+                                  checkout ${cart.getTotalCost().toFixed(2)}
                                 </Button>
                               </>
                             ) : (
@@ -412,14 +393,11 @@ function NavBar() {
               >
                 {settings.map((setting) =>
                   setting === "logout" ? (
-                    <>
-                    <Divider />
                     <MenuItem
                       key={setting}
                       onClick={handleLogoutClick}
-                      sx={{ width: "100px", justifyContent: "center", color:"gray" }}
+                      sx={{ width: "100px", justifyContent: "center" }}
                     >
-                      <LogoutIcon sx={{marginRight:"10px", width:"15px"}}/>
                       <Typography
                         sx={{
                           color: "#414B3B",
@@ -430,7 +408,6 @@ function NavBar() {
                         {setting}
                       </Typography>
                     </MenuItem>
-                    </>
                   ) : (
                     <Link to={`/${setting}`} style={{ textDecoration: "none" }}>
                       <MenuItem
@@ -438,7 +415,6 @@ function NavBar() {
                         onClick={handleCloseUserMenu}
                         sx={{ width: "100px", justifyContent: "center" }}
                       >
-                        {obj[setting]}
                         <Typography
                           sx={{
                             color: "#414B3B",

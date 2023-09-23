@@ -6,23 +6,6 @@ import { useGetStoresQuery } from "../Slices/storeSlice";
 
 
 const AllStores = () => {
-    const theme = createTheme({
-        palette: {
-          primary: {
-            light: '#f3efe7',
-            main: '#e4dccd',
-            dark: '#ebdec5',
-            contrastText: '#75695a',
-          },
-          secondary: {
-            light: '#414b3b',
-            main: '#99958c',
-            dark: '#737373',
-            contrastText: '#fff',
-          },
-        },
-      });
-
 
     const navigate = useNavigate();
 
@@ -34,7 +17,6 @@ const AllStores = () => {
 
   return (
     <>  
-        <ThemeProvider theme={theme}>
         <Grid container spacing={0} sx={{
                                         bgcolor: '#c8b799',
                                         }}>
@@ -59,7 +41,7 @@ const AllStores = () => {
             (<h2>Loading..</h2>) 
           : error ? 
             (<div>{error?.data?.message || error.error}</div>) 
-          : 
+          : (
             <>
             {(stores.stores).map((store) => (
             <Card
@@ -85,9 +67,8 @@ const AllStores = () => {
             </Card>
             ))}
             </>
-          }
+          )}
         </Grid>
-    </ThemeProvider>
     </>
   )
 }

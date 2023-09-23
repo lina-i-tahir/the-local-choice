@@ -30,10 +30,14 @@ import Checkout from "./Pages/Checkout";
 import PlaceOrderCheckout from "./Pages/PlaceOrderCheckout";
 import AdminOrderStatus from "./Pages/AdminOrder";
 
+import responsiveMainTheme from "./design/themes";
+import { ThemeProvider } from '@mui/material/styles';
+
 function App() {
   const [user, setUser] = useState(null);
 
   return (
+    <ThemeProvider theme={responsiveMainTheme}>
     <CartProvider>
       <div
         className="App"
@@ -83,6 +87,7 @@ function App() {
         </Router>
       </div>
     </CartProvider>
+  </ThemeProvider>
   );
 }
 

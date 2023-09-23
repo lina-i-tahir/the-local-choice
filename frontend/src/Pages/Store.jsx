@@ -1,29 +1,11 @@
-import { Grid, Card, CardMedia, CardContent, Link, Typography, circularProgressClasses} from "@mui/material"
+import { Grid, Card, CardMedia, CardContent, Link, Typography } from "@mui/material"
 import drawer from "../assets/drawer.png";
 import hangingPlant from "../assets/hangingPlant.png";
-import handxmadeLogo from "../assets/handxmadeLogo.png";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetStoreByIdQuery } from "../Slices/storeSlice";
 
 const Store = () => {
-
-    const theme = createTheme({
-        palette: {
-          primary: {
-            light: '#f3efe7',
-            main: '#e4dccd',
-            dark: '#ebdec5',
-            contrastText: '#75695a',
-          },
-          secondary: {
-            light: '#414b3b',
-            main: '#99958c',
-            dark: '#737373',
-            contrastText: '#fff',
-          },
-        },
-      });
 
     const { id } = useParams();
     const { data: currentStore, isLoading, error } = useGetStoreByIdQuery(id)
@@ -36,7 +18,7 @@ const Store = () => {
 
   return (
     <>  
-    <ThemeProvider theme={theme}>
+
           { isLoading ? 
             (<h2>Loading..</h2>) 
           : error ? 
@@ -141,7 +123,7 @@ const Store = () => {
             </Grid>
         </Grid>
 
-    </ThemeProvider>
+
     </>
   )
 }
