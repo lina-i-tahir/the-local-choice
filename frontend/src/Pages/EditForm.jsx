@@ -125,6 +125,14 @@ const EditForm = () => {
         getStoreDetails();
     }, []);
 
+    const iconStyle ={
+        color:"#75695a", 
+        marginRight:"10px", 
+        '&:hover':{
+            color:"#e4dccd",
+            cursor:"pointer",
+    }}
+
     return ( 
         <Container minWidth="xs" sx={{
             display: "flex",
@@ -225,22 +233,10 @@ const EditForm = () => {
                                     <TableCell align="right">
                                         <EditIcon 
                                         onClick={() => navigate(`/config/stores/${id}/products/${item._id}`)}
-                                        sx={{
-                                            color:"#75695a", 
-                                            marginRight:"10px", 
-                                            '&:hover':{
-                                                color:"#e4dccd",
-                                                cursor:"pointer",
-                                        }}} />
+                                        sx={iconStyle} />
                                         <DeleteOutlineIcon 
                                         onClick={() => handleDelete(item._id)}
-                                        sx={{
-                                            color:"#75695a", 
-                                            marginRight:"10px", 
-                                            '&:hover':{
-                                                color:"#e4dccd",
-                                                cursor:"pointer",
-                                        }}} />
+                                        sx={iconStyle} />
                                     </TableCell>
                                 </TableRow>
                             ))}

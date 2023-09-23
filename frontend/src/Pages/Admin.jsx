@@ -76,9 +76,19 @@ const Admin = () => {
         }
     }
 
+    const buttonStyle = {
+        backgroundColor:"#99958C",
+        color:"#E4DCCD",
+        width:"40%",
+        margin:"10px auto",
+        '&:hover': {
+            backgroundColor: "#737373"
+        }
+    }
+
     const displayStore = store.map((item) => {
         return (
-            <Card key={item.id} sx={{ maxWidth: 345, margin: "30px 15px", borderRadius:"10px", backgroundColor:"#EFEAE0"}}>
+            <Card key={item.id} sx={{ maxWidth: 345, margin: "30px 15px", borderRadius:"10px", backgroundColor:"#EFEAE0",}}>
                 <CardMedia
                     component="img"
                     height="200"
@@ -121,7 +131,7 @@ const Admin = () => {
     })
     
     return ( 
-        <div style={{display:"flex", flexDirection:"column"}}>
+        <div style={{display:"flex", flexDirection:"column", minHeight:"100vh"}}>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", width:"100%" }}>
                 {store.length > 0 ? displayStore : 
                 <Typography variant="h6" component="div"
@@ -135,23 +145,13 @@ const Admin = () => {
                 </Typography>}
             </div>
             <Button variant="contained" 
-            sx={{backgroundColor:"#99958C", 
-                color:"#E4DCCD", 
-                width:"50ch",
-                margin:"30px auto",
-                '&:hover': {
-                backgroundColor: "#737373"}}}
+            sx={buttonStyle}
                 href = "/config/stores/new"
                 >
                 Add New Store
             </Button>
             <Button variant="contained"
-            sx={{backgroundColor:"#99958C", 
-                color:"#E4DCCD", 
-                width:"50ch",
-                margin:"auto",
-                '&:hover': {
-                backgroundColor: "#737373"}}}
+            sx={buttonStyle}
                 href = "/config/stores/orders"
                 >
                 Manage Order Status

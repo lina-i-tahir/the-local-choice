@@ -21,7 +21,7 @@ async function create (req, res) {
     // const {name, image} = req.body;
     try {
         await store.save();
-        res.json({ title: "Store Detail", store });
+        res.status(201).json({ title: "Store Detail", store });
     }
     catch (err) {
         console.log(err);

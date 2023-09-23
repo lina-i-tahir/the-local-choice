@@ -35,7 +35,7 @@ const AddProducts = () => {
             console.log(response);
             if (response.status === 201) {
                 console.log("Created successfully");
-                // navigate(`/config/stores/${id}`);
+                navigate(`/config/stores/${id}`);
             }
         })
         .catch(function (error) {
@@ -76,7 +76,6 @@ const AddProducts = () => {
             description: event.target.productDescription.value,
             category: event.target.productCategory.value,
         });
-
     }
     return ( 
         <Container minWidth="xs" sx={{
@@ -116,6 +115,7 @@ const AddProducts = () => {
                         marginBottom: "20px",
                     }}
                 />
+                
                 <ImageForm image={imageProductPreview} func={handleImageProductChange} inputId="upload-product-button" />
 
                 <TextField 

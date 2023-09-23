@@ -87,12 +87,12 @@ const Login = () => {
   }, [form]);
 
   return (
-    <div>
+    <div style={{minHeight:"100vh"}}>
       <RouteHistory page="login" routeName="login" />
       <Box
         component="form"
         onSubmit={handleSubmit}
-        sx={{ "& .MuiTextField-root": { m: 1, width: "40ch" } }}
+        sx={{ "& .MuiTextField-root": { m: 1, width: "40ch"} }}
         noValidate
         autoComplete="off"
       >

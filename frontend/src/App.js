@@ -37,7 +37,7 @@ function App() {
     <CartProvider>
       <div
         className="App"
-        style={{ backgroundColor: "#E4DCCD", height: "100vh" }}
+        style={{ backgroundColor: "#E4DCCD" }}
       >
         <Router>
           <NavBar />

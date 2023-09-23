@@ -4,10 +4,96 @@ import RouteHistory from "../Components/RouteHistory";
 import Button from '@mui/material/Button';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import Notification from "./Notification";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useEffect } from "react";
 
 const SidePanel = (props) => {
+    const userData = localStorage.getItem("user");
+    const name = JSON.parse(userData).firstName;
+    const navigate = useNavigate();
+    // notification
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState("");
+    var pages = ["stores", "about", "contact"];
+    var settings = ["profile", "orders", "login", "logout"];
+
+    useEffect(() => {
+        if (localStorage.getItem("role") === "admin") {
+          settings = ["logout"];
+          pages = ["config"];
+        } else if (localStorage.getItem("role") === "user") {
+          settings = ["profile", "orders", "logout"];
+          pages = ["stores", "about", "contact"];
+        } else {
+          settings = ["login", "logout"];
+          pages =[];
+        }
+      }, [localStorage.getItem("role")]);
+
+    const handleLogoutClick = () => {
+        postLogout();
+    };
+      // handle close snackbar
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+    };
+    
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        localStorage.removeItem("role");
+        settings = ["profile", "orders", "login", "logout"];
+        pages = ["stores", "about", "contact"];
+        navigate("/login");
+        window.location.reload();
+    };
+
+    const postLogout = async () => {
+        await axios({
+          method: "POST",
+          url: "http://localhost:8000/logout",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+            console.log(response);
+            if (response.status === 200) {
+              console.log("Logged out successfully");
+              setSnackbarSeverity("success");
+              setOpenSnackbar(true);
+              setSnackbarMessage("Logged out successfully");
+              setTimeout(() => {
+                handleLogout();
+              }, 2000);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            setSnackbarSeverity("error");
+            setOpenSnackbar(true);
+            setSnackbarMessage("Logout failed");
+        });
+    }
+    const buttonStyle ={
+        backgroundColor:"#75695a",
+        boxShadow: "none",
+        minWidth: "200px",
+        minHeight: "50px",
+        '&:hover': {
+            backgroundColor: '#e4dccd',
+            color:"#75695a",
+            opacity: [0.9, 0.8, 0.7],
+        }
+    }
+
     return ( 
-        <Grid item xs={3} style={{ height: '80vh' }}>
+        <Grid item xs={3} >
                 <RouteHistory page={props.page} routeName={props.route}/>
                 <Stack 
                     direction={{ xs: 'column'}}
@@ -15,59 +101,30 @@ const SidePanel = (props) => {
                     justifyContent={"center"}
                     alignItems={"center"}
                 >
-                    <h3>Hi, Mary</h3>
+                    <h3>Hi, {name}</h3>
                     <Button 
                         variant="contained"
                         endIcon={<ArrowForwardIosIcon />}
                         href="/orders"
-                        sx ={{
-                            backgroundColor:"#75695a",
-                            boxShadow: "none",
-                            minWidth: "200px",
-                            minHeight: "50px",
-                            '&:hover': {
-                                backgroundColor: '#e4dccd',
-                                color:"#75695a",
-                                opacity: [0.9, 0.8, 0.7],
-                            }
-                        }}>
+                        sx ={buttonStyle}>
                     Orders
                     </Button>
                     <Button 
                         variant="contained"
                         endIcon={<ArrowForwardIosIcon />}
                         href="/profile"
-                        sx ={{
-                            backgroundColor:"#75695a",
-                            boxShadow: "none",
-                            minWidth: "200px",
-                            minHeight: "50px",
-                            '&:hover': {
-                                backgroundColor: '#e4dccd',
-                                color:"#75695a",
-                                opacity: [0.9, 0.8, 0.7],
-                            }
-                        }}>
+                        sx ={buttonStyle}>
                     Personal Data
                     </Button>
                     <Button 
                         variant="contained"
                         endIcon={<ArrowForwardIosIcon />}
-                        href="/profile"
-                        sx ={{
-                            backgroundColor:"#75695a",
-                            boxShadow: "none",
-                            minWidth: "200px",
-                            minHeight: "50px",
-                            '&:hover': {
-                                backgroundColor: '#e4dccd',
-                                color:"#75695a",
-                                opacity: [0.9, 0.8, 0.7],
-                            }
-                        }}>
+                        onClick={handleLogoutClick}
+                        sx ={buttonStyle}>
                     Sign Out
                     </Button>
                 </Stack>
+                <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
         </Grid>
      );
 }
