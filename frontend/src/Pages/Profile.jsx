@@ -141,7 +141,7 @@ const Profile = () => {
     return (
         <>
             {form.firstName && form.lastName && form.email && form.password && form.profile.phoneNumber && form.profile.address && form.profile.unitNumber && form.profile.postalCode && form.profile.country && form.profile.city ?
-            <Grid container spacing={0} style={{ height: '90vh' }} component="form" onSubmit={onSubmit}>
+            <Grid container spacing={0} component="form" onSubmit={onSubmit}>
             <SidePanel page={"profile"} route={"profile"} />
             <Grid item xs={8.5} sx={{ backgroundColor: '#F8F5ED', margin: "30px 0px", borderRadius: "15px", flexGrow: "1" }}>
                 <Container maxWidth="sm" sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "#E4DCCD", minWidth: "80%", minHeight: "70vh", margin: "40px auto", borderRadius: "10px" }}>

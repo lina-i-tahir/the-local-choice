@@ -9,7 +9,7 @@ router.get('/',orderController.getOrders);
 router.get('/myorders', orderController.getMyOrders);
 router.get('/:id',orderController.getOrderById);
 router.put('/:id',orderController.updateOrderToPaid);
-router.put('/:id/deliver',orderController.updateOrderToDelievered);
+router.put('/:id/deliver',orderController.updateOrderStatus);
 
 
 module.exports = router;

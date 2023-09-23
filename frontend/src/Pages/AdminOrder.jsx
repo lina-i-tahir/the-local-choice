@@ -52,64 +52,66 @@ const AdminOrderStatus = () => {
     };
 
     return (
-        <TableContainer component={Paper} sx={{
-            marginTop: "20px",
-            backgroundColor: "#EFEAE0",
-            borderRadius: "10px",
-            alignItems: "center",
-            margin: "30px auto",
-            width: "80%",
-        }}>
-            <Table>
-                <TableHead sx={{
-                    width: "100%",
-                    margin: "auto",
-                }}>
-                    <TableRow sx={{ width: "100%", margin: "auto" }}>
-                        <TableCell sx={{ fontWeight: "600" }}>Order Number</TableCell>
-                        <TableCell align="right" sx={{ fontWeight: "600" }}>Date</TableCell>
-                        <TableCell align="right" sx={{ fontWeight: "600" }}>Total Amount</TableCell>
-                        <TableCell align="right" sx={{ fontWeight: "600" }}>Total Items</TableCell>
-                        <TableCell align="right" sx={{ fontWeight: "600" }}>Status</TableCell>
-                        <TableCell align="right" sx={{ fontWeight: "600" }}>Actions</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {orders.map((order) => (
-                        <TableRow key={order.orderNumber}>
-                            <TableCell>{order.orderNumber}</TableCell>
-                            <TableCell align="right">{order.date}</TableCell>
-                            <TableCell align="right">{order.totalAmount}</TableCell>
-                            <TableCell align="right">{order.totalItems}</TableCell>
-                            <TableCell align="right">
-                                <Select
-                                    disabled={editingOrderNumber !== order.orderNumber}
-                                    value={order.status}
-                                    onChange={(event) => handleStatusChange(event, order.orderNumber)}
-                                >
-                                    <MenuItem value="Pending">Pending</MenuItem>
-                                    <MenuItem value="Shipped">Shipped</MenuItem>
-                                    <MenuItem value="Delivered">Delivered</MenuItem>
-                                    <MenuItem value="Canceled">Canceled</MenuItem>
-                                </Select>
-                            </TableCell>
-                            <TableCell align="right">
-                                {order.actions.map(action => (
-                                    <Button key={action}
-                                        onClick={action === "Edit" ? () => handleEdit(order.orderNumber) : 
-                                            action === "View" ? () => console.log("Viewing order " + order.orderNumber) :
-                                            action === "Update" ? () => console.log("Updating order " + order.orderNumber) :
-                                            () => console.log("Unknown action " + action)}
-                                        variant="contained" color="primary" size="small" style={{ marginRight: "8px" }}>
-                                        {action}
-                                    </Button>
-                                ))}
-                            </TableCell>
+        <div style={{ flexGrow: "1", display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <TableContainer component={Paper} sx={{
+                marginTop: "20px",
+                backgroundColor: "#EFEAE0",
+                borderRadius: "10px",
+                alignItems: "center",
+                margin: "30px auto",
+                width: "80%",
+            }}>
+                <Table>
+                    <TableHead sx={{
+                        width: "100%",
+                        margin: "auto",
+                    }}>
+                        <TableRow sx={{ width: "100%", margin: "auto" }}>
+                            <TableCell sx={{ fontWeight: "600" }}>Order Number</TableCell>
+                            <TableCell align="right" sx={{ fontWeight: "600" }}>Date</TableCell>
+                            <TableCell align="right" sx={{ fontWeight: "600" }}>Total Amount</TableCell>
+                            <TableCell align="right" sx={{ fontWeight: "600" }}>Total Items</TableCell>
+                            <TableCell align="right" sx={{ fontWeight: "600" }}>Status</TableCell>
+                            <TableCell align="right" sx={{ fontWeight: "600" }}>Actions</TableCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                    </TableHead>
+                    <TableBody>
+                        {orders.map((order) => (
+                            <TableRow key={order.orderNumber}>
+                                <TableCell>{order.orderNumber}</TableCell>
+                                <TableCell align="right">{order.date}</TableCell>
+                                <TableCell align="right">{order.totalAmount}</TableCell>
+                                <TableCell align="right">{order.totalItems}</TableCell>
+                                <TableCell align="right">
+                                    <Select
+                                        disabled={editingOrderNumber !== order.orderNumber}
+                                        value={order.status}
+                                        onChange={(event) => handleStatusChange(event, order.orderNumber)}
+                                    >
+                                        <MenuItem value="Pending">Pending</MenuItem>
+                                        <MenuItem value="Shipped">Shipped</MenuItem>
+                                        <MenuItem value="Delivered">Delivered</MenuItem>
+                                        <MenuItem value="Canceled">Canceled</MenuItem>
+                                    </Select>
+                                </TableCell>
+                                <TableCell align="right">
+                                    {order.actions.map(action => (
+                                        <Button key={action}
+                                            onClick={action === "Edit" ? () => handleEdit(order.orderNumber) : 
+                                                action === "View" ? () => console.log("Viewing order " + order.orderNumber) :
+                                                action === "Update" ? () => console.log("Updating order " + order.orderNumber) :
+                                                () => console.log("Unknown action " + action)}
+                                            variant="contained" color="primary" size="small" style={{ marginRight: "8px" }}>
+                                            {action}
+                                        </Button>
+                                    ))}
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div>
     );
 }
 

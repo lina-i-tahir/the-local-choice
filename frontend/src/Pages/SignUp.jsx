@@ -74,7 +74,7 @@ const SignUp = () => {
     }, [form]);
 
     return (  
-        <div>
+        <div style={{minHeight:"100vh"}}>
             <RouteHistory page="create account" routeName="signup"/>
 
             <Box

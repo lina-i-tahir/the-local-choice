@@ -26,9 +26,19 @@ import { useNavigate } from "react-router-dom";
 import Notification from "./Notification";
 import { CartContext } from "../CardContext";
 import CartProduct from "./CartProduct";
+import LogoutIcon from '@mui/icons-material/Logout';
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
+import LoginIcon from '@mui/icons-material/Login';
+import { useEffect } from "react";
 
 var pages = ["stores", "about", "contact"];
-var settings = ["profile", "orders", "login", "logout", "signup"];
+var settings = ["profile", "orders", "login", "logout"];
+const obj ={
+  profile: <EmojiPeopleIcon sx={{marginRight:"10px", width:"15px", color:"gray"}}/>,
+  orders: <ContentPasteIcon sx={{marginRight:"10px", width:"15px", color:"gray"}}/>,
+  login: <LoginIcon sx={{marginRight:"16px", width:"15px", color:"gray"}}/>,
+}
 
 const stores = ["handfully", "handxmade"];
 
@@ -53,12 +63,18 @@ function NavBar() {
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
 
   if (localStorage.getItem("role") === "admin") {
-    settings = ["login", "logout"];
+    settings = [ "logout"];
     pages = ["config"];
-  } else {
-    settings = ["profile", "orders", "login", "logout", "signup"];
+  } 
+  else if (localStorage.getItem("role") === "user") {
+    settings = ["profile", "orders", "logout"];
     pages = ["stores", "about", "contact"];
   }
+  else {
+    settings = ["login", "logout"];
+    pages =[];
+  }
+
 
   // handle close snackbar
   const handleCloseSnackbar = () => {
@@ -392,11 +408,14 @@ function NavBar() {
               >
                 {settings.map((setting) =>
                   setting === "logout" ? (
+                    <>
+                    <Divider />
                     <MenuItem
                       key={setting}
                       onClick={handleLogoutClick}
-                      sx={{ width: "100px", justifyContent: "center" }}
+                      sx={{ width: "100px", justifyContent: "center", color:"gray" }}
                     >
+                      <LogoutIcon sx={{marginRight:"10px", width:"15px"}}/>
                       <Typography
                         sx={{
                           color: "#414B3B",
@@ -407,6 +426,7 @@ function NavBar() {
                         {setting}
                       </Typography>
                     </MenuItem>
+                    </>
                   ) : (
                     <Link to={`/${setting}`} style={{ textDecoration: "none" }}>
                       <MenuItem
@@ -414,6 +434,7 @@ function NavBar() {
                         onClick={handleCloseUserMenu}
                         sx={{ width: "100px", justifyContent: "center" }}
                       >
+                        {obj[setting]}
                         <Typography
                           sx={{
                             color: "#414B3B",
