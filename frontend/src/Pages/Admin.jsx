@@ -88,38 +88,51 @@ const Admin = () => {
 
     const displayStore = store.map((item) => {
         return (
-            <Card key={item.id} sx={{ maxWidth: 345, margin: "30px 15px", borderRadius:"10px", backgroundColor:"#EFEAE0",}}>
+            <Card key={item.id} 
+                    sx={{ 
+                        maxWidth: 250, 
+                        height: 250, 
+                        justifyContent: 'center', 
+                        margin: "30px 15px", 
+                        borderRadius:"10px", 
+                        backgroundColor:"#EFEAE0",
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center'
+                    }}>
                 <CardMedia
                     component="img"
-                    height="200"
                     image={item.image}
                     alt={item.name}
                     sx={{
                         objectFit: "contain",
                         width: "90%",
                         margin: "0 auto",
+                        padding: "10px"
                     }}
                 />
                 <CardContent>
-                    <Typography gutterBottom variant="h6" component="div"
+                    <Typography gutterBottom component="div"
                     sx ={{
                         textAlign: "center",
-                        fontFamily: "Poppins",
-                        fontSize:"20px",
-                        margin:"-10px 0px",
+                        fontSize: "17px",
+                        fontWeight: '500',
+                        margin: "-10px 0px",
+                        padding: '5px',
+                        color: 'primary.contrastText'
                     }}>
                         {item.name}
                     </Typography>
                 </CardContent>
                 <CardActions sx={{display:"flex", justifyContent:"center"}}>
                     <Link key={item._id} to={`/config/stores/${item._id}`}>
-                        <Typography gutterBottom variant="h6" component="div"
+                        <Typography gutterBottom component="div"
                         sx ={actionStyle}
                         >
                             edit
                         </Typography>
                     </Link>
-                    <Typography gutterBottom variant="h6" component="div"
+                    <Typography gutterBottom component="div"
                     noWrap
                     onClick={() => handleDelete(item._id)}
                     sx={actionStyle}>
