@@ -16,24 +16,35 @@ import Rating from "../Components/Rating";
 // cart context
 import { CartContext } from "../CardContext";
 import { useCart } from "../CardContext";
-import { useGetStoreByIdQuery } from "../Slices/storeSlice";
 
 const token = localStorage.getItem('token');
 
 const ProductDetail = () => {
   const { id, productId } = useParams();
-  const [currentProduct, setCurrentProduct] = useState({});
+  const [currentProduct, setCurrentProduct] = useState([]);
+  // const product = store[0].products.find((item) => item._id === parseInt(id));
 
-  const { data: currentStore, isLoading, error } = useGetStoreByIdQuery(id)
-
-  useEffect(() => {
-    if (!isLoading) {
-      setCurrentProduct(currentStore.store.products.find(product => product._id === productId))
-      
+  const getProduct = async ({id, productId}) => {
+    await axios({
+        method: "GET",
+        url: `http://localhost:8000/config/stores/${id}/products/${productId}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          },
+    })
+    .then((response) => {
+        console.log(response.data);
+        setCurrentProduct(response.data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
   }
-  }, [currentStore]);
-
-  console.log("current", currentProduct)
+  
+  useEffect(() => {
+      getProduct({id, productId});
+  }, [id, productId]);
 
   const navigate = useNavigate(); // Define the navigate function
 
@@ -48,8 +59,15 @@ const ProductDetail = () => {
     setQuantity(event.target.value);
   };
 
+  // const handleAddToCart = () => {
+  //   cart.addToCart(currentProduct._id, quantity);
+  // };
 
-  const handleAddToCart = () => {
+  // const { id } = useParams();
+  const product = store[0].products.find((item) => item._id === parseInt(id));
+  // const navigate = useNavigate(); // Define the navigate function
+
+    const handleAddToCart = () => {
     cart.addToCart(id, productId, quantity, currentProduct.price);
   };
 
@@ -96,13 +114,7 @@ const ProductDetail = () => {
 
   return (
     <>
-      { isLoading ? 
-            (<h2>Loading..</h2>) 
-          : error ? 
-            (<div>{error?.data?.message || error.error}</div>) 
-          : (
-            <>
-      <RouteHistory page={`stores/${currentStore.store.name}`} routeName={`stores/${id}/${productId}`} />
+      <RouteHistory page={`stores/${id}`} routeName={`stores/${id}`} />
       <Container>
         <Grid container spacing={{ xs: 3, md: 2 }}>
           <Grid item xs={3} md={6} key={id}>
@@ -258,8 +270,6 @@ const ProductDetail = () => {
           </Typography>
         </Grid>
       </Container>
-      </>
-          )}
     </>
   );
 };

@@ -40,6 +40,8 @@ const CartProduct = (props) => {
   // const productData = store[0].products.find(
   //   (item) => item._id === parseInt(id)
   // );
+
+  console.log("product Data", productData)
   
   return (
     <>
