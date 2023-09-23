@@ -16,6 +16,7 @@ const storeAdminRouter = require('./routes/storeAdmin');
 const productRouter = require('./routes/products');
 const orderRouter = require('./routes/orderRoutes');
 const storeUserRouter = require('./routes/storeUser');
+const profileRouter = require('./routes/profile');
 // const port = 8000;
 
 var app = express();
@@ -40,6 +41,7 @@ app.use('/config/stores', storeAdminRouter);
 app.use('/', productRouter);
 app.use('/orders', orderRouter);
 app.use('/stores', storeUserRouter);
+app.use('/profile', profileRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
