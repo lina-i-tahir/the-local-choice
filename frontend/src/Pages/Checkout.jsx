@@ -12,7 +12,10 @@ import store from "../store"
 
 
 const Checkout = () => {
-
+    // const userData = localStorage.getItem('user');
+    // const user = JSON.parse(userData);
+    // console.log(user._id)
+   
     const [createOrder, { isLoading, error }] = useCreateOrderMutation()
     const navigate = useNavigate()
     const cart = useContext(CartContext);

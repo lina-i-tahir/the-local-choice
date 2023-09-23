@@ -223,12 +223,10 @@ function NavBar() {
                       sx={{
                         mr: 2,
                         display: { xs: "none", md: "flex" },
-                        fontFamily: "ovo",
-                        fontWeight: 500,
+                        fontWeight: 400,
                         color: "#414B3B",
                         textDecoration: "none",
                         margin: "20px",
-                        fontSize: "16px",
                       }}
                     >
                       {page}
@@ -243,12 +241,10 @@ function NavBar() {
                       sx={{
                         mr: 2,
                         display: { xs: "none", md: "flex" },
-                        fontFamily: "ovo",
-                        fontWeight: 500,
+                        fontWeight: 400,
                         color: "#414B3B",
                         textDecoration: "none",
                         margin: "20px",
-                        fontSize: "16px",
                       }}
                     >
                       {page}
