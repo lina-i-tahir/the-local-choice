@@ -20,10 +20,10 @@ const Home = () => {
     const maxCount = Math.floor(store.length / 2);
     const token = localStorage.getItem('token');
 
-    const storeDisplay = (item) => {
+    const storeDisplay = (store) => {
         return (
             <>  
-                <Link to={`/stores/${item._id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                <Link to={`/stores/${store._id}`} style={{ textDecoration: "none", color: "inherit" }}>
                 <Typography gutterBottom variant="h6" component="div"
                     sx={{
                         fontFamily: "Poppins",
@@ -36,15 +36,16 @@ const Home = () => {
                             cursor: "pointer",
                         }
                     }}>
-                        {item.name}
+                        {store.name}
                 </Typography>
                 </Link>
                 
-                
                 <Grid container spacing={{ xs: 3, md: 2 }}>
-                    {item.products.map((item,idx) => (
+                    {store.products.map((item,idx) => (
                         idx<4 ?
                         <Grid item xs={3} key={idx}>
+                        <Link to ={`/stores/${store._id}/${item._id}`} style={{ textDecoration: "none", color: "inherit" }}>
+
                             <img src={item.image} style={{ width: "80%", margin: "0px 30px" }} />
                             <Typography gutterBottom variant="h6" component="div"
                             sx ={{
@@ -66,6 +67,8 @@ const Home = () => {
                             }}>
                             {item.price}
                             </Typography>
+                        </Link>
+
                         </Grid>
                         : null
                     ))}
