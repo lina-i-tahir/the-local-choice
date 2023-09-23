@@ -38,4 +38,4 @@ export const storesApiSlice = apiSlice.injectEndpoints({
     })
 })
 
-export const { useGetStoresQuery, useGetStoreByIdQuery } = storesApiSlice
+export const { useGetStoresQuery, useGetStoreByIdQuery, usePrefetch} = storesApiSlice

@@ -7,12 +7,14 @@ import { Link } from "react-router-dom";
 import RouteHistory from "../Components/RouteHistory";
 import Notification from "../Components/Notification";
 
+
 const Login = () => {
   // notification
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('');
-  
+
+
   const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
@@ -22,6 +24,7 @@ const Login = () => {
     const handleCloseSnackbar = () => {
       setOpenSnackbar(false);
   };
+
   const postLogin = async () => {
     await axios({
       method: "POST",
@@ -43,6 +46,7 @@ const Login = () => {
           console.log("test local storage",localStorage.getItem('user'));
           // console.log(response.data.token);
           console.log(response.data.user.role);
+          
           if (response.data.user.role === "admin") {
             setSnackbarMessage('admin login successfully');
             setTimeout(() => {
@@ -85,6 +89,7 @@ const Login = () => {
       postLogin();
     }
   }, [form]);
+
 
   return (
     <div>

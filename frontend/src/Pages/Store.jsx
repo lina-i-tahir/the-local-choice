@@ -1,7 +1,6 @@
-import { Grid, Card, CardMedia, CardContent, Link, Typography, circularProgressClasses} from "@mui/material"
+import { Grid, Card, CardMedia, CardContent, Link, Typography } from "@mui/material"
 import drawer from "../assets/drawer.png";
 import hangingPlant from "../assets/hangingPlant.png";
-import handxmadeLogo from "../assets/handxmadeLogo.png";
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetStoreByIdQuery } from "../Slices/storeSlice";
