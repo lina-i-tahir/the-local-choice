@@ -7,6 +7,7 @@ import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOu
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import { useGetStoresQuery } from "../Slices/storeSlice";
 import StoresOverviewDisplay from "../Components/StoresOverviewDisplay";
+import WindowAnimation from "../Components/WindowAnimation";
 
 
 
@@ -65,8 +66,9 @@ const Home = () => {
           : (
             <>
 
-
-            {/* <div style={{ display: "flex", flexDirection: "column", minHeight:"90vh" }}> */}
+            {/* <div style={{height: '500px', backgroundColor: '#9f9a8f', display:'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <WindowAnimation/>
+            </div> */}
                 <Box sx={{ display: "flex", justifyContent: "center", margin: "40px 0px", flexDirection: "row" }}>
                       {tempArr.map((item) => {
                      return (
@@ -74,13 +76,7 @@ const Home = () => {
                     )
                 })}
                 </Box>
-                {/* <Box sx={{ 
-                    display: "flex", 
-                    flexDirection: "column", 
-                    backgroundColor:"#F3EFE7", 
-                    flexGrow:1,
-                    alignItems:"flex-start",
-                }}> */}
+
                 <div style={{backgroundColor: '#f3efe7'}}>
 
                     <Container maxWidth="lg">
@@ -103,7 +99,6 @@ const Home = () => {
                             })
                         }
                     
-                {/* </Box> */}
 
                 <Box sx={{
                     display: "flex",
@@ -145,9 +140,8 @@ const Home = () => {
                 </Box>
                 </Container>
             </div>
-            {/* </div> */}
             </>
-        )}
+        )} 
 
         </>
     )
