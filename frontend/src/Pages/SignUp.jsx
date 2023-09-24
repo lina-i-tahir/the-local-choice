@@ -148,7 +148,7 @@ const SignUp = () => {
                 <Button type="submit" variant="contained" 
                         sx={{backgroundColor:"#99958C", 
                             color:"#E4DCCD", 
-                            width:"51ch",
+                            width:"45ch",
                             marginTop:"40px",
                             '&:hover': {
                             backgroundColor: "#737373"}}}>
