@@ -1,15 +1,10 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { Box, TextField, Button } from '@mui/material';
+import { Box, TextField, Button, Grid, Container } from '@mui/material';
 import { Typography } from '@mui/material';
 import Window from "../assets/Window.png";
-// import store from "../store";
 import { Divider } from "@mui/material";
-import Grid from '@mui/material/Grid';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
-import { Link } from "react-router-dom";
 import { useGetStoresQuery } from "../Slices/storeSlice";
 import StoresOverviewDisplay from "../Components/StoresOverviewDisplay";
 
@@ -33,6 +28,15 @@ const Home = () => {
                     setCount(count - 1);
                 }
             }
+    }
+
+    const arrowStyle = { 
+        width:"20px",
+        marginLeft:"5px", 
+        marginTop:"5px",
+        '&:hover': {
+            cursor: "pointer",
+            color: "#414B3B"}
     }
 
         useEffect(() => {
@@ -60,7 +64,9 @@ const Home = () => {
             (<div>{error?.data?.message || error.error}</div>) 
           : (
             <>
-            <div style={{ display: "flex", flexDirection: "column", minHeight:"90vh" }}>
+
+
+            {/* <div style={{ display: "flex", flexDirection: "column", minHeight:"90vh" }}> */}
                 <Box sx={{ display: "flex", justifyContent: "center", margin: "40px 0px", flexDirection: "row" }}>
                       {tempArr.map((item) => {
                      return (
@@ -68,67 +74,81 @@ const Home = () => {
                     )
                 })}
                 </Box>
-                <Box sx={{ 
+                {/* <Box sx={{ 
                     display: "flex", 
                     flexDirection: "column", 
                     backgroundColor:"#F3EFE7", 
                     flexGrow:1,
                     alignItems:"flex-start",
+                }}> */}
+                <div style={{backgroundColor: '#f3efe7'}}>
+
+                    <Container maxWidth="lg">
+                        {
+                            storeOverview.map((store, idx) => {
+                                return (
+                                    <>
+                                        {(idx+1)%2!==0 ? 
+                                            // <div style={{width: "100vw"}}>
+                                                <>
+                                                {StoresOverviewDisplay(store)}
+                                                <Divider variant="middle" sx={{ flexGrow:1, paddingBottom: '10px'}} />
+                                                </>
+                                            // </div>
+                                        : 
+                                        StoresOverviewDisplay(store)
+                                        }
+                                    </>
+                                )
+                            })
+                        }
+                    
+                {/* </Box> */}
+
+                <Box sx={{
+                    display: "flex",
+                    justifyContent: "space-between", 
+                    backgroundColor: "#F3EFE7",
+                    flexDirection: "row",
+                    padding: "0 20px",
                 }}>
-                    {
-                        storeOverview.map((store, idx) => {
-                            return (
-                                <div>
-                                    {(idx+1)%2!==0 ? 
-                                        <div style={{width: "100vw"}}>
-                                            {StoresOverviewDisplay(store)}
-                                            <Divider variant="middle" sx={{ flexGrow:1}} />
-                                        </div>
-                                    : 
-                                    StoresOverviewDisplay(store)
-                                    }
-                                </div>
-                            )
-                        })
+                    {count === 0 ? null :
+                        <Typography component="div" 
+                            onClick={() => clickHandler("decrease")}
+                            sx ={{
+                                fontSize:"15px",
+                                display:"flex",
+                                justifyContent:"flex-start",
+                                color:"#99958C",
+                            }}
+                        >
+                            <ArrowCircleLeftOutlinedIcon sx={arrowStyle}/>
+                        </Typography>
                     }
-                </Box>
-
-            <Box sx={{
-            display: "flex",
-            justifyContent: "space-between", // This will separate the two Typography components
-            backgroundColor: "#F3EFE7",
-            flexDirection: "row",
-            padding: "0 20px",  // This is optional. Adds some space on the sides.
-            }}>
-
-                {count === 0 ? null:
-                <Typography variant="h6" component="div" 
-                onClick={() => clickHandler("decrease")}
-                sx ={{
-                    fontFamily: "Poppins",
-                    fontSize:"15px",
-                    display:"flex",
-                    justifyContent:"flex-start",
-                    color:"#99958C",
-                }}>
-                    <ArrowCircleLeftOutlinedIcon sx={{ width:"20px",marginLeft:"5px", marginTop:"2px" }}/>
-                </Typography>}
-                    <Typography variant="h6" component="div"
-                    onClick={() => clickHandler("increase")}
-                    sx ={{
-                        fontFamily: "Poppins",
-                        fontSize:"15px",
-                        display:"flex",
-                        justifyContent:"flex-end",
-                        color:"#99958C",
-                    }}>
+                    <Box sx={{ flexGrow: 1 }}>  {/* <-- This ensures it takes up the maximum available space */}
+                    </Box>
+                    <Typography component="div"
+                        onClick={() => clickHandler("increase")}
+                        sx ={{
+                            fontSize:"15px",
+                            display:"flex",
+                            justifyContent:"flex-end",
+                            color:"#99958C",
+                            '&:hover': {
+                                cursor: "pointer",
+                                color: "#414B3B"}
+                        }}
+                    >
                         discover more 
-                        <ArrowCircleRightOutlinedIcon sx={{ width:"20px",marginLeft:"5px", marginTop:"2px" }}/>
-                </Typography>
-            </Box>
+                        <ArrowCircleRightOutlinedIcon sx={arrowStyle}/>
+                    </Typography>
+                </Box>
+                </Container>
             </div>
+            {/* </div> */}
             </>
         )}
+
         </>
     )
 }
