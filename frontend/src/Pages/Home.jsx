@@ -16,7 +16,6 @@ const Home = () => {
     const [count, setCount] = useState(0);
     const [maxCount, setMaxCount] = useState(0);
     const [storeOverview, setStoreOverview] = useState([]);
-    const tempArr  = [ 1, 2, 3, 4]
 
     const clickHandler = (e) => {
             if (e === "increase") {
@@ -46,7 +45,7 @@ const Home = () => {
                 setStoreOverview((stores.stores).slice(count, count + 2));
                 setMaxCount(Math.floor((stores.stores).length / 2))
             }
-            else{
+            else {
                 setStoreOverview((stores.stores).slice(count * 2, count * 2 + 2));
                 setMaxCount(Math.floor((stores.stores).length / 2))
             }
@@ -66,16 +65,15 @@ const Home = () => {
           : (
             <>
 
-            {/* <div style={{height: '500px', backgroundColor: '#9f9a8f', display:'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <WindowAnimation/>
-            </div> */}
-                <Box sx={{ display: "flex", justifyContent: "center", margin: "40px 0px", flexDirection: "row" }}>
-                      {tempArr.map((item) => {
-                     return (
-                        <img src={Window} style={{ width: "15%", margin: "-5px 40px" }}/>
+            <div style={{height: '380px', backgroundColor: '#e4dccd', display:'flex', justifyContent: 'center', alignItems: 'center'}}>
+                {(stores.stores).map((store) => {
+                    return (
+                        <>
+                            <WindowAnimation store={store}/>
+                        </>
                     )
                 })}
-                </Box>
+            </div>
 
                 <div style={{backgroundColor: '#f3efe7'}}>
 
