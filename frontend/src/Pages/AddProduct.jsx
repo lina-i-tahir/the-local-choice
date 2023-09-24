@@ -108,7 +108,8 @@ const AddProducts = () => {
                 <TextField 
                     id="productName" 
                     label="Name" 
-                    variant="outlined"
+                    variant="filled"
+                    color="secondary"
                     defaultValue="" 
 
                     sx={{
@@ -121,7 +122,8 @@ const AddProducts = () => {
                 <TextField 
                     id="productPrice" 
                     label="Price" 
-                    variant="outlined"
+                    variant="filled"
+                    color="secondary"
                     defaultValue="" 
                     sx={{
                         marginBottom: "20px",
@@ -131,7 +133,8 @@ const AddProducts = () => {
                 <TextField 
                     id="productQuantity" 
                     label="Quantity" 
-                    variant="outlined"
+                    variant="filled"
+                    color="secondary"
                     defaultValue="" 
                     sx={{
                         marginBottom: "20px",
@@ -140,7 +143,8 @@ const AddProducts = () => {
                 <TextField 
                     id="productCategory" 
                     label="Category" 
-                    variant="outlined"
+                    variant="filled"
+                    color="secondary"
                     defaultValue="" 
                     sx={{
                         marginBottom: "20px",
@@ -149,7 +153,8 @@ const AddProducts = () => {
                 <TextField 
                     id="productDescription" 
                     label="Description" 
-                    variant="outlined"
+                    variant="filled"
+                    color="secondary"
                     defaultValue="" 
                     sx={{
                         marginBottom: "20px",

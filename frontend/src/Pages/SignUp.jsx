@@ -110,6 +110,7 @@ const SignUp = () => {
                         id="firstName"
                         name="firstName"
                         label="First Name"
+                        color="secondary"
                         defaultValue=""
                     />
                 </div>
@@ -119,6 +120,7 @@ const SignUp = () => {
                         id="lastName"
                         name="lastName"
                         label="Last Name"
+                        color="secondary"
                         defaultValue=""
                     />
                 </div>
@@ -128,6 +130,7 @@ const SignUp = () => {
                         id="email"
                         name="email"
                         label="Email"
+                        color="secondary"
                         defaultValue=""
                     />
                 </div>
@@ -138,6 +141,7 @@ const SignUp = () => {
                         id="password"
                         name="password"
                         label="Password"
+                        color="secondary"
                         defaultValue=""
                     />
                 </div>

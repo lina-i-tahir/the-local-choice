@@ -169,6 +169,7 @@ const EditForm = () => {
                         id="name" 
                         label="Name" 
                         variant="outlined" 
+                        color="secondary"
                         defaultValue={storeDetails.name}
                         sx={{
                             marginBottom: "20px",

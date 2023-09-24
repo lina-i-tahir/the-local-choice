@@ -125,6 +125,7 @@ const Login = () => {
             id="outlined-required"
             label="Email"
             name="email"
+            color="secondary"
             defaultValue=""
           />
         </div>
@@ -135,6 +136,7 @@ const Login = () => {
             label="Password"
             name="password"
             type="password"
+            color="secondary"
           />
         </div>
         <Link to="/forgetpassword" style={{ textDecoration: "none" }}>
