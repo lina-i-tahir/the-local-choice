@@ -29,7 +29,7 @@ const Store = () => {
                 <Grid item md={4} sx={{ display: { xs: 'none', md: 'inline' }}}>
                     <img src={hangingPlant} style={{ width: "250px"}}/>
                 </Grid>
-                <Grid item md={4} xs={12} style={{ justifyContent: 'center' }}>
+                <Grid item md={4} xs={12} style={{ display: "flex", justifyContent: 'center', alignItems: "center" }}>
                     <img src={currentStore.store.image} style={{ width: "250px"}}/>
                 </Grid>
                 <Grid item md={4} sx={{ display: { xs: 'none', md: 'inline' }}}>
