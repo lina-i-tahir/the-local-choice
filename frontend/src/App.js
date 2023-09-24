@@ -35,6 +35,7 @@ import { ThemeProvider } from '@mui/material/styles';
 
 import About from "./Pages/About";
 import Contact from "./Pages/Contact";
+import LandingPage from "./Pages/LandingPage";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -50,7 +51,7 @@ function App() {
           <NavBar />
           <Routes>
             {/* public routes */}
-            <Route path="/" element={<h1>landing page</h1>} />
+            <Route path="/" element={<LandingPage />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
             <Route path="/about" element={<About />} />
