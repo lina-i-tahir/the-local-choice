@@ -82,6 +82,7 @@ const SidePanel = (props) => {
     }
     const buttonStyle ={
         backgroundColor:"#75695a",
+        color:"#e4dccd",
         boxShadow: "none",
         minWidth: "200px",
         minHeight: "50px",
