@@ -3,6 +3,7 @@ import allStoresBanner from "../assets/allStoresImages/allStoresBanner.png";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { useGetStoresQuery } from "../Slices/storeSlice";
+import WindowAnimation from "../Components/WindowAnimation";
 
 
 const AllStores = () => {
@@ -18,10 +19,10 @@ const AllStores = () => {
   return (
     <>  
         <Grid container spacing={0} sx={{
-                                        bgcolor: '#c8b799',
+                                        bgcolor: '#aca599',
                                         }}>
-            <Grid item md={12} sx={{ display: { xs: 'none', md: 'inline' }}}>
-                <img src={allStoresBanner} style={{ width: "100%"}}/>
+            <Grid item md={12} sx={{ height: '180px', display: { xs: 'none', md: 'inline' }}}>
+                {/* <img src={allStoresBanner} style={{ width: "100%"}}/> */}
             </Grid>
         </Grid>
         
@@ -35,6 +36,7 @@ const AllStores = () => {
             paddingRight: "8%",
             paddingTop: "3%",
             paddingBottom: "3%",
+            height: '480px'
           }}
         >                             
         { isLoading ? 
@@ -43,7 +45,14 @@ const AllStores = () => {
             (<div>{error?.data?.message || error.error}</div>) 
           : (
             <>
-            {(stores.stores).map((store) => (
+            {(stores.stores).map((store) => {
+                    return (
+                        <>
+                            <WindowAnimation store={store}/>
+                        </>
+                    )
+                })}
+            {/* {(stores.stores).map((store) => (
             <Card
             key={store._id}
             sx={{
@@ -65,7 +74,7 @@ const AllStores = () => {
               }}
             />
             </Card>
-            ))}
+            ))} */}
             </>
           )}
         </Grid>
