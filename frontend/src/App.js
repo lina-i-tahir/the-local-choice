@@ -32,7 +32,9 @@ import AdminOrderStatus from "./Pages/AdminOrder";
 
 import responsiveMainTheme from "./design/themes";
 import { ThemeProvider } from '@mui/material/styles';
+
 import About from "./Pages/About";
+import Contact from "./Pages/Contact";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -52,6 +54,7 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
             <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
             {/* user + admin routes */}
             <Route path="/home" element={<Home />} />
             <Route path="*" element={<Error />} />
