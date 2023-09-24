@@ -57,7 +57,7 @@ const AllStores = () => {
             >
             <CardMedia
               component="img"
-              height="220"
+              height="75"
               image={store.image}
               alt={store.name}
               sx={{
