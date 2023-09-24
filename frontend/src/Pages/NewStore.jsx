@@ -100,8 +100,12 @@ const NewStore = () => {
                     required
                     id="outlined-required"
                     label="Store Name"
+                    color="secondary"
                     name="name"
                     defaultValue=""
+                    sx={{
+
+                      }}
                 />
                 </div>
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -119,6 +123,7 @@ const NewStore = () => {
                         <Button variant="contained" component="span"
                             sx={{
                                 backgroundColor:"#75695a",
+                                color: "primary.light",
                                 boxShadow: "none",
                                 '&:hover': {
                                 backgroundColor: '#e4dccd',

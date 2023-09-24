@@ -35,6 +35,7 @@ const RenderTextField = ({ label, placeholder, type = "text", defaultValue, disa
             id={id}
             size="small"
             variant="outlined"
+            color="secondary"
             type={type}
             defaultValue={defaultValue}
             placeholder={placeholder}

@@ -110,7 +110,7 @@ const Home = () => {
                     justifyContent: "space-between", 
                     backgroundColor: "#F3EFE7",
                     flexDirection: "row",
-                    padding: "0 20px",
+                    padding: "20px",
                 }}>
                     {count === 0 ? null :
                         <Typography component="div" 
