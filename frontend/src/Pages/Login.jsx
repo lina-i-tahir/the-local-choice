@@ -13,7 +13,8 @@ const Login = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('');
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -126,7 +127,8 @@ const Login = () => {
             label="Email"
             name="email"
             color="secondary"
-            defaultValue=""
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div>
@@ -137,11 +139,12 @@ const Login = () => {
             name="password"
             type="password"
             color="secondary"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <Link to="/forgetpassword" style={{ textDecoration: "none" }}>
           <Typography
-            variant="h7"
             noWrap
             sx={{
               display: "flex",
@@ -166,9 +169,7 @@ const Login = () => {
           sx={{
             backgroundColor: "#99958C",
             color: "#E4DCCD",
-            width: "51ch",
-            // marginRight:"130px",
-            // marginLeft:"200px",
+            width: "45ch",
             marginTop: "30px",
             "&:hover": {
               backgroundColor: "#737373",
@@ -178,7 +179,6 @@ const Login = () => {
           Login
         </Button>
         <Typography
-          variant="h7"
           noWrap
           sx={{
             display: "flex",
@@ -192,7 +192,6 @@ const Login = () => {
         >
           <Box display="center" justifyContent="center" alignItems="center">
             <Typography
-              variant="h7"
               noWrap
               sx={{
                 fontFamily: "Poppins",
@@ -221,6 +220,27 @@ const Login = () => {
                 Sign up
               </Typography>
             </Link>
+            <Typography
+              noWrap
+              onClick={() => {
+                setEmail("test@gmail.com");
+                setPassword("mock123@");
+              }
+              }
+              sx={{
+                fontFamily: "Poppins",
+                fontWeight: 500,
+                color: "#75695A",
+                fontSize: "14px",
+                margin: "5px",
+                "&:hover": {
+                  color: "#414B3B",
+                  cursor: "pointer",
+                }
+              }}
+            >
+              / Generate Test Account
+            </Typography>
           </Box>
         </Typography>
       </Box>
