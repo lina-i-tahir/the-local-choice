@@ -1,11 +1,18 @@
 import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import theLocalChoiceLogo from "../assets/theLocalChoiceLogo.png";
+
 
 const Logo = () => {
     return ( 
         <div style={{margin:"20px 30px"}}>
             <Link to="/home" style={{textDecoration:"none"}}> 
-            <Typography
+            <img
+              src={theLocalChoiceLogo}
+              alt="The Local Choice"
+              width="120px"
+            />
+            {/* <Typography
               variant="h7"
               noWrap
               sx={{
@@ -57,7 +64,7 @@ const Logo = () => {
             }}
           >
             choice
-          </Typography>
+          </Typography> */}
           </Link>
 
           </div>
