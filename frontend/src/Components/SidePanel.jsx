@@ -43,9 +43,7 @@ const SidePanel = (props) => {
     };
     
     const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        localStorage.removeItem("role");
+        localStorage.clear();
         navigate("/login");
         window.location.reload();
     };

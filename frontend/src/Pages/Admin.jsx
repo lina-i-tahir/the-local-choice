@@ -30,6 +30,9 @@ const Admin = () => {
         })
         .catch((error) => {
             console.log(error);
+            if (error.response.status === 401) {
+                navigate("/login");
+            }
         });
     }
 

@@ -47,7 +47,7 @@ const StoresOverviewDisplay = (store) => {
                             fontSize:"13px",
                             fontWeight: '300',
                         }}>
-                        ${item.price}
+                        ${item.price.toFixed(2)}
                         </Typography>
                     </Link>
                 </Grid>

@@ -157,14 +157,14 @@ const ProductDetail = () => {
                 display: "flex",
                 justifyContent: "left",
                 fontFamily: "Poppins",
-                fontWeight: 100,
+                fontWeight: 200,
                 color: "#414B3B",
                 textDecoration: "none",
                 margin: "20px 0px 30px 0px",
                 textAlign: "left",
               }}
             >
-              ${currentProduct.price}
+              {currentProduct && currentProduct.price ? '$' + currentProduct.price.toFixed(2) : '0.00'}
             </Typography>
 
             <div>
@@ -231,7 +231,7 @@ const ProductDetail = () => {
               display: "flex",
               justifyContent: "left",
               fontFamily: "Poppins",
-              fontWeight: 100,
+              fontWeight: 200,
               color: "#414B3B",
               textDecoration: "none",
               margin: "50px",
@@ -266,7 +266,7 @@ const ProductDetail = () => {
               display: "flex",
               justifyContent: "left",
               fontFamily: "Poppins",
-              fontWeight: 100,
+              fontWeight: 200,
               color: "#414B3B",
               textDecoration: "none",
               margin: "50px",

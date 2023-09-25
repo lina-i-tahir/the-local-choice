@@ -114,9 +114,8 @@ function NavBar() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    localStorage.removeItem("role");
+    // localStorage.removeItem("token");
+    localStorage.clear();
     navigate("/login");
     window.location.reload();
   };

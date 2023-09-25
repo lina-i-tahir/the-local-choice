@@ -123,7 +123,7 @@ const Store = () => {
                   >
                   {product.name}
                   <br />
-                  {product.price}
+                  ${product.price.toFixed(2)}
                   </Typography>
                 </Link>
               </CardContent>

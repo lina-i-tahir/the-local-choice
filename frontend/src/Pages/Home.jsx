@@ -34,7 +34,7 @@ const Home = () => {
 
     const clickHandler = (e) => {
         if (e === "increase") {
-            if (count < maxCount) {
+            if (count < maxCount-1) {
                 setCount(count + 1);
             }
         }

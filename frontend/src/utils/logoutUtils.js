@@ -1,7 +1,5 @@
 export const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    localStorage.removeItem("role");
+    localStorage.clear();
 };
 
 export const handleExpire = () => {
