@@ -36,6 +36,7 @@ const Store = () => {
         handleExpire();
         setTimeout(() => {
             navigate("/login");
+            window.location.reload();
         }
         ,3000);
     }

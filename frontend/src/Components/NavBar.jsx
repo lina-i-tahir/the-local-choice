@@ -50,13 +50,15 @@ const styleModal = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "600px",
+  maxHeight: "50vh",  // set this to a desired maximum height, 90vh is 90% of the viewport height
+  overflow: "auto",   // content will scroll if it overflows
   bgcolor: "#F3EFE7",
   border: "2px solid #000",
-
   boxShadow: 24,
   p: 4,
 };
+
 
 function NavBar() {
   // notification
@@ -122,7 +124,7 @@ function NavBar() {
 
   // Shopping cart Modal Badge
   const { cartItems } = useSelector((state) => state.cart)
-  const { totalPrice } = useSelector((state) => state.cart)
+  const { totalPrice } = useSelector((state) => state.cart) // total price of all items in cart
   const totalQty = cartItems.reduce((acc, item) => acc + item.quantity, 0)
 
   // const cart = useContext(CartContext);
@@ -332,7 +334,7 @@ function NavBar() {
                         <Container>
                           <Typography
                             id="modal-modal-description"
-                            sx={{ mt: 2 }}
+                            sx={{ mt: 2, display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center" }}
                             variant="h7"
                             fontFamily="Poppins"
                             fontWeight="200"
@@ -345,11 +347,11 @@ function NavBar() {
                                 {cartItems.map((currentProduct, idx) => (
                                   <CartProduct
                                     key={idx}
-                                    productName={currentProduct.name}
-                                    productId={currentProduct._id}
+                                    name={currentProduct.name}
+                                    _id={currentProduct._id}
                                     quantity={currentProduct.quantity}
-                                    productPrice={currentProduct.price}
-                                    productImage={currentProduct.image}
+                                    price={currentProduct.price}
+                                    image={currentProduct.image}
                                   ></CartProduct>
                                 ))}
                                 {/* <h4>total: $ {cart.getTotalCost().toFixed(2)}</h4> */}
@@ -364,7 +366,7 @@ function NavBar() {
                                     color: "#E4DCCD",
                                     width: "20ch",
                                     textAlign: "center",
-                                    margin: "0px 0px 0px 100px",
+                                    margin: "10px auto",
                                     padding: "18px",
                                     "&:hover": {
                                       backgroundColor: "#737373",
