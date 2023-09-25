@@ -4,25 +4,51 @@ import hangingPlant from "../assets/hangingPlant.png";
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetStoreByIdQuery } from "../Slices/storeSlice";
+import { handleExpire } from "../utils/logoutUtils";
+import { useState, useEffect } from "react";
+import Notification from "../Components/Notification";
+import Loading from "../Components/Loading";
 
 const Store = () => {
+  const token = localStorage.getItem('token');
+  const { id } = useParams();
+  const { data: currentStore, isLoading, error } = useGetStoreByIdQuery({ storeId: id, token });
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("");
 
-    const { id } = useParams();
-    const { data: currentStore, isLoading, error } = useGetStoreByIdQuery(id)
+  const handleCloseSnackbar = () => {
+      setOpenSnackbar(false);
+  };
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const viewProduct = (productId) => {
-        navigate(`/stores/${id}/${productId}`)
+  const viewProduct = (productId) => {
+    navigate(`/stores/${id}/${productId}`)
+  }
+
+  useEffect(() => {
+    if (error?.status === 401) {
+        console.log("401 error");
+        setOpenSnackbar(true);
+        setSnackbarMessage("Please login or create an account to view this page!");
+        setSnackbarSeverity("error");
+        handleExpire();
+        setTimeout(() => {
+            navigate("/login");
+        }
+        ,3000);
     }
+  }, [error]); 
+
+
 
   return (
     <>  
-
           { isLoading ? 
-            (<h2>Loading..</h2>) 
+            <Loading bgColor="primary.light"/>
           : error ? 
-            (<div>{error?.data?.message || error.error}</div>) 
+            <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
           : (
             <>
             <Grid container spacing={0}>

@@ -10,10 +10,16 @@ import StoresOverviewDisplay from "../Components/StoresOverviewDisplay";
 import WindowAnimation from "../Components/WindowAnimation";
 import Notification from "../Components/Notification";
 import {CircularProgress} from '@mui/material';
-
+import { handleLogout } from "../utils/logoutUtils";
+import { handleExpire } from "../utils/logoutUtils";
+import { useNavigate } from "react-router-dom";
+import Loading from "../Components/Loading";
 
 const Home = () => {
-    const { data: stores, isLoading, error } = useGetStoresQuery()
+    // const { data: stores, isLoading, error } = useGetStoresQuery()
+    const token = localStorage.getItem('token');
+    const { data: stores, error, isLoading } = useGetStoresQuery(token);
+
     const [count, setCount] = useState(0);
     const [maxCount, setMaxCount] = useState(0);
     const [storeOverview, setStoreOverview] = useState([]);
@@ -21,6 +27,7 @@ const Home = () => {
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("");
 
+    const navigate = useNavigate();
     const handleCloseSnackbar = () => {
         setOpenSnackbar(false);
     };
@@ -60,10 +67,16 @@ const Home = () => {
     
 
     useEffect(() => {
-        if (error) {
+        if (error?.status === 401) {
+            console.log("401 error");
             setOpenSnackbar(true);
-            setSnackbarMessage(error?.data?.message || error.error);
+            setSnackbarMessage("Please login or create an account to view this page!");
             setSnackbarSeverity("error");
+            handleExpire();
+            setTimeout(() => {
+                navigate("/login");
+            }
+            ,3000);
         }
     }, [error]);
 
@@ -71,9 +84,7 @@ const Home = () => {
     return(
         <>
         { isLoading ? 
-            <div style={{minHeight:'100vh', backgroundColor: '#e4dccd', display:'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <CircularProgress color="secondary" />
-            </div>
+            <Loading bgColor="primary.light"/>
           : error ? 
             <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
           : stores ? 

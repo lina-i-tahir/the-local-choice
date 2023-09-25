@@ -4,17 +4,42 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { useGetStoresQuery } from "../Slices/storeSlice";
 import WindowAnimation from "../Components/WindowAnimation";
-
+import { handleExpire } from "../utils/logoutUtils";
+import { useState, useEffect } from "react";
+import Notification from "../Components/Notification";
+import Loading from "../Components/Loading";
 
 const AllStores = () => {
 
     const navigate = useNavigate();
+    const token = localStorage.getItem('token');  
+    const { data: stores, isLoading, error } = useGetStoresQuery(token)
 
-    const { data: stores, isLoading, error } = useGetStoresQuery()
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState("");
+    
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+    };
 
     const enterStore = (storeId) => {
       navigate(`/stores/${storeId}`)
     }
+
+    useEffect(() => {
+      if (error?.status === 401) {
+          console.log("401 error");
+          setOpenSnackbar(true);
+          setSnackbarMessage("Please login or create an account to view this page!");
+          setSnackbarSeverity("error");
+          handleExpire();
+          setTimeout(() => {
+              navigate("/login");
+          }
+          ,3000);
+      }
+    }, [error]);
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: '#c8b799'}}>
@@ -39,9 +64,9 @@ const AllStores = () => {
           }}
         >                             
         { isLoading ? 
-            (<h2>Loading..</h2>) 
+            <Loading bgColor="primary.dark"/>
           : error ? 
-            (<div>{error?.data?.message || error.error}</div>) 
+            <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
           : (
             <>
             {(stores.stores).map((store) => {

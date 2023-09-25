@@ -117,8 +117,6 @@ function NavBar() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("role");
-    settings = ["profile", "orders", "login", "logout", "signup"];
-    pages = ["stores", "about", "contact"];
     navigate("/login");
     window.location.reload();
   };

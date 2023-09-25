@@ -19,20 +19,23 @@ import { useCart } from "../CardContext";
 import { useGetStoreByIdQuery } from "../Slices/storeSlice";
 import { addToCart } from "../Slices/cartSlice";
 import { useDispatch } from "react-redux";
-
-const token = localStorage.getItem('token');
+import Notification from "../Components/Notification";
+import { handleExpire } from "../utils/logoutUtils";
+import Loading from "../Components/Loading";
 
 const ProductDetail = () => {
   const { id, productId } = useParams();
   const [currentProduct, setCurrentProduct] = useState({});
   const dispatch = useDispatch()
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("");
 
-  const { data: currentStore, isLoading, error } = useGetStoreByIdQuery(id)
-
+  const token = localStorage.getItem('token');
+  const { data: currentStore, isLoading, error } = useGetStoreByIdQuery({storeId:id, token})
   useEffect(() => {
     if (!isLoading) {
       setCurrentProduct(currentStore.store.products.find(product => product._id === productId))
-      
   }
   }, [currentStore]);
 
@@ -55,7 +58,23 @@ const ProductDetail = () => {
   const handleAddToCart = () => {
     dispatch(addToCart({ ...currentProduct, quantity}))
   };
+  const handleCloseSnackbar = () => {
+      setOpenSnackbar(false);
+  };
 
+  useEffect(() => {
+    if (error?.status === 401) {
+        console.log("401 error");
+        setOpenSnackbar(true);
+        setSnackbarMessage("Please login or create an account to view this page!");
+        setSnackbarSeverity("error");
+        handleExpire();
+        setTimeout(() => {
+            navigate("/login");
+        }
+        ,3000);
+    }
+  }, [error]); 
 
   if (!currentProduct) {
     // Handle the case where the product is not found
@@ -100,9 +119,9 @@ const ProductDetail = () => {
   return (
     <>
       { isLoading ? 
-            (<h2>Loading..</h2>) 
+            <Loading bgColor="primary.light"/>
           : error ? 
-            (<div>{error?.data?.message || error.error}</div>) 
+            <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
           : (
             <>
       <RouteHistory page={`stores/${currentStore.store.name}`} routeName={`stores/${id}/${productId}`} />
