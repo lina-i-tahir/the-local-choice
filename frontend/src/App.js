@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Home from "./Pages/Home";
 import NavBar from "./Components/NavBar";
@@ -38,7 +38,6 @@ import Contact from "./Pages/Contact";
 import LandingPage from "./Pages/LandingPage";
 
 function App() {
-  const [user, setUser] = useState(null);
 
   return (
     <ThemeProvider theme={responsiveMainTheme}>
