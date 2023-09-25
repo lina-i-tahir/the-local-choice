@@ -100,7 +100,7 @@ const Login = () => {
         navigate("/home");
       }, 3000);
     }
-  })
+  }, [])
 
   return (
     <div style={{minHeight:"100vh"}}>
