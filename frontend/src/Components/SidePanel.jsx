@@ -18,21 +18,21 @@ const SidePanel = (props) => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("");
-    var pages = ["stores", "about", "contact"];
-    var settings = ["profile", "orders", "login", "logout"];
+    let pages = ["stores", "about", "contact"];
+    let settings = ["profile", "orders", "login", "logout"];
 
-    useEffect(() => {
-        if (localStorage.getItem("role") === "admin") {
-          settings = ["logout"];
-          pages = ["config"];
-        } else if (localStorage.getItem("role") === "user") {
-          settings = ["profile", "orders", "logout"];
-          pages = ["stores", "about", "contact"];
-        } else {
-          settings = ["login", "logout"];
-          pages =[];
-        }
-      }, [localStorage.getItem("role")]);
+    if (localStorage.getItem("role") === "admin") {
+      settings = [ "logout"];
+      pages = ["config"];
+    } 
+    else if (localStorage.getItem("role") === "user") {
+      settings = ["profile", "orders", "logout"];
+      pages = ["stores", "about", "contact"];
+    }
+    else {
+      settings = ["login", "logout"];
+      pages =[];
+    }
 
     const handleLogoutClick = () => {
         postLogout();

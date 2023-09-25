@@ -8,7 +8,8 @@ import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutl
 import { useGetStoresQuery } from "../Slices/storeSlice";
 import StoresOverviewDisplay from "../Components/StoresOverviewDisplay";
 import WindowAnimation from "../Components/WindowAnimation";
-
+import Notification from "../Components/Notification";
+import {CircularProgress} from '@mui/material';
 
 
 const Home = () => {
@@ -16,55 +17,67 @@ const Home = () => {
     const [count, setCount] = useState(0);
     const [maxCount, setMaxCount] = useState(0);
     const [storeOverview, setStoreOverview] = useState([]);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState("");
+
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+    };
 
     const clickHandler = (e) => {
-            if (e === "increase") {
-                if (count < maxCount) {
-                    setCount(count + 1);
-                }
+        if (e === "increase") {
+            if (count < maxCount) {
+                setCount(count + 1);
             }
-            else {
-                if (count > 0) {
-                    setCount(count - 1);
-                }
+        }
+        else {
+            if (count > 0) {
+                setCount(count - 1);
             }
+        }
     }
 
     const arrowStyle = { 
         width:"20px",
         marginLeft:"5px", 
-        marginTop:"5px",
         '&:hover': {
             cursor: "pointer",
             color: "#414B3B"}
     }
 
-        useEffect(() => {
-            if (!isLoading) {
+    useEffect(() => {
+        if (!isLoading && stores && stores.stores) {
             if (count === 0) {
-                setStoreOverview((stores.stores).slice(count, count + 2));
-                setMaxCount(Math.floor((stores.stores).length / 2))
-            }
-            else {
-                setStoreOverview((stores.stores).slice(count * 2, count * 2 + 2));
-                setMaxCount(Math.floor((stores.stores).length / 2))
+                setStoreOverview(stores.stores.slice(count, count + 2));
+                setMaxCount(Math.floor(stores.stores.length / 2));
+            } else {
+                setStoreOverview(stores.stores.slice(count * 2, count * 2 + 2));
+                setMaxCount(Math.floor(stores.stores.length / 2));
             }
         }
-        }, [count, stores]);
-    
+    }, [count, stores, isLoading]);
     
 
-    
+    useEffect(() => {
+        if (error) {
+            setOpenSnackbar(true);
+            setSnackbarMessage(error?.data?.message || error.error);
+            setSnackbarSeverity("error");
+        }
+    }, [error]);
+
 
     return(
         <>
         { isLoading ? 
-            (<h2>Loading..</h2>) 
+            <div style={{minHeight:'100vh', backgroundColor: '#e4dccd', display:'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <CircularProgress color="secondary" />
+            </div>
           : error ? 
-            (<div>{error?.data?.message || error.error}</div>) 
-          : (
+            <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
+          : stores ? 
             <>
-
             <div style={{height: '380px', backgroundColor: '#e4dccd', display:'flex', justifyContent: 'center', alignItems: 'center'}}>
                 {(stores.stores).map((store) => {
                     return (
@@ -118,7 +131,7 @@ const Home = () => {
                             <ArrowCircleLeftOutlinedIcon sx={arrowStyle}/>
                         </Typography>
                     }
-                    <Box sx={{ flexGrow: 1 }}>  {/* <-- This ensures it takes up the maximum available space */}
+                    <Box sx={{ flexGrow: 1 }}>  
                     </Box>
                     <Typography component="div"
                         onClick={() => clickHandler("increase")}
@@ -139,7 +152,13 @@ const Home = () => {
                 </Container>
             </div>
             </>
-        )} 
+            : 
+            <div style={{minHeight:'100vh', backgroundColor: '#e4dccd', display:'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <Typography component="div" sx={{fontSize:"30px", color:"#414B3B"}}>
+                    Please login or create an account to view this page!
+                </Typography>
+            </div>
+            } 
 
         </>
     )
