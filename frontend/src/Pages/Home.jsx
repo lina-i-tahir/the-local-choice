@@ -89,7 +89,7 @@ const Home = () => {
             <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
           : stores ? 
             <>
-            <div style={{height: '380px', backgroundColor: '#e4dccd', display:'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <div style={{padding: '50px 0', backgroundColor: '#e4dccd', display:'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', flexWrap: 'wrap'}}>
                 {(stores.stores).map((store) => {
                     return (
                         <>
