@@ -43,9 +43,8 @@ const PayButton = ({ cartItems }) => {
           },
         }}
       >
-        proceed to payment?
+        proceed to payment
       </Button>
-      {/* <button onClick={() => handleCheckout()}>Pay Button</button> */}
     </>
   );
 };

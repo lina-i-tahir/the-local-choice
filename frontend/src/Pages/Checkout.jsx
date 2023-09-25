@@ -78,25 +78,10 @@ const Checkout = () => {
             </Grid>
           ))}
           <h2>Total Cost : ${cart.getTotalCost().toFixed(2)}</h2>
-          {/* {/* <Button
-            variant="contained"
-            color="primary"
-            onClick={() =>  />}
-            sx={{
-              backgroundColor: "#99958C",
-              color: "#E4DCCD",
-              width: "20ch",
-              height: "70px",
-              textAlign: "center",
-              padding: "18px",
-              "&:hover": {
-                backgroundColor: "#737373",
-              },
-            }}
-          >
-            proceed to payment?
-          </Button> */}
-          <PayButton cartItems={orderItems} />
+          <Container>
+            <br />
+            <PayButton cartItems={orderItems} />
+          </Container>
         </Stack>
       </Container>
 
