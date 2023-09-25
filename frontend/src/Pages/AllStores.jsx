@@ -17,7 +17,7 @@ const AllStores = () => {
     }
 
   return (
-    <>  
+    <Box sx={{ minHeight: '100vh', bgcolor: '#c8b799'}}>
         <Grid container spacing={0} sx={{
                                         bgcolor: '#aca599',
                                         }}>
@@ -36,7 +36,6 @@ const AllStores = () => {
             paddingRight: "8%",
             paddingTop: "3%",
             paddingBottom: "3%",
-            height: '480px'
           }}
         >                             
         { isLoading ? 
@@ -78,7 +77,7 @@ const AllStores = () => {
             </>
           )}
         </Grid>
-    </>
+    </Box>
   )
 }
 
