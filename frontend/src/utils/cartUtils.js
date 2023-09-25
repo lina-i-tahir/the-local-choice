@@ -8,7 +8,8 @@ export const updateCart = (state) => {
     state.price = addDecimals(state.cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0))
 
     //shipping price (if order is over $100, free, else $10 shipping)
-    state.shippingPrice = addDecimals(state.itemsPrice > 100 ? 0 : 10)
+    // state.shippingPrice = addDecimals(state.itemsPrice > 100 ? 0 : 10)
+    state.shippingPrice = addDecimals(state.price > 100 ? 0 : 0)
 
     //total price 
     state.totalPrice = (
