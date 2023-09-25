@@ -91,6 +91,9 @@ const Store = () => {
                 backgroundColor: "transparent",
                 boxShadow: "none",
                 outline: "none",
+                '&:hover': {
+                  cursor: "pointer",
+                }
               }}
               onClick={() => viewProduct(product._id)}
             >

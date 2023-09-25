@@ -91,6 +91,16 @@ const Login = () => {
     }
   }, [form]);
 
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setSnackbarMessage('You are already logged in. Redirecting in 2 seconds...');
+      setSnackbarSeverity('success');
+      setOpenSnackbar(true);
+      setTimeout(() => {
+        navigate("/home");
+      }, 3000);
+    }
+  })
 
   return (
     <div style={{minHeight:"100vh"}}>

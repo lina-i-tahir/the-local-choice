@@ -70,7 +70,7 @@ function NavBar() {
   } 
   else if (localStorage.getItem("role") === "user") {
     settings = ["profile", "orders", "logout"];
-    pages = ["stores", "about", "contact"];
+    pages = ["home", "stores", "about", "contact"];
   }
   else {
     settings = ["login", "logout"];

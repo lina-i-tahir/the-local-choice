@@ -6,7 +6,7 @@ import theLocalChoiceLogo from "../assets/theLocalChoiceLogo.png";
 const Logo = () => {
     return ( 
         <div style={{margin:"20px 30px"}}>
-            <Link to="/home" style={{textDecoration:"none"}}> 
+            <Link to="/" style={{textDecoration:"none"}}> 
             <img
               src={theLocalChoiceLogo}
               alt="The Local Choice"
