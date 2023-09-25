@@ -1,3 +1,4 @@
+const { orderModel } = require("../models/orderModel");
 const express = require("express");
 
 require("dotenv").config();
@@ -35,34 +36,33 @@ router.post("/create-checkout-session", async (req, res) => {
     success_url: `${process.env.CLIENT_URL}/scsuccess`,
     cancel_url: `${process.env.CLIENT_URL}/sccancel`,
   });
-  // const session = await stripe.checkout.sessions.create({
-  //   shipping_address_collection: {
-  //     allowed_countries: ["SG"],
-  //   },
-  //   line_items: [
-  //     {
-  //       price_data: {
-  //         currency: "sgd",
-  //         product_data: {
-  //           name: "T-shirt",
-  //         },
-  //         unit_amount: 2000,
-  //       },
-  //       quantity: 1,
-  //     },
-  //   ],
 
-  //   mode: "payment",
-  //   success_url: `${process.env.CLIENT_URL}/scsucess`,
-  //   cancel_url: `${process.env.CLIENT_URL}/sccancel`,
-  // });
   res.send({ url: session.url });
 });
 
+// Create Order
+const createOrder = async (customer, data) => {
+  const Items = JSON.parse(customer.metadata.cart);
+
+  const newOrder = new orderModel({
+    userId: customer.metadata.userId,
+    customerId: data.customer,
+    paymentIntentId: data.payment_intent,
+    products: Items,
+    total: data.totalPrice,
+    payment_status: data.payment_status,
+  });
+  try {
+    const savedOrder = await newOrder.save();
+    console.log("Processed Order: ", savedOrder);
+  } catch (err) {
+    console.log(err);
+  }
+};
 // stripe webhooks
 
-const endpointSecret =
-  "whsec_3e5fb04178063d2ea93a1a863033cb7a05f7ae622725827a07474f853fc54326";
+// This is your Stripe CLI webhook secret for testing your endpoint locally.
+const endpointSecret = Stripe(process.env.STRIPE_WEBHOOK_ENDPOINT);
 
 router.post(
   "/webhook",
@@ -100,51 +100,15 @@ router.post(
         .then((customer) => {
           console.log(customer);
           console.log("data:", data);
+          createOrder(customer, data);
         })
         .catch((err) => console.log(err.message));
       //get cust data
     }
-    // Return a 200 response to acknowledge receipt of the event
+
     res.send();
   }
 );
 
-// app.listen(4242, () => console.log("Running on port 4242"));
-
 //for FE
 module.exports = router;
-
-// BACK UP BEFORE LINK TO FE
-// const express = require("express");
-
-// require("dotenv").config();
-
-// const Stripe = require("stripe");
-// const stripe = Stripe(process.env.STRIPE_KEY);
-
-// const router = express.Router();
-
-// router.post("/create-checkout-session", async (req, res) => {
-//   const session = await stripe.checkout.sessions.create({
-//     shipping_address_collection: {
-//       allowed_countries: ["SG"],
-//     },
-//     line_items: [
-//       {
-//         price_data: {
-//           currency: "sgd",
-//           product_data: {
-//             name: "T-shirt",
-//           },
-//           unit_amount: 2000,
-//         },
-//         quantity: 1,
-//       },
-//     ],
-
-//     mode: "payment",
-//     success_url: `${process.env.CLIENT_URL}/scsucess`,
-//     cancel_url: `${process.env.CLIENT_URL}/sccancel`,
-//   });
-//   res.send({ url: session.url });
-// });
