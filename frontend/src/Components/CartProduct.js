@@ -10,8 +10,8 @@ import { removeFromCart } from "../Slices/cartSlice";
 import { TableRow, TableCell } from "@mui/material";
 
 const CartProduct = (props) => {
-    const { name, _id, quantity, price, image } = props;
-    const dispatch = useDispatch();
+  const { name, _id, quantity, price, image } = props;
+  const dispatch = useDispatch();
 
   const [productData, setProductData] = useState(null);
   // const product = store[0].products.find((item) => item._id === parseInt(id));
@@ -34,45 +34,35 @@ const CartProduct = (props) => {
       });
   };
 
-  useEffect(() => {
-    getProduct({ storeId, productId });
-  }, [storeId, productId]);
+  // useEffect(() => {
+  //   getProduct({ storeId, productId });
+  // }, [storeId, productId]);
 
   // const productData = store[0].products.find(
   //   (item) => item._id === parseInt(id)
   // );
 
+  const removeFromCartHandler = (id) => {
+    dispatch(removeFromCart(id));
+  };
 
-    const removeFromCartHandler = (id) => {
-        dispatch(removeFromCart(id));
-    }
-
-
-    return (
-        <TableRow>
-            <TableCell>
-                <IconButton>
-                    <DeleteOutlinedIcon
-                        onClick={() => removeFromCartHandler(_id)}
-                    />
-                </IconButton>
-            </TableCell>
-            <TableCell>
-                <img
-                    src={image}
-                    alt={name}
-                    style={{ width: "100px" }}
-                />
-            </TableCell>
-            <TableCell>{name}</TableCell>
-            <TableCell>
-              {price ? `$${price.toFixed(2)}` : "$0.00"}
-            </TableCell>
-            <TableCell>{quantity}</TableCell>
-            <TableCell>
-              {(quantity && price) ? `$${(quantity * price).toFixed(2)}` : "$0.00"}
-            </TableCell>
-        </TableRow>
-    );
-}
+  return (
+    <TableRow>
+      <TableCell>
+        <IconButton>
+          <DeleteOutlinedIcon onClick={() => removeFromCartHandler(_id)} />
+        </IconButton>
+      </TableCell>
+      <TableCell>
+        <img src={image} alt={name} style={{ width: "100px" }} />
+      </TableCell>
+      <TableCell>{name}</TableCell>
+      <TableCell>{price ? `$${price.toFixed(2)}` : "$0.00"}</TableCell>
+      <TableCell>{quantity}</TableCell>
+      <TableCell>
+        {quantity && price ? `$${(quantity * price).toFixed(2)}` : "$0.00"}
+      </TableCell>
+    </TableRow>
+  );
+};
 export default CartProduct;
