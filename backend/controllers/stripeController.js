@@ -2,13 +2,7 @@
 const mongoose = require("mongoose");
 
 // Connect to MongoDB
-mongoose.connect(
-  "mongodb+srv://local-choice:gSCbdkmjwtYgeCGa@cluster0.exgtxpx.mongodb.net/local_choice?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+mongoose.connect(process.env.DATABASE_URL);
 
 const paymentSchema = new mongoose.Schema({
   amount: Number,
