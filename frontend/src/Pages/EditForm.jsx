@@ -249,6 +249,7 @@ const EditForm = () => {
                         sx={{
                             backgroundColor:"#75695a",
                             boxShadow: "none",
+                            color: "primary.light",
                             '&:hover': {
                             backgroundColor: '#e4dccd',
                             color:"#75695a",

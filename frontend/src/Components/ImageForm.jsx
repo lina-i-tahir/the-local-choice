@@ -14,6 +14,7 @@ const ImageForm = ( props) => {
             <Button variant="contained" component="span"
                 sx={{
                     backgroundColor:"#75695a",
+                    color: "primary.light",
                     boxShadow: "none",
                     '&:hover': {
                     backgroundColor: '#e4dccd',
