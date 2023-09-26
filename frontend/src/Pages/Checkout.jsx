@@ -1,3 +1,6 @@
+
+import PayButton from "../Components/PayButton";
+
 import { useEffect, useContext} from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { Button, Container, Grid, Typography } from "@mui/material"
@@ -13,19 +16,41 @@ import { Table, TableBody, TableCell, TableHead, TableRow, TableContainer } from
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 
-const Checkout = () => {
 
-    const [createOrder, { isLoading, error }] = useCreateOrderMutation()
-    const navigate = useNavigate()
-    const cart = useContext(CartContext);
+const Checkout = () => {
+  const [createOrder, { isLoading, error }] = useCreateOrderMutation();
+  const navigate = useNavigate();
+  const cart = useContext(CartContext);
+
+
+  const orderItems = cart.items.map((item) => item);
+
+  const proceedToPayment = () => {
+    console.log(orderItems);
+  };
+
+  // const proceedToCheckout = async () => {
+  //     try {
+  //         const res = await createOrder({
+  //             orderItems: cart.orderItems,
+  //             shippingAddress: cart.shippingAddress,
+  //             paymentMethod: cart.paymentMethod,
+  //             itemsPrice: cart.itemsPrice,
+  //             shippingPrice: cart.shippingPrice,
+  //             taxPrice: cart.taxPrice,
+  //             totalPrice: cart.totalPrice,
+  //         }).unwrap()
+  //         navigate(`/checkout/${res._id}`)
+  //     } catch (error) {
+  //         toast.error(error)
+  //     }
+  // }
+
+
+
     const { cartItems } = useSelector((state) => state.cart)
     const { totalPrice } = useSelector((state) => state.cart)
 
-    const orderItems = cart.items.map((item) => item )
-
-    const proceedToPayment = () => {
-        console.log(orderItems)
-    }
     
 
   return (
@@ -70,24 +95,28 @@ const Checkout = () => {
                 Total Price: ${totalPrice}
             </Typography>
             <Box sx={{display:"flex", justifyContent:"flex-end", margin:"20px"}}>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={proceedToPayment}
-                sx={{
-                    backgroundColor: "#99958C",
-                    color: "#E4DCCD",
-                    width: "17ch",
-                    height: "45px",
-                    textAlign: "center",
-                    "&:hover": {
-                        backgroundColor: "#737373",
-                    },
-                }}
-            >
-                Checkout
-            </Button>
+//             <Button
+//                 variant="contained"
+//                 color="primary"
+//                 onClick={proceedToPayment}
+//                 sx={{
+//                     backgroundColor: "#99958C",
+//                     color: "#E4DCCD",
+//                     width: "17ch",
+//                     height: "45px",
+//                     textAlign: "center",
+//                     "&:hover": {
+//                         backgroundColor: "#737373",
+//                     },
+//                 }}
+//             >
+//                 Checkout
+//             </Button>
+                          <PayButton cartItems={orderItems} />
+
             </Box>
+
+
             </TableContainer>
             
         </Container>
@@ -95,4 +124,5 @@ const Checkout = () => {
   )
 }
 
-export default Checkout
+
+export default Checkout;

@@ -47,7 +47,7 @@ const Cancel = () => {
             },
           }}
         >
-          go back home
+          but, you can shop for more!
         </Button>
       </Container>
     </>

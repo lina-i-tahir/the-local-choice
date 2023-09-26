@@ -23,6 +23,7 @@ import Notification from "../Components/Notification";
 import { handleExpire } from "../utils/logoutUtils";
 import Loading from "../Components/Loading";
 
+
 const ProductDetail = () => {
   const { id, productId } = useParams();
   const [currentProduct, setCurrentProduct] = useState({});
@@ -30,6 +31,7 @@ const ProductDetail = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
+
 
   const token = localStorage.getItem('token');
   const { data: currentStore, isLoading, error } = useGetStoreByIdQuery({storeId:id, token})
@@ -40,6 +42,7 @@ const ProductDetail = () => {
   }, [currentStore]);
 
   console.log("current", currentProduct)
+
 
   const navigate = useNavigate(); // Define the navigate function
 
@@ -55,6 +58,16 @@ const ProductDetail = () => {
   };
 
 
+// <<<<<<< page-stripe
+//   // const { id } = useParams();
+//   const product = store[0].products.find((item) => item._id === parseInt(id));
+//   // const navigate = useNavigate(); // Define the navigate function
+
+//   const handleAddToCart = () => {
+//     cart.addToCart(id, productId, quantity, currentProduct.price);
+//   };
+
+// =======
   const handleAddToCart = () => {
     dispatch(addToCart({ ...currentProduct, quantity}))
   };
@@ -77,6 +90,7 @@ const ProductDetail = () => {
         ,3000);
     }
   }, [error]); 
+
 
   if (!currentProduct) {
     // Handle the case where the product is not found

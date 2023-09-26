@@ -13,9 +13,40 @@ const CartProduct = (props) => {
     const { name, _id, quantity, price, image } = props;
     const dispatch = useDispatch();
 
+  const [productData, setProductData] = useState(null);
+  // const product = store[0].products.find((item) => item._id === parseInt(id));
+
+  const getProduct = async ({ storeId, productId }) => {
+    await axios({
+      method: "GET",
+      url: `http://localhost:8000/config/stores/${storeId}/products/${productId}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => {
+        console.log(response.data);
+        setProductData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getProduct({ storeId, productId });
+  }, [storeId, productId]);
+
+  // const productData = store[0].products.find(
+  //   (item) => item._id === parseInt(id)
+  // );
+
+
     const removeFromCartHandler = (id) => {
         dispatch(removeFromCart(id));
     }
+
 
     return (
         <TableRow>

@@ -47,7 +47,7 @@ const Success = () => {
             },
           }}
         >
-          go back home
+          shop for more!
         </Button>
       </Container>
     </>
