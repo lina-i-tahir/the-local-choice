@@ -68,7 +68,7 @@ const NewStore = () => {
     };
 
     return ( 
-        <div>
+        <div style={{minHeight:"100vh"}}>
             <RouteHistory page="new store" routeName="config/stores/new" />
             <Box
                 component="form"
@@ -141,7 +141,7 @@ const NewStore = () => {
                     sx={{
                         backgroundColor: "#99958C",
                         color: "#E4DCCD",
-                        width: "51ch",
+                        width: "25%",
                         // marginRight:"130px",
                         // marginLeft:"200px",
                         marginTop: "30px",
