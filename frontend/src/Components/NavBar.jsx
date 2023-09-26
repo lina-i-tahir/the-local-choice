@@ -26,9 +26,21 @@ import { useNavigate } from "react-router-dom";
 import Notification from "./Notification";
 import { CartContext } from "../CardContext";
 import CartProduct from "./CartProduct";
+import LogoutIcon from '@mui/icons-material/Logout';
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
+import LoginIcon from '@mui/icons-material/Login';
+import { useEffect } from "react";
+
+import { useSelector } from "react-redux";
 
 var pages = ["stores", "about", "contact"];
-var settings = ["profile", "orders", "login", "logout", "signup"];
+var settings = ["profile", "orders", "login", "logout"];
+const obj ={
+  profile: <EmojiPeopleIcon sx={{marginRight:"10px", width:"15px", color:"gray"}}/>,
+  orders: <ContentPasteIcon sx={{marginRight:"10px", width:"15px", color:"gray"}}/>,
+  login: <LoginIcon sx={{marginRight:"16px", width:"15px", color:"gray"}}/>,
+}
 
 const stores = ["handfully", "handxmade"];
 
@@ -38,13 +50,15 @@ const styleModal = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "600px",
+  maxHeight: "50vh",  // set this to a desired maximum height, 90vh is 90% of the viewport height
+  overflow: "auto",   // content will scroll if it overflows
   bgcolor: "#F3EFE7",
   border: "2px solid #000",
-
   boxShadow: 24,
   p: 4,
 };
+
 
 function NavBar() {
   // notification
@@ -53,12 +67,18 @@ function NavBar() {
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
 
   if (localStorage.getItem("role") === "admin") {
-    settings = ["login", "logout"];
+    settings = [ "logout"];
     pages = ["config"];
-  } else {
-    settings = ["profile", "orders", "login", "logout", "signup"];
-    pages = ["stores", "about", "contact"];
+  } 
+  else if (localStorage.getItem("role") === "user") {
+    settings = ["profile", "orders", "logout"];
+    pages = ["home", "stores", "about", "contact"];
   }
+  else {
+    settings = ["login", "logout"];
+    pages =[];
+  }
+
 
   // handle close snackbar
   const handleCloseSnackbar = () => {
@@ -96,21 +116,22 @@ function NavBar() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    localStorage.removeItem("role");
-    settings = ["profile", "orders", "login", "logout", "signup"];
-    pages = ["stores", "about", "contact"];
+    // localStorage.removeItem("token");
+    localStorage.clear();
     navigate("/login");
     window.location.reload();
   };
 
   // Shopping cart Modal Badge
-  const cart = useContext(CartContext);
-  const productsCount = cart.items.reduce(
-    (sum, product) => sum + product.quantity,
-    0
-  );
+  const { cartItems } = useSelector((state) => state.cart)
+  const { totalPrice } = useSelector((state) => state.cart) // total price of all items in cart
+  const totalQty = cartItems.reduce((acc, item) => acc + item.quantity, 0)
+
+  // const cart = useContext(CartContext);
+  // const productsCount = cart.items.reduce(
+  //   (sum, product) => sum + product.quantity,
+  //   0
+  // );
 
   const postLogout = async () => {
     await axios({
@@ -223,12 +244,10 @@ function NavBar() {
                       sx={{
                         mr: 2,
                         display: { xs: "none", md: "flex" },
-                        fontFamily: "ovo",
-                        fontWeight: 500,
+                        fontWeight: 400,
                         color: "#414B3B",
                         textDecoration: "none",
                         margin: "20px",
-                        fontSize: "16px",
                       }}
                     >
                       {page}
@@ -243,12 +262,10 @@ function NavBar() {
                       sx={{
                         mr: 2,
                         display: { xs: "none", md: "flex" },
-                        fontFamily: "ovo",
-                        fontWeight: 500,
+                        fontWeight: 400,
                         color: "#414B3B",
                         textDecoration: "none",
                         margin: "20px",
-                        fontSize: "16px",
                       }}
                     >
                       {page}
@@ -281,7 +298,7 @@ function NavBar() {
                 </IconButton>
                 <Badge
                   anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                  badgeContent={productsCount}
+                  badgeContent={totalQty}
                   sx={{
                     "& .MuiBadge-badge": {
                       color: "414B3B",
@@ -317,22 +334,24 @@ function NavBar() {
                         <Container>
                           <Typography
                             id="modal-modal-description"
-                            sx={{ mt: 2 }}
+                            sx={{ mt: 2, display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center" }}
                             variant="h7"
                             fontFamily="Poppins"
                             fontWeight="200"
                             color="#414B3B"
                           >
                             <br />
-                            {productsCount > 0 ? (
+                            {cartItems.length > 0 ? (
                               <>
                                 {/* <p>items in your cart</p> */}
-                                {cart.items.map((currentProduct, idx) => (
+                                {cartItems.map((currentProduct, idx) => (
                                   <CartProduct
                                     key={idx}
-                                    storeId={currentProduct.storeId}
-                                    productId={currentProduct.productId}
+                                    name={currentProduct.name}
+                                    _id={currentProduct._id}
                                     quantity={currentProduct.quantity}
+                                    price={currentProduct.price}
+                                    image={currentProduct.image}
                                   ></CartProduct>
                                 ))}
                                 {/* <h4>total: $ {cart.getTotalCost().toFixed(2)}</h4> */}
@@ -347,14 +366,14 @@ function NavBar() {
                                     color: "#E4DCCD",
                                     width: "20ch",
                                     textAlign: "center",
-                                    margin: "0px 0px 0px 100px",
+                                    margin: "10px auto",
                                     padding: "18px",
                                     "&:hover": {
                                       backgroundColor: "#737373",
                                     },
                                   }}
                                 >
-                                  checkout ${cart.getTotalCost().toFixed(2)}
+                                  checkout ${totalPrice}
                                 </Button>
                               </>
                             ) : (
@@ -392,11 +411,14 @@ function NavBar() {
               >
                 {settings.map((setting) =>
                   setting === "logout" ? (
+                    <>
+                    <Divider />
                     <MenuItem
                       key={setting}
                       onClick={handleLogoutClick}
-                      sx={{ width: "100px", justifyContent: "center" }}
+                      sx={{ width: "100px", justifyContent: "center", color:"gray" }}
                     >
+                      <LogoutIcon sx={{marginRight:"10px", width:"15px"}}/>
                       <Typography
                         sx={{
                           color: "#414B3B",
@@ -407,6 +429,7 @@ function NavBar() {
                         {setting}
                       </Typography>
                     </MenuItem>
+                    </>
                   ) : (
                     <Link to={`/${setting}`} style={{ textDecoration: "none" }}>
                       <MenuItem
@@ -414,6 +437,7 @@ function NavBar() {
                         onClick={handleCloseUserMenu}
                         sx={{ width: "100px", justifyContent: "center" }}
                       >
+                        {obj[setting]}
                         <Typography
                           sx={{
                             color: "#414B3B",

@@ -74,7 +74,7 @@ const SignUp = () => {
     }, [form]);
 
     return (  
-        <div>
+        <div style={{minHeight:"100vh"}}>
             <RouteHistory page="create account" routeName="signup"/>
 
             <Box
@@ -110,6 +110,7 @@ const SignUp = () => {
                         id="firstName"
                         name="firstName"
                         label="First Name"
+                        color="secondary"
                         defaultValue=""
                     />
                 </div>
@@ -119,6 +120,7 @@ const SignUp = () => {
                         id="lastName"
                         name="lastName"
                         label="Last Name"
+                        color="secondary"
                         defaultValue=""
                     />
                 </div>
@@ -128,6 +130,7 @@ const SignUp = () => {
                         id="email"
                         name="email"
                         label="Email"
+                        color="secondary"
                         defaultValue=""
                     />
                 </div>
@@ -138,13 +141,14 @@ const SignUp = () => {
                         id="password"
                         name="password"
                         label="Password"
+                        color="secondary"
                         defaultValue=""
                     />
                 </div>
                 <Button type="submit" variant="contained" 
                         sx={{backgroundColor:"#99958C", 
                             color:"#E4DCCD", 
-                            width:"51ch",
+                            width:"45ch",
                             marginTop:"40px",
                             '&:hover': {
                             backgroundColor: "#737373"}}}>

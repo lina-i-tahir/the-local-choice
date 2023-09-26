@@ -8,7 +8,7 @@ module.exports = {
     getMyOrders,
     getOrderById,
     updateOrderToPaid,
-    updateOrderToDelievered,
+    updateOrderStatus,
     getOrders
 };
 
@@ -28,7 +28,6 @@ async function getOrders(req, res){
 // @access Private
 
 async function addOrderItems(req, res){
-    // res.send('add order items');
     const {
         orderItems,
         shippingAddress,
@@ -60,13 +59,39 @@ async function addOrderItems(req, res){
     }
 }
 
+async function createOrder (req, res){
+    const order = new Order( req.body );
+    if (order.orderItems && order.orderItems.length === 0){
+        res
+            .status(400)
+            .json({ message: "no items in your cart"});
+    }
+    else{
+        order.orderId = new Date().getTime().toString();
+        try {
+            await order.save();
+            res.status(201).json({ title: "Order Detail", order });
+        }
+        catch (err) {
+            console.log(err);
+            res.status(500).json({ errorMsg: err.message });
+        }       
+    }
+}
 
 // @desc Get logged in user orders
 // @route GET /api/orders/myorders
 // @access Private
 
 async function getMyOrders(req, res){
-    res.send('get my orders')
+    try{
+        const orders = await Order.find({user: req.user._id});
+        res.json({ title: "My Orders", orders });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ errorMsg: err.message });
+    }
 }
 
 
@@ -77,7 +102,6 @@ async function getMyOrders(req, res){
 async function getOrderById(req, res){
     // res.send('get order by id')
     const orderDetail = await Order.findById(req.params.id);
-    // res.render("movies/show", { title: "Movie Detail", movie });
     res.json({ title: "Order Detail", orderDetail });
 }
 
@@ -104,8 +128,19 @@ async function updateOrderToPaid(req, res){
 // // @desc Update order to delivered
 // // @route PUT /api/orders/:id/deliver
 // // @access Private/Admin
-
-async function updateOrderToDelievered(req, res){
-    res.send('update order to delivered')
+async function updateOrderStatus(req, res){
+    try {
+        const order = await Order.findById(req.params.id);
+        order.status = req.body.status;
+        if (req.body.status === "delivered") {
+            order.isDelivered = true;
+            order.deliveredAt = Date.now();
+        }
+        await order.save();
+        res.json({ title: "Order Detail", order });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ errorMsg: err.message });
+    }
 }
-

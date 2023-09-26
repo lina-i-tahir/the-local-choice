@@ -69,7 +69,7 @@ const Orders = () => {
 
   return (
     <>
-        <Grid container spacing={0} style={{height: '80vh' }}>
+        <Grid container spacing={0} style={{minHeight: '100vh', margin:"10px auto" }}>
             <SidePanel page={"orders"} route={"orders"}/>
             <Grid item xs={8.5}>
                 <Stack 

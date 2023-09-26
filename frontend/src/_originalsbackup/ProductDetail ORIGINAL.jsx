@@ -16,33 +16,35 @@ import Rating from "../Components/Rating";
 // cart context
 import { CartContext } from "../CardContext";
 import { useCart } from "../CardContext";
-import { useGetStoreByIdQuery } from "../Slices/storeSlice";
-import { addToCart } from "../Slices/cartSlice";
-import { useDispatch } from "react-redux";
-import Notification from "../Components/Notification";
-import { handleExpire } from "../utils/logoutUtils";
-import Loading from "../Components/Loading";
 
+const token = localStorage.getItem('token');
 
 const ProductDetail = () => {
   const { id, productId } = useParams();
-  const [currentProduct, setCurrentProduct] = useState({});
-  const dispatch = useDispatch()
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("");
+  const [currentProduct, setCurrentProduct] = useState([]);
+  // const product = store[0].products.find((item) => item._id === parseInt(id));
 
-
-  const token = localStorage.getItem('token');
-  const { data: currentStore, isLoading, error } = useGetStoreByIdQuery({storeId:id, token})
-  useEffect(() => {
-    if (!isLoading) {
-      setCurrentProduct(currentStore.store.products.find(product => product._id === productId))
+  const getProduct = async ({id, productId}) => {
+    await axios({
+        method: "GET",
+        url: `http://localhost:8000/config/stores/${id}/products/${productId}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          },
+    })
+    .then((response) => {
+        console.log(response.data);
+        setCurrentProduct(response.data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
   }
-  }, [currentStore]);
-
-  console.log("current", currentProduct)
-
+  
+  useEffect(() => {
+      getProduct({id, productId});
+  }, [id, productId]);
 
   const navigate = useNavigate(); // Define the navigate function
 
@@ -57,39 +59,17 @@ const ProductDetail = () => {
     setQuantity(event.target.value);
   };
 
+  // const handleAddToCart = () => {
+  //   cart.addToCart(currentProduct._id, quantity);
+  // };
 
-// <<<<<<< page-stripe
-//   // const { id } = useParams();
-//   const product = store[0].products.find((item) => item._id === parseInt(id));
-//   // const navigate = useNavigate(); // Define the navigate function
+  // const { id } = useParams();
+  const product = store[0].products.find((item) => item._id === parseInt(id));
+  // const navigate = useNavigate(); // Define the navigate function
 
-//   const handleAddToCart = () => {
-//     cart.addToCart(id, productId, quantity, currentProduct.price);
-//   };
-
-// =======
-  const handleAddToCart = () => {
-    dispatch(addToCart({ ...currentProduct, quantity}))
+    const handleAddToCart = () => {
+    cart.addToCart(id, productId, quantity, currentProduct.price);
   };
-  const handleCloseSnackbar = () => {
-      setOpenSnackbar(false);
-  };
-
-  useEffect(() => {
-    if (error?.status === 401) {
-        console.log("401 error");
-        setOpenSnackbar(true);
-        setSnackbarMessage("Please login or create an account to view this page!");
-        setSnackbarSeverity("error");
-        handleExpire();
-        setTimeout(() => {
-            navigate("/login");
-            window.location.reload();
-
-        }
-        ,3000);
-    }
-  }, [error]); 
 
 
   if (!currentProduct) {
@@ -134,13 +114,7 @@ const ProductDetail = () => {
 
   return (
     <>
-      { isLoading ? 
-            <Loading bgColor="primary.light"/>
-          : error ? 
-            <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
-          : (
-            <>
-      <RouteHistory page={`stores/${currentStore.store.name}`} routeName={`stores/${id}/${productId}`} />
+      <RouteHistory page={`stores/${id}`} routeName={`stores/${id}`} />
       <Container>
         <Grid container spacing={{ xs: 3, md: 2 }}>
           <Grid item xs={3} md={6} key={id}>
@@ -173,14 +147,14 @@ const ProductDetail = () => {
                 display: "flex",
                 justifyContent: "left",
                 fontFamily: "Poppins",
-                fontWeight: 200,
+                fontWeight: 100,
                 color: "#414B3B",
                 textDecoration: "none",
                 margin: "20px 0px 30px 0px",
                 textAlign: "left",
               }}
             >
-              {currentProduct && currentProduct.price ? '$' + currentProduct.price.toFixed(2) : '0.00'}
+              ${currentProduct.price}
             </Typography>
 
             <div>
@@ -247,7 +221,7 @@ const ProductDetail = () => {
               display: "flex",
               justifyContent: "left",
               fontFamily: "Poppins",
-              fontWeight: 200,
+              fontWeight: 100,
               color: "#414B3B",
               textDecoration: "none",
               margin: "50px",
@@ -282,7 +256,7 @@ const ProductDetail = () => {
               display: "flex",
               justifyContent: "left",
               fontFamily: "Poppins",
-              fontWeight: 200,
+              fontWeight: 100,
               color: "#414B3B",
               textDecoration: "none",
               margin: "50px",
@@ -296,8 +270,6 @@ const ProductDetail = () => {
           </Typography>
         </Grid>
       </Container>
-      </>
-          )}
     </>
   );
 };

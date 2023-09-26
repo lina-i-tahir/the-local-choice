@@ -7,12 +7,15 @@ import { Link } from "react-router-dom";
 import RouteHistory from "../Components/RouteHistory";
 import Notification from "../Components/Notification";
 
+
 const Login = () => {
   // notification
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('');
-  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
@@ -22,6 +25,7 @@ const Login = () => {
     const handleCloseSnackbar = () => {
       setOpenSnackbar(false);
   };
+
   const postLogin = async () => {
     await axios({
       method: "POST",
@@ -43,6 +47,7 @@ const Login = () => {
           console.log("test local storage",localStorage.getItem('user'));
           // console.log(response.data.token);
           console.log(response.data.user.role);
+          
           if (response.data.user.role === "admin") {
             setSnackbarMessage('admin login successfully');
             setTimeout(() => {
@@ -86,13 +91,24 @@ const Login = () => {
     }
   }, [form]);
 
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setSnackbarMessage('You are already logged in. Redirecting in 2 seconds...');
+      setSnackbarSeverity('success');
+      setOpenSnackbar(true);
+      setTimeout(() => {
+        navigate("/home");
+      }, 3000);
+    }
+  }, [])
+
   return (
-    <div>
+    <div style={{minHeight:"100vh"}}>
       <RouteHistory page="login" routeName="login" />
       <Box
         component="form"
         onSubmit={handleSubmit}
-        sx={{ "& .MuiTextField-root": { m: 1, width: "40ch" } }}
+        sx={{ "& .MuiTextField-root": { m: 1, width: "40ch"} }}
         noValidate
         autoComplete="off"
       >
@@ -120,7 +136,9 @@ const Login = () => {
             id="outlined-required"
             label="Email"
             name="email"
-            defaultValue=""
+            color="secondary"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div>
@@ -130,11 +148,13 @@ const Login = () => {
             label="Password"
             name="password"
             type="password"
+            color="secondary"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <Link to="/forgetpassword" style={{ textDecoration: "none" }}>
           <Typography
-            variant="h7"
             noWrap
             sx={{
               display: "flex",
@@ -159,9 +179,7 @@ const Login = () => {
           sx={{
             backgroundColor: "#99958C",
             color: "#E4DCCD",
-            width: "51ch",
-            // marginRight:"130px",
-            // marginLeft:"200px",
+            width: "45ch",
             marginTop: "30px",
             "&:hover": {
               backgroundColor: "#737373",
@@ -171,7 +189,6 @@ const Login = () => {
           Login
         </Button>
         <Typography
-          variant="h7"
           noWrap
           sx={{
             display: "flex",
@@ -185,7 +202,6 @@ const Login = () => {
         >
           <Box display="center" justifyContent="center" alignItems="center">
             <Typography
-              variant="h7"
               noWrap
               sx={{
                 fontFamily: "Poppins",
@@ -214,6 +230,27 @@ const Login = () => {
                 Sign up
               </Typography>
             </Link>
+            <Typography
+              noWrap
+              onClick={() => {
+                setEmail("test@gmail.com");
+                setPassword("mock123@");
+              }
+              }
+              sx={{
+                fontFamily: "Poppins",
+                fontWeight: 500,
+                color: "#75695A",
+                fontSize: "14px",
+                margin: "5px",
+                "&:hover": {
+                  color: "#414B3B",
+                  cursor: "pointer",
+                }
+              }}
+            >
+              / Generate Test Account
+            </Typography>
           </Box>
         </Typography>
       </Box>

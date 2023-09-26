@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Home from "./Pages/Home";
 import NavBar from "./Components/NavBar";
@@ -30,22 +30,31 @@ import Checkout from "./Pages/Checkout";
 import PlaceOrderCheckout from "./Pages/PlaceOrderCheckout";
 import AdminOrderStatus from "./Pages/AdminOrder";
 
+import responsiveMainTheme from "./design/themes";
+import { ThemeProvider } from '@mui/material/styles';
+
+import About from "./Pages/About";
+import Contact from "./Pages/Contact";
+import LandingPage from "./Pages/LandingPage";
+
 function App() {
-  const [user, setUser] = useState(null);
 
   return (
+    <ThemeProvider theme={responsiveMainTheme}>
     <CartProvider>
       <div
         className="App"
-        style={{ backgroundColor: "#E4DCCD", height: "100vh" }}
+        style={{ backgroundColor: "#E4DCCD" }}
       >
         <Router>
           <NavBar />
           <Routes>
             {/* public routes */}
-            <Route path="/" element={<h1>landing page</h1>} />
+            <Route path="/" element={<LandingPage />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
             {/* user + admin routes */}
             <Route path="/home" element={<Home />} />
             <Route path="*" element={<Error />} />
@@ -83,6 +92,7 @@ function App() {
         </Router>
       </div>
     </CartProvider>
+  </ThemeProvider>
   );
 }
 

@@ -30,6 +30,9 @@ const Admin = () => {
         })
         .catch((error) => {
             console.log(error);
+            if (error.response.status === 401) {
+                navigate("/login");
+            }
         });
     }
 
@@ -76,40 +79,63 @@ const Admin = () => {
         }
     }
 
+    const buttonStyle = {
+        backgroundColor:"#99958C",
+        color:"#E4DCCD",
+        width:"40%",
+        margin:"10px auto",
+        '&:hover': {
+            backgroundColor: "#737373"
+        }
+    }
+
     const displayStore = store.map((item) => {
         return (
-            <Card key={item.id} sx={{ maxWidth: 345, margin: "30px 15px", borderRadius:"10px", backgroundColor:"#EFEAE0"}}>
+            <Card key={item.id} 
+                    sx={{ 
+                        maxWidth: 250, 
+                        height: 250, 
+                        justifyContent: 'center', 
+                        margin: "30px 15px", 
+                        borderRadius:"10px", 
+                        backgroundColor:"#EFEAE0",
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center'
+                    }}>
                 <CardMedia
                     component="img"
-                    height="200"
                     image={item.image}
                     alt={item.name}
                     sx={{
                         objectFit: "contain",
                         width: "90%",
                         margin: "0 auto",
+                        padding: "10px"
                     }}
                 />
                 <CardContent>
-                    <Typography gutterBottom variant="h6" component="div"
+                    <Typography gutterBottom component="div"
                     sx ={{
                         textAlign: "center",
-                        fontFamily: "Poppins",
-                        fontSize:"20px",
-                        margin:"-10px 0px",
+                        fontSize: "17px",
+                        fontWeight: '500',
+                        margin: "-10px 0px",
+                        padding: '5px',
+                        color: 'primary.contrastText'
                     }}>
                         {item.name}
                     </Typography>
                 </CardContent>
                 <CardActions sx={{display:"flex", justifyContent:"center"}}>
                     <Link key={item._id} to={`/config/stores/${item._id}`}>
-                        <Typography gutterBottom variant="h6" component="div"
+                        <Typography gutterBottom component="div"
                         sx ={actionStyle}
                         >
                             edit
                         </Typography>
                     </Link>
-                    <Typography gutterBottom variant="h6" component="div"
+                    <Typography gutterBottom component="div"
                     noWrap
                     onClick={() => handleDelete(item._id)}
                     sx={actionStyle}>
@@ -121,7 +147,7 @@ const Admin = () => {
     })
     
     return ( 
-        <div style={{display:"flex", flexDirection:"column"}}>
+        <div style={{display:"flex", flexDirection:"column", minHeight:"100vh"}}>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", width:"100%" }}>
                 {store.length > 0 ? displayStore : 
                 <Typography variant="h6" component="div"
@@ -135,23 +161,13 @@ const Admin = () => {
                 </Typography>}
             </div>
             <Button variant="contained" 
-            sx={{backgroundColor:"#99958C", 
-                color:"#E4DCCD", 
-                width:"50ch",
-                margin:"30px auto",
-                '&:hover': {
-                backgroundColor: "#737373"}}}
+            sx={buttonStyle}
                 href = "/config/stores/new"
                 >
                 Add New Store
             </Button>
             <Button variant="contained"
-            sx={{backgroundColor:"#99958C", 
-                color:"#E4DCCD", 
-                width:"50ch",
-                margin:"auto",
-                '&:hover': {
-                backgroundColor: "#737373"}}}
+            sx={buttonStyle}
                 href = "/config/stores/orders"
                 >
                 Manage Order Status

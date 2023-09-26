@@ -121,6 +121,7 @@ const EditProduct = (props) => {
                     id="productPrice" 
                     label="Price" 
                     variant="outlined"
+                    color="secondary"
                     defaultValue={store.price}
                     sx={{
                         marginBottom: "20px",
@@ -131,6 +132,7 @@ const EditProduct = (props) => {
                     id="productQuantity" 
                     label="Quantity" 
                     variant="outlined"
+                    color="secondary"
                     defaultValue={store.quantity} 
                     sx={{
                         marginBottom: "20px",
@@ -140,6 +142,7 @@ const EditProduct = (props) => {
                     id="productCategory" 
                     label="Category" 
                     variant="outlined"
+                    color="secondary"
                     defaultValue={store.category} 
                     sx={{
                         marginBottom: "20px",
@@ -149,6 +152,7 @@ const EditProduct = (props) => {
                     id="productDescription" 
                     label="Description" 
                     variant="outlined"
+                    color="secondary"
                     defaultValue={store.description}
                     sx={{
                         marginBottom: "20px",

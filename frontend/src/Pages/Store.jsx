@@ -1,53 +1,62 @@
-import { Grid, Card, CardMedia, CardContent, Link, Typography, circularProgressClasses} from "@mui/material"
+import { Grid, Card, CardMedia, CardContent, Link, Typography } from "@mui/material"
 import drawer from "../assets/drawer.png";
 import hangingPlant from "../assets/hangingPlant.png";
-import handxmadeLogo from "../assets/handxmadeLogo.png";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetStoreByIdQuery } from "../Slices/storeSlice";
+import { handleExpire } from "../utils/logoutUtils";
+import { useState, useEffect } from "react";
+import Notification from "../Components/Notification";
+import Loading from "../Components/Loading";
 
 const Store = () => {
+  const token = localStorage.getItem('token');
+  const { id } = useParams();
+  const { data: currentStore, isLoading, error } = useGetStoreByIdQuery({ storeId: id, token });
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("");
 
-    const theme = createTheme({
-        palette: {
-          primary: {
-            light: '#f3efe7',
-            main: '#e4dccd',
-            dark: '#ebdec5',
-            contrastText: '#75695a',
-          },
-          secondary: {
-            light: '#414b3b',
-            main: '#99958c',
-            dark: '#737373',
-            contrastText: '#fff',
-          },
-        },
-      });
+  const handleCloseSnackbar = () => {
+      setOpenSnackbar(false);
+  };
 
-    const { id } = useParams();
-    const { data: currentStore, isLoading, error } = useGetStoreByIdQuery(id)
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const viewProduct = (productId) => {
+    navigate(`/stores/${id}/${productId}`)
+  }
 
-    const viewProduct = (productId) => {
-        navigate(`/stores/${id}/${productId}`)
+  useEffect(() => {
+    if (error?.status === 401) {
+        console.log("401 error");
+        setOpenSnackbar(true);
+        setSnackbarMessage("Please login or create an account to view this page!");
+        setSnackbarSeverity("error");
+        handleExpire();
+        setTimeout(() => {
+            navigate("/login");
+            window.location.reload();
+        }
+        ,3000);
     }
+  }, [error]); 
+
+
 
   return (
     <>  
-    <ThemeProvider theme={theme}>
           { isLoading ? 
-            (<h2>Loading..</h2>) 
+            <Loading bgColor="primary.light"/>
           : error ? 
-            (<div>{error?.data?.message || error.error}</div>) 
+            <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
           : (
             <>
             <Grid container spacing={0}>
                 <Grid item md={4} sx={{ display: { xs: 'none', md: 'inline' }}}>
                     <img src={hangingPlant} style={{ width: "250px"}}/>
                 </Grid>
-                <Grid item md={4} xs={12} style={{ justifyContent: 'center' }}>
+                <Grid item md={4} xs={12} style={{ display: "flex", justifyContent: 'center', alignItems: "center" }}>
                     <img src={currentStore.store.image} style={{ width: "250px"}}/>
                 </Grid>
                 <Grid item md={4} sx={{ display: { xs: 'none', md: 'inline' }}}>
@@ -83,6 +92,9 @@ const Store = () => {
                 backgroundColor: "transparent",
                 boxShadow: "none",
                 outline: "none",
+                '&:hover': {
+                  cursor: "pointer",
+                }
               }}
               onClick={() => viewProduct(product._id)}
             >
@@ -115,7 +127,7 @@ const Store = () => {
                   >
                   {product.name}
                   <br />
-                  {product.price}
+                  ${product.price.toFixed(2)}
                   </Typography>
                 </Link>
               </CardContent>
@@ -141,7 +153,7 @@ const Store = () => {
             </Grid>
         </Grid>
 
-    </ThemeProvider>
+
     </>
   )
 }

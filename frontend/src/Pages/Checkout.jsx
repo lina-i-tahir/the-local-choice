@@ -1,20 +1,27 @@
-import { useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button, Container, Grid, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { useCreateOrderMutation } from "../Slices/orderSlice";
-import RouteHistory from "../Components/RouteHistory";
-import { CartContext } from "../CardContext";
-import CartProduct from "../Components/CartProduct";
-import Stack from "@mui/material/Stack";
-import store from "../store";
+
 import PayButton from "../Components/PayButton";
+
+import { useEffect, useContext} from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { Button, Container, Grid, Typography } from "@mui/material"
+import { useSelector } from "react-redux"
+import { toast } from "react-toastify"
+import { useCreateOrderMutation } from "../Slices/orderSlice"
+import RouteHistory from "../Components/RouteHistory"
+import { CartContext } from "../CardContext"
+import CartProduct from "../Components/CartProduct"
+import Stack from '@mui/material/Stack';
+import store from "../store"
+import { Table, TableBody, TableCell, TableHead, TableRow, TableContainer } from "@mui/material";
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+
 
 const Checkout = () => {
   const [createOrder, { isLoading, error }] = useCreateOrderMutation();
   const navigate = useNavigate();
   const cart = useContext(CartContext);
+
 
   const orderItems = cart.items.map((item) => item);
 
@@ -39,80 +46,83 @@ const Checkout = () => {
   //     }
   // }
 
+
+
+    const { cartItems } = useSelector((state) => state.cart)
+    const { totalPrice } = useSelector((state) => state.cart)
+
+    
+
   return (
-    <>
-      <Container maxWidth="xl" sx={{ backgroundColor: "#e4dccd" }}>
-        <RouteHistory page="checkout" routeName="checkout" />
-        <Typography
-          variant="h4"
-          noWrap
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            fontStyle: "bold",
-            color: "#414B3B",
-            textDecoration: "none",
-          }}
-        >
-          Your Cart
-        </Typography>
-        <Stack spacing={1} alignItems="center">
-          {cart.items.map((currentProduct, idx) => (
-            <Grid
-              container
-              spacing={0}
-              sx={{
-                backgroundColor: "#f3efe7",
-                justifyContent: "center",
+    <Box sx={{ backgroundColor: "#e4dccd", flexGrow:"1", minHeight: '100vh', paddingBottom:"20px" }}>
+       <Container maxWidth="xl" sx={{backgroundColor: "#e4dccd", marginTop:"10px", marginBottom:"10px", flexGrow:"1"}}>
+            <RouteHistory page="checkout" routeName="checkout" />
+            <Typography
+              variant="h4"
+              textAlign="center"
+              fontWeight="bold"
+              color="#414B3B"
+              marginBottom="2em"
+            > 
+                Your Cart
+            </Typography>
+            <TableContainer component={Paper} sx={{
+                marginTop: "20px",
+                backgroundColor: "#EFEAE0",
+                borderRadius: "10px",
                 alignItems: "center",
-                padding: "10px",
-                maxWidth: "75%",
-              }}
-            >
-              <CartProduct
-                key={idx}
-                storeId={currentProduct.storeId}
-                productId={currentProduct.productId}
-                quantity={currentProduct.quantity}
-              ></CartProduct>
-            </Grid>
-          ))}
-          <h2>Total Cost : ${cart.getTotalCost().toFixed(2)}</h2>
-          <Container>
-            <br />
-            <PayButton cartItems={orderItems} />
-          </Container>
-        </Stack>
-      </Container>
+                margin: "30px auto",
+                width: "90%",
+            }}>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell></TableCell>
+                        <TableCell>Image</TableCell>
+                        <TableCell>Product</TableCell>
+                        <TableCell>Price</TableCell>
+                        <TableCell>Qty</TableCell>
+                        <TableCell>Total</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {cartItems.map((product, idx) => (
+                        <CartProduct key={idx} {...product} />
+                    ))}
+                </TableBody>
+            </Table>
+            <Typography marginBottom="1em" sx={{display:"flex", justifyContent:"flex-end", margin:"30px"}}>
+                Total Price: ${totalPrice}
+            </Typography>
+            <Box sx={{display:"flex", justifyContent:"flex-end", margin:"20px"}}>
+//             <Button
+//                 variant="contained"
+//                 color="primary"
+//                 onClick={proceedToPayment}
+//                 sx={{
+//                     backgroundColor: "#99958C",
+//                     color: "#E4DCCD",
+//                     width: "17ch",
+//                     height: "45px",
+//                     textAlign: "center",
+//                     "&:hover": {
+//                         backgroundColor: "#737373",
+//                     },
+//                 }}
+//             >
+//                 Checkout
+//             </Button>
+                          <PayButton cartItems={orderItems} />
 
-      {/* <div>
-        <h1>PLACING ORDER</h1>
-        <h3>Shipping</h3>
-        <p> 
-            Address: {cart.shippingAddress.address}
-            <br/>
-            City : {cart.shippingAddress.city}
-            <br/>
-            Postal Code : {cart.shippingAddress.postalCode}
-            <br/>
-            Country: {cart.shippingAddress.country}
-        </p>
+            </Box>
 
-        <h3>Payment Method</h3>
-        <p>{cart.paymentMethod}</p>
 
-        <h3>Order Items</h3>
-        {cart.orderItems.map((item, index) => (
-            <>
-            <img style= {{width: "150px"}} src={item.image}/>
-            <p>{item.name}</p>
-            <p>{item.qty} x ${item.price} = ${item.qty * item.price}</p>
-            </>
-            ))}
-        </div>
-        <button onClick={CheckoutHandler}>place order</button> */}
-    </>
-  );
-};
+            </TableContainer>
+            
+        </Container>
+    </Box>
+  )
+}
+
 
 export default Checkout;

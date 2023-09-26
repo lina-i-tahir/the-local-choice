@@ -35,11 +35,14 @@ const AddProducts = () => {
             console.log(response);
             if (response.status === 201) {
                 console.log("Created successfully");
-                // navigate(`/config/stores/${id}`);
+                navigate(`/config/stores/${id}`);
             }
         })
         .catch(function (error) {
             console.log(error);
+            if (error.response.status === 401) {
+                navigate("/login");
+            }
         });
     };
 
@@ -76,7 +79,6 @@ const AddProducts = () => {
             description: event.target.productDescription.value,
             category: event.target.productCategory.value,
         });
-
     }
     return ( 
         <Container minWidth="xs" sx={{
@@ -109,19 +111,22 @@ const AddProducts = () => {
                 <TextField 
                     id="productName" 
                     label="Name" 
-                    variant="outlined"
+                    variant="filled"
+                    color="secondary"
                     defaultValue="" 
 
                     sx={{
                         marginBottom: "20px",
                     }}
                 />
+                
                 <ImageForm image={imageProductPreview} func={handleImageProductChange} inputId="upload-product-button" />
 
                 <TextField 
                     id="productPrice" 
                     label="Price" 
-                    variant="outlined"
+                    variant="filled"
+                    color="secondary"
                     defaultValue="" 
                     sx={{
                         marginBottom: "20px",
@@ -131,7 +136,8 @@ const AddProducts = () => {
                 <TextField 
                     id="productQuantity" 
                     label="Quantity" 
-                    variant="outlined"
+                    variant="filled"
+                    color="secondary"
                     defaultValue="" 
                     sx={{
                         marginBottom: "20px",
@@ -140,7 +146,8 @@ const AddProducts = () => {
                 <TextField 
                     id="productCategory" 
                     label="Category" 
-                    variant="outlined"
+                    variant="filled"
+                    color="secondary"
                     defaultValue="" 
                     sx={{
                         marginBottom: "20px",
@@ -149,7 +156,8 @@ const AddProducts = () => {
                 <TextField 
                     id="productDescription" 
                     label="Description" 
-                    variant="outlined"
+                    variant="filled"
+                    color="secondary"
                     defaultValue="" 
                     sx={{
                         marginBottom: "20px",
