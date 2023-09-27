@@ -25,6 +25,12 @@ const LandingPage = () => {
         }
     };
     return ( 
+        <>
+        <motion.div
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            transition={{ ease: "easeIn", duration: 1.5 }}
+            >
         <div style={{ minHeight: "100vh", width: "100%", margin: "0 auto", backgroundColor:"#F3EFE7", display:"flex", flexDirection:"row" , justifyContent:"center"}}>
             <Link to="/login" style={{display:"flex", justifyContent:"center", alignItems:"center"}} >
                 {/* <div>
@@ -45,6 +51,8 @@ const LandingPage = () => {
                 <img src={Sign} style={{width:"200px"}}/>
             </div>
         </div>
+        </motion.div>
+        </>
      );
 }
  

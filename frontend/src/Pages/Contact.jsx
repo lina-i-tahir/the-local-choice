@@ -1,11 +1,12 @@
 import RouteHistory from "../Components/RouteHistory";
-import { Typography } from "@mui/material";
+import { Typography, Container } from "@mui/material";
 
 const Contact = () => {
     return ( 
         <>
+        <div style={{ height: "85vh"}}>
             <RouteHistory page="contact" routeName="contact" />
-            <div style={{ minHeight: "100vh", width: "60%", margin: "0 auto" }}>
+            <Container>
             <Typography
                 sx={{
                     textAlign: 'center',
@@ -29,7 +30,8 @@ const Contact = () => {
             >
                 For enquiries and collaborations, drop us an email at <u>hi@thelocalchoice.com</u>
             </Typography>
-            </div>
+            </Container>
+        </div>
         </>
      );
 }
