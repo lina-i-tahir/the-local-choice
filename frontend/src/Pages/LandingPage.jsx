@@ -6,9 +6,14 @@ import Door from '../assets/tlc-landingPage/tlcDoor.png';
 import DoorCarpet from '../assets/tlc-landingPage/DoorCarpet.png';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-
+// import { useDispatch, useSelector } from 'react-redux';
 
 const LandingPage = () => {
+
+    // const dispatch = useDispatch();
+    // const allStores = useSelector((state) => state.allStores.stores);
+
+    
     const swingAnimation = {
         hover: {
             rotate: [-15, 15, -10, 10, -5, 5, 0],

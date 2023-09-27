@@ -30,15 +30,11 @@ const Store = () => {
   const dispatch = useDispatch();
   const sortBy = useSelector((state) => state.sorting.sortBy);
   const sortedProducts = useSelector((state) => state.sorting.sortedProducts);
-  const sortCategories = [
-    'name',
-    'price'
-  ];
-
+  
   // Pages logic 
   const itemsPerPage = 9;
   const [currentPage, setCurrentPage] = useState(1);
-  const totalItems = currentStore.store.products.length;
+  const totalItems = sortedProducts.length
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
@@ -53,16 +49,20 @@ const Store = () => {
     const sorted = [...currentStore.store.products].sort((a, b) => a.name.localeCompare(b.name));
     dispatch(setSortBy('name'));
     dispatch(setSortedProducts(sorted));
-    console.log('byname', sorted)
   };
 
+  // Sort products initial
+  const sortByInitial = () => {
+    const sorted = currentStore.store.products
+    dispatch(setSortBy('initial'));
+    dispatch(setSortedProducts(sorted));
+  };
 
   // Sort products by price
   const sortByPrice = () => {
     const sorted = [...currentStore.store.products].sort((a, b) => a.price - b.price);
     dispatch(setSortBy('price'));
     dispatch(setSortedProducts(sorted));
-    console.log('byprice', sorted)
   };
 
   // handle sort
@@ -101,6 +101,13 @@ const Store = () => {
         ,3000);
     }
   }, [error]); 
+
+
+  useEffect(() => {
+    if (currentStore) {
+      sortByInitial();
+    }
+  }, [currentStore]);
 
 
 
@@ -179,27 +186,7 @@ const Store = () => {
                                             justifyContent: "center",
                                             }} >
               
-              {type === '' ?
-                currentStore.store.products.slice(startIndex, endIndex).map((product) => (
-                <Card
-                  key={product._id}
-                  sx={{
-                  minWidth: 345,
-                  margin: "30px 15px",
-                  borderRadius: "10px",
-                  backgroundColor: "transparent",
-                  boxShadow: "none",
-                  outline: "none",
-                  '&:hover': {
-                      cursor: "pointer",
-                  }
-                  }}
-                  onClick={() => viewProduct(product._id)}
-                >
-                  {StoreProductView(product)}
-                </Card>
-                ))
-                :
+              {
                 sortedProducts.slice(startIndex, endIndex).map((product) => (
                 <Card
                   key={product._id}
