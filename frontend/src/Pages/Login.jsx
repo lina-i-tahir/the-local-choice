@@ -103,7 +103,7 @@ const Login = () => {
   }, [])
 
   return (
-    <div style={{minHeight:"100vh"}}>
+    <div style={{height:"85vh"}}>
       <RouteHistory page="login" routeName="login" />
       <Box
         component="form"

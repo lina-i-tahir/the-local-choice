@@ -5,7 +5,7 @@ const StoreProductView = (product) => {
     <>
         <CardMedia
         component="img"
-        height="200"
+        height="280"
         image={product.image}
         alt={product.name}
         sx={{
@@ -15,7 +15,10 @@ const StoreProductView = (product) => {
         }}
         />
         <CardContent>
-        <Link key={product._id} to={`/products/${product._id}`}>
+        <Link key={product._id} to={`/products/${product._id}`}
+                sx={{
+                    textDecoration: 'none', // Remove underline
+                }}>
             <Typography
             gutterBottom
             component="div"
@@ -25,8 +28,10 @@ const StoreProductView = (product) => {
                 fontSize: '15px',
                 fontWeight: 500,
                 color: "primary.contrastText",
-                textDecoration: "none",
                 margin: "0px",
+                '&:hover': {
+                    color: 'secondary.main', // Change color on hover
+                }
             }}
             >
             {product.name}
@@ -38,7 +43,7 @@ const StoreProductView = (product) => {
                 sx={{
                     display: "flex",
                     justifyContent: "center",
-                    fontSize: '12px',
+                    fontSize: '13px',
                     fontWeight: 500,
                     color: "secondary.main",
                     textDecoration: "none",

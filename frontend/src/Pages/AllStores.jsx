@@ -43,12 +43,15 @@ const AllStores = () => {
     }, [error]);
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: '#c8b799'}}>
-        <Grid container spacing={0} sx={{
-                                        bgcolor: '#aca599',
-                                        }}>
-            <Grid item md={12} sx={{ height: '180px', display: { xs: 'none', md: 'inline' }}}>
-                {/* <img src={allStoresBanner} style={{ width: "100%"}}/> */}
+    <Box sx={{ height: '85vh', bgcolor: 'primary.main'}}>
+        <Grid container justifyContent="center"
+                        alignItems="center"
+                          spacing={0} 
+                          sx={{
+                                bgcolor: '#aca599',
+                                }}>
+            <Grid item md={12} >
+
             </Grid>
         </Grid>
         
@@ -56,7 +59,6 @@ const AllStores = () => {
           container
           spacing={0}
           sx={{
-            bgcolor: "#c8b799",
             justifyContent: "center",
             paddingLeft: "8%",
             paddingRight: "8%",
