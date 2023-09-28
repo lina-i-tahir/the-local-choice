@@ -24,7 +24,7 @@ async function createCheckoutSession(req,res) {
           name: item.name,
           id: item._id, 
           quantity: item.quantity,
-          price: item.price
+          price: item.price,
           storeId: item.storeId,
       };
   });
