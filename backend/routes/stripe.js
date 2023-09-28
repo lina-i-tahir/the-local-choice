@@ -35,10 +35,11 @@ router.post("/create-checkout-session", async (req, res) => {
         name: item.name,
         metadata: {
           id: item._id,
-          // image: item.image,
+          description: item.description,
+          // images: item.image,
         },
       },
-      unit_amount: item.price * 100, // Convert the unit price to cents
+      unit_amount: Math.round(item.price * 100), // Convert the unit price to cents
     },
 
     quantity: item.quantity, // Include the quantity property
@@ -59,81 +60,78 @@ router.post("/create-checkout-session", async (req, res) => {
 });
 
 // Create Order
-const createOrder = async (customer, data) => {
-  const Items = JSON.parse(customer.metadata.cart);
+// const createOrder = async (customer, data) => {
+//   const Items = JSON.parse(customer.metadata.cart);
 
-  const newOrder = new orderModel({
-    userId: customer.metadata.userId,
-    customerId: data.customer,
-    paymentIntentId: data.payment_intent,
-    products: Items,
-    total: data.totalPrice,
-    payment_status: data.payment_status,
-  });
-  try {
-    const savedOrder = await newOrder.save();
-    console.log("Processed Order: ", savedOrder);
-  } catch (err) {
-    console.log(err);
-  }
-};
+//   const newOrder = new orderModel({
+//     userId: customer.metadata.userId,
+//     customerId: data.customer,
+//     paymentIntentId: data.payment_intent,
+//     products: Items,
+//     total: data.totalPrice,
+//     payment_status: data.payment_status,
+//   });
+//   try {
+//     const savedOrder = await newOrder.save();
+//     console.log("Processed Order: ", savedOrder);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
 // stripe webhooks
-
-// This is your Stripe CLI webhook secret for testing your endpoint locally.
-const endpointSecret = Stripe(process.env.STRIPE_WEBHOOK_ENDPOINT);
 
 router.post(
   "/webhook",
   express.json({ type: "application/json" }),
   (req, res) => {
-    console.log("Webhook success");
+    console.log("Webhook successfully started");
     const sig = request.headers["stripe-signature"];
 
-    let event;
-
-    let data;
-    let eventType;
-
-    if (endpointSecret) {
-      let event;
-
-      try {
-        event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-      } catch (err) {
-        console.log("Webhook Error: ${err.message}");
-        res.status(400).send(`Webhook Error: ${err.message}`);
-        return;
-      }
-      data = event.data.object;
-      eventType = event.type;
-    } else {
-      data = req.body.data.object;
-      eventType = req.body.type;
-    }
+    // This is your Stripe CLI webhook secret for testing your endpoint locally.
+    const endpointSecret = process.env.STRIPE_WEBHOOK_ENDPOINT;
 
     // Handle the event
-    if (
-      (eventType === "checkout.session.completed",
-      "invoice.payment_succeeded",
-      "product.updated")
-    ) {
-      stripe.customers
-        .retrieve(data.customer)
-        .then((customer) => {
-          console.log(customer);
-          console.log("data:", data);
-          createOrder(customer, data);
-        })
-        .catch((err) => console.log(err.message));
-      //get cust data
-    }
+    try {
+      const event = stripe.webhooks.constructEvent(
+        req.body,
+        sig,
+        endpointSecret
+      );
 
-    res.send();
+      switch (event.type) {
+        case "checkout.session.async_payment_failed":
+          const checkoutSessionAsyncPaymentFailed = event.data.object;
+          handleAsyncPaymentFailed(checkoutSessionAsyncPaymentFailed);
+          break;
+        case "checkout.session.async_payment_succeeded":
+          const checkoutSessionAsyncPaymentSucceeded = event.data.object;
+          handleAsyncPaymentSucceeded(checkoutSessionAsyncPaymentSucceeded);
+          break;
+        // Handle other event types as needed
+        default:
+          console.log(`Unhandled event type: ${event.type}`);
+      }
+
+      res.send();
+    } catch (err) {
+      console.error("Webhook error:", err.message);
+      res.status(400).send(`Webhook Error: ${err.message}`);
+    }
   }
 );
 
-//for FE
+// Define functions to handle the events
+function handleAsyncPaymentFailed(data) {
+  // Your code to handle async payment failure goes here
+  console.log("Handling async payment failed event:", data);
+}
+
+function handleAsyncPaymentSucceeded(data) {
+  // Your code to handle async payment success goes here
+  console.log("Handling async payment succeeded event:", data);
+}
+
 module.exports = router;
 
 // original
