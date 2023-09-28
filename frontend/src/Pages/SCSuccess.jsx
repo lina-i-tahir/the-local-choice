@@ -12,8 +12,7 @@ import RouteHistory from "../Components/RouteHistory";
 import axios from "axios";
 import Notification from "../Components/Notification";
 import { useEffect, useContext } from "react";
-import {useState} from "react";
-
+import { useState } from "react";
 
 const Success = () => {
   const navigate = useNavigate(); // Define the navigate function
@@ -28,33 +27,35 @@ const Success = () => {
   };
 
   const createOrder = async () => {
-      await axios({
-        method: "POST",
-        url: `http://localhost:8000/scsuccess/${session_id}`,
-        headers: {
-            "Content-Type": "application/json",
-        },
+    await axios({
+      method: "POST",
+      url: `http://localhost:8000/scsuccess/${session_id}`,
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
-    .then((response) => {
+      .then((response) => {
         console.log(response);
         if (response.status === 201) {
-            console.log("Created successfully");
-            setOrderData(response.data.order);
-            setOpenSnackbar(true);
-            setSnackbarMessage("Order created successfully! Redirecting to home page...");
-            setSnackbarSeverity("success");
-            setTimeout(() => {
-                navigate("/home");
-            }, 3000);
+          console.log("Created successfully");
+          setOrderData(response.data.order);
+          setOpenSnackbar(true);
+          setSnackbarMessage(
+            "Order created successfully! Redirecting to home page..."
+          );
+          setSnackbarSeverity("success");
+          setTimeout(() => {
+            navigate("/home");
+          }, 3000);
         }
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
         console.log(error);
         setOpenSnackbar(true);
         setSnackbarMessage("Error creating order!");
         setSnackbarSeverity("error");
-    });
-  }
+      });
+  };
   useEffect(() => {
     // Call the function if session_id exists
     console.log(session_id);
@@ -65,42 +66,68 @@ const Success = () => {
   return (
     <>
       <RouteHistory page="orders" routeName="orders" />
-      <Container maxWidth="xs" zeroMinWidth>
+      <div
+        style={{
+          minHeight: "90vh",
+          width: "60%",
+          margin: "0 auto",
+          justifyContent: "center",
+        }}
+      >
         <Typography
-          variant="h4"
+          variant="h5"
           sx={{
-            display: "flex",
-            justifyContent: "center ",
-
+            textAlign: "center",
             fontFamily: "Poppins",
-            fontWeight: 300,
+            fontWeight: 500,
             color: "#414B3B",
-            textDecoration: "none",
-            margin: "150px 0px 0px 0px",
+            marginTop: "100px",
+            fontSize: "20px",
+          }}
+        >
+          Payment Success!
+        </Typography>
+        <Typography
+          sx={{
+            textAlign: "center",
+            fontFamily: "Poppins",
+            fontWeight: 400,
+            color: "#414B3B",
+            marginTop: "15px",
+            fontSize: "15px",
           }}
         >
           Thank you for your purchase you awesome person!
         </Typography>
-        <Button
-          onClick={() => navigate("/")}
-          variant="contained"
-          sx={{
-            display: "flex",
-
-            justifyContent: "center",
-            backgroundColor: "#99958C",
-            color: "#E4DCCD",
-            width: "20ch",
-            margin: "50px 0px 0px 110px",
-            "&:hover": {
-              backgroundColor: "#737373",
-            },
-          }}
-        >
-          shop for more!
-        </Button>
-        <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
-      </Container>
+        <Box sx={{ display: "flex", justifyContent: "center", margin: "20px" }}>
+          <Button
+            onClick={() => navigate("/")}
+            variant="contained"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#99958C",
+              color: "#E4DCCD",
+              width: "280px",
+              marginTop: "30px",
+              "&:hover": {
+                backgroundColor: "#737373",
+              },
+            }}
+          >
+            shop for more!
+          </Button>
+          {/* <Notification
+          openSnackbar={openSnackbar}
+          handleCloseSnackbar={handleCloseSnackbar}
+          snackbarMessage={snackbarMessage}
+          snackbarSeverity={snackbarSeverity}
+          vertical="bottom"
+          horizontal="right"
+        /> */}
+        </Box>
+      </div>
     </>
   );
 };
