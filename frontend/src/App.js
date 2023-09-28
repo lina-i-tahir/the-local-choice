@@ -40,58 +40,60 @@ import LandingPage from "./Pages/LandingPage";
 function App() {
   return (
     <ThemeProvider theme={responsiveMainTheme}>
-      <CartProvider>
-        <div className="App" style={{ backgroundColor: "#E4DCCD" }}>
-          <Router>
-            <NavBar />
-            <Routes>
-              {/* public routes */}
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              {/* user + admin routes */}
-              <Route path="/home" element={<Home />} />
-              <Route path="*" element={<Error />} />
-              <Route path="/stores" element={<AllStores />} />
-              <Route path="/stores/:id" element={<Store />} />
-              <Route
-                path="/stores/:id/:productId"
-                element={<ProductDetail />}
-              />
-              <Route path="/products" element={<Products />} />
-              {/* user routes mainly */}
-              <Route path="/sccancel" element={<SCCancel />} />
-              <Route path="/scsuccess/:id" element={<SCSuccess />} />
-              <Route path="/products/:id" element={<ProductDetail />} />
-              <Route path="/orders" element={<Orders />} />
-              <Route path="/orders/:id" element={<OrderDetail />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/checkout/:id" element={<PlaceOrderCheckout />} />
-              <Route path="/profile" element={<Profile />} />
-              {/* admin routes */}
-              <Route path="/config/stores" element={<Admin />} />
-              <Route path="/config/stores/new" element={<NewStore />} />
-              <Route path="/config/stores/:id" element={<EditForm />} />
-              <Route
-                path="/config/stores/:id/products"
-                element={<AddProducts />}
-              />
-              <Route
-                path="/config/stores/:id/products/:productId"
-                element={<EditProduct />}
-              />
-              <Route
-                path="/config/stores/orders"
-                element={<AdminOrderStatus />}
-              />
-            </Routes>
-            {/* <FooterContent /> */}
-          </Router>
-        </div>
-      </CartProvider>
-    </ThemeProvider>
+
+    <CartProvider>
+      <div
+        className="App"
+        style={{ backgroundColor: "#E4DCCD" }}
+      >
+        <Router>
+          <NavBar />
+          <Routes>
+            {/* public routes */}
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            {/* user + admin routes */}
+            <Route path="/home" element={<Home />} />
+            <Route path="*" element={<Error />} />
+            <Route path="/stores" element={<AllStores />} />
+            <Route path="/stores/:id" element={<Store />} />
+            <Route path="/stores/:id/:productId" element={<ProductDetail />} />
+            <Route path="/products" element={<Products />} />
+            {/* user routes mainly */}
+            <Route path="/sccancel" element={<SCCancel />} />
+            <Route path="/scsuccess/:session_id" element={<SCSuccess />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/orders/:id" element={<OrderDetail />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/checkout/:id" element={<PlaceOrderCheckout />} />
+            <Route path="/profile" element={<Profile />} />
+            {/* admin routes */}
+            <Route path="/config/stores" element={<Admin />} />
+            <Route path="/config/stores/new" element={<NewStore />} />
+            <Route path="/config/stores/:id" element={<EditForm />} />
+            <Route
+              path="/config/stores/:id/products"
+              element={<AddProducts />}
+            />
+            <Route
+              path="/config/stores/:id/products/:productId"
+              element={<EditProduct />}
+            />
+            <Route
+              path="/config/stores/orders"
+              element={<AdminOrderStatus />}
+            />
+          </Routes>
+          {/* <FooterContent /> */}
+        </Router>
+      </div>
+    </CartProvider>
+  </ThemeProvider>
+
   );
 }
 

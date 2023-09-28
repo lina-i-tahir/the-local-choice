@@ -1,11 +1,12 @@
 import RouteHistory from "../Components/RouteHistory";
-import { Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 
 const About = () => {
     return (
         <>
+        <div style={{ height: "85vh"}}>
             <RouteHistory page="about" routeName="about" />
-            <div style={{ minHeight: "100vh", width: "60%", margin: "0 auto" }}>
+            <Container>
             <Typography
                 sx={{
                     textAlign: 'center',
@@ -42,8 +43,9 @@ const About = () => {
                 Our goal is to provide a platform to connect and bring awareness to our vibrant local small businesses.
                 With the support from our local community, we hope it will inspire more individuals to plant their seed and grow their ideas.
             </Typography>
-            </div>
-        </>
+            </Container>
+        </div>
+    </>
         
     );
 }

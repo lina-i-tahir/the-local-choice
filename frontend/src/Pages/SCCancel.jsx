@@ -16,40 +16,60 @@ const Cancel = () => {
     <>
       {" "}
       <RouteHistory page="orders" routeName="orders" />
-      <Container maxWidth="xs">
+      <div
+        style={{
+          minHeight: "90vh",
+          width: "60%",
+          margin: "0 auto",
+          justifyContent: "center",
+        }}
+      >
         <Typography
-          variant="h4"
-          noWrap
+          variant="h5"
           sx={{
-            display: "flex",
-            justifyContent: "center ",
+            textAlign: "center",
             fontFamily: "Poppins",
-            fontWeight: 300,
+            fontWeight: 500,
             color: "#414B3B",
-            textDecoration: "none",
-            margin: "150px 0px 0px 0px",
+            marginTop: "100px",
+            fontSize: "20px",
           }}
         >
-          Sad to see you go ):
+          Sad to see you go!
         </Typography>
-        <Button
-          onClick={() => navigate("/")}
-          variant="contained"
+        <Typography
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            backgroundColor: "#99958C",
-            color: "#E4DCCD",
-            width: "20ch",
-            margin: "50px 0px 0px 110px",
-            "&:hover": {
-              backgroundColor: "#737373",
-            },
+            textAlign: "center",
+            fontFamily: "Poppins",
+            fontWeight: 400,
+            color: "#414B3B",
+            marginTop: "15px",
+            fontSize: "15px",
           }}
         >
-          but, you can shop for more!
-        </Button>
-      </Container>
+          Come back soon!
+        </Typography>
+        <Box sx={{ display: "flex", justifyContent: "center", margin: "20px" }}>
+          <Button
+            onClick={() => navigate("/")}
+            variant="contained"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#99958C",
+              color: "#E4DCCD",
+              width: "280px",
+              marginTop: "30px",
+              "&:hover": {
+                backgroundColor: "#737373",
+              },
+            }}
+          >
+            Psst! you can still shop here!
+          </Button>
+        </Box>
+      </div>
     </>
   );
 };

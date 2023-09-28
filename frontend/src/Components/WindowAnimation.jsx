@@ -99,7 +99,9 @@ const WindowAnimation = (props) => {
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
+    setTimeout(() => {
+      setIsHovered(false);
+    }, 500);
   };
 
 
@@ -140,7 +142,7 @@ const WindowAnimation = (props) => {
         <motion.div 
                     animate={{ transform: isHovered ? 'rotateY(-140deg)' : 'rotateY(0deg)'
                                 }}
-                    transition={{ ease: "easeOut", duration: 0.6 }}
+                    transition={{ ease: "easeOut", duration: 1.5 }}
                     style={{ transformOrigin: 'left' }}
         >
           <Grid item xs={6} sx={{zIndex: 2}}>
@@ -151,7 +153,7 @@ const WindowAnimation = (props) => {
         <motion.div 
                     animate={{ transform: isHovered ? 'rotateY(140deg)' : 'rotateY(0deg)'
                                 }}
-                    transition={{ ease: "easeOut", duration: 0.6 }}
+                    transition={{ ease: "easeOut", duration: 1.5 }}
                     style={{ transformOrigin: 'right' }}
         >
           <Grid item xs={6} sx={{zIndex: 2}}>

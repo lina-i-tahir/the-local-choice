@@ -16,7 +16,7 @@ const PayButton = () => {
   // const { totalPrice } = useSelector((state) => state.cart); // total price of all items in cart
   // const totalQty = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     console.log("cart item: " + cartItems, "user id: " + user._id);
     if (!cartItems || !Array.isArray(cartItems) || cartItems.length === 0) {
       // Handle the case when cartItems is empty or not in the expected format
@@ -25,8 +25,8 @@ const PayButton = () => {
     }
 
     // Proceed with making the POST request
-    axios
-      .post(`${url}/stripe/create-checkout-session`, {
+    await axios
+      .post(`${url}/create-checkout-session`, {
         cartItems,
         userId: user._id,
       })

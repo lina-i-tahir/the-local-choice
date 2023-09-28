@@ -68,4 +68,3 @@ async function deleteProduct(req, res){
         res.status(500).json({ errorMsg: err.message });
     }
 }
-

@@ -3,7 +3,6 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-const stripe = require("./routes/stripe");
 
 // import cors
 var cors = require("cors");
@@ -18,6 +17,8 @@ const productRouter = require("./routes/products");
 const orderRouter = require("./routes/orderRoutes");
 const storeUserRouter = require("./routes/storeUser");
 const profileRouter = require("./routes/profile");
+const stripeRouter = require("./routes/stripe");
+
 // const port = 8000;
 
 var app = express();
@@ -44,7 +45,7 @@ app.use("/orders", orderRouter);
 app.use("/stores", storeUserRouter);
 app.use("/profile", profileRouter);
 
-app.use("/stripe", stripe);
+app.use("/", stripeRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
