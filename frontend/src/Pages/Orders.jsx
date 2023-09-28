@@ -13,17 +13,7 @@ import Loading from "../Components/Loading";
 
 
 const Orders = () => {
-    // function createData(number, date, status, total, view) {
-    //     return { number, date, status, total, view };
-    //   }
-      
-    //   const rows = [
-    //     createData('12345', '2 Sep 2023', 'processing', 59.90, 'view'),
-    //     createData('23456', '23 Aug 2023', 'shipped', 37.90, 'view'),
-    //     createData('34567', '18 Aug 2023', 'completed', 24.50, 'view'),
-    //     createData('45678', '10 Aug 2023', 'completed', 67.60, 'view'),
-    //     createData('56789', '2 Aug 2023', 'completed', 49.80, 'view'),
-    //   ];
+
     const token = localStorage.getItem('token');
     const userData = localStorage.getItem('user');
     const userId = JSON.parse(userData).id;
