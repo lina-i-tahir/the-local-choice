@@ -127,7 +127,7 @@ async function createOrder(req, res) {
     
     await order.save();
     console.log("after order", order)
-    res.status(201).json({ title: "Update and create order", order, store });
+    res.status(201).json({ title: "Update and create order", order });
 
   } catch (err) {
     console.log(err);
