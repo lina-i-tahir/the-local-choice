@@ -18,7 +18,7 @@ const Cancel = () => {
       <RouteHistory page="orders" routeName="orders" />
       <div
         style={{
-          minHeight: "73vh",
+          minHeight: "90vh",
           width: "60%",
           margin: "0 auto",
           justifyContent: "center",
