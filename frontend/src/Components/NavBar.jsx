@@ -60,9 +60,9 @@ const styleModal = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "410px",
+  width: "415px",
   maxHeight: "50vh", // set this to a desired maximum height, 90vh is 90% of the viewport height
-  overflow: "auto", // content will scroll if it overflows
+  overflowX: "hidden", // content will scroll if it overflows
   bgcolor: "#F3EFE7",
   border: "2px solid #000",
   boxShadow: 24,
