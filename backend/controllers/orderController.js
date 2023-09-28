@@ -7,6 +7,7 @@ module.exports = {
     updateOrderStatus,
     getAllOrders,
     deleteOrder,
+    getMyOrders
 };
 
 
@@ -27,7 +28,7 @@ async function getAllOrders(req,res){
 // get orders for one user
 async function getMyOrders(req,res){
     try{
-        const orders = await orderModel.find({user: req.user._id});
+        const orders = await Order.find({user: req.user._id});
         res.json({ title: "My Orders", orders });
     }
     catch (err) {
