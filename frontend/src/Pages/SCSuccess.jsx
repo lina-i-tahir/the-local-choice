@@ -15,6 +15,7 @@ import { useEffect, useContext } from "react";
 import { useState } from "react";
 
 const Success = () => {
+  const token = localStorage.getItem("token");
   const navigate = useNavigate(); // Define the navigate function
   const { session_id } = useParams();
   const [orderData, setOrderData] = useState(null);
@@ -32,6 +33,7 @@ const Success = () => {
       url: `http://localhost:8000/scsuccess/${session_id}`,
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => {
