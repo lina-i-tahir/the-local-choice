@@ -4,6 +4,6 @@ const {createSecretToken} = require("../utils/SecretToken");
 
 module.exports.createSecretToken = (id, role) => {
   return jwt.sign({ id, role }, process.env.TOKEN_KEY, {
-    expiresIn: "10m",
+    expiresIn: "60m",
   });
 };

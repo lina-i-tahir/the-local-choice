@@ -8,6 +8,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 module.exports = {
     createCheckoutSession,
     createOrder,
+    getAllOrders,
 };
 
 async function createCheckoutSession(req,res) {
@@ -140,6 +141,18 @@ async function getMyOrders(req,res){
     try{
         const orders = await orderModel.find({user: req.user._id});
         res.json({ title: "My Orders", orders });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ errorMsg: err.message });
+    }
+}
+
+
+async function getAllOrders(req,res){
+    try{
+        const orders = await orderModel.find({});
+        res.json({ title: "All Orders", orders });
     }
     catch (err) {
         console.log(err);

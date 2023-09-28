@@ -9,6 +9,7 @@ const PayButton = () => {
   const url = BASE_URL;
 
   const userData = localStorage.getItem("user");
+  const token = localStorage.getItem("token");
   const user = JSON.parse(userData);
   console.log(user._id);
 
@@ -25,11 +26,29 @@ const PayButton = () => {
     }
 
     // Proceed with making the POST request
-    await axios
-      .post(`${url}/create-checkout-session`, {
+    // await axios
+    //   .post(`${url}/create-checkout-session`, {
+    //     cartItems,
+    //     userId: user._id,
+    //   })
+    //   .then((res) => {
+    //     if (res.data.url) {
+    //       window.location.href = res.data.url;
+    //     }
+    //   })
+    //   .catch((err) => console.log(err.message));
+    await axios({
+      method: "POST",
+      url: `${url}/create-checkout-session`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
         cartItems,
         userId: user._id,
-      })
+      },
+    })
       .then((res) => {
         if (res.data.url) {
           window.location.href = res.data.url;
