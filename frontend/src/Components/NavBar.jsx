@@ -26,21 +26,31 @@ import { useNavigate } from "react-router-dom";
 import Notification from "./Notification";
 import { CartContext } from "../CardContext";
 import CartProduct from "./CartProduct";
-import LogoutIcon from '@mui/icons-material/Logout';
-import ContentPasteIcon from '@mui/icons-material/ContentPaste';
-import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
-import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from "@mui/icons-material/Logout";
+import ContentPasteIcon from "@mui/icons-material/ContentPaste";
+import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
+import LoginIcon from "@mui/icons-material/Login";
 import { useEffect } from "react";
 
 import { useSelector } from "react-redux";
 
 var pages = ["stores", "about", "contact"];
 var settings = ["profile", "orders", "login", "logout"];
-const obj ={
-  profile: <EmojiPeopleIcon sx={{marginRight:"10px", width:"15px", color:"gray"}}/>,
-  orders: <ContentPasteIcon sx={{marginRight:"10px", width:"15px", color:"gray"}}/>,
-  login: <LoginIcon sx={{marginRight:"16px", width:"15px", color:"gray"}}/>,
-}
+const obj = {
+  profile: (
+    <EmojiPeopleIcon
+      sx={{ marginRight: "10px", width: "15px", color: "gray" }}
+    />
+  ),
+  orders: (
+    <ContentPasteIcon
+      sx={{ marginRight: "10px", width: "15px", color: "gray" }}
+    />
+  ),
+  login: (
+    <LoginIcon sx={{ marginRight: "16px", width: "15px", color: "gray" }} />
+  ),
+};
 
 const stores = ["handfully", "handxmade"];
 
@@ -51,14 +61,13 @@ const styleModal = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "600px",
-  maxHeight: "50vh",  // set this to a desired maximum height, 90vh is 90% of the viewport height
-  overflow: "auto",   // content will scroll if it overflows
+  maxHeight: "50vh", // set this to a desired maximum height, 90vh is 90% of the viewport height
+  overflow: "auto", // content will scroll if it overflows
   bgcolor: "#F3EFE7",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
-
 
 function NavBar() {
   // notification
@@ -67,18 +76,15 @@ function NavBar() {
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
 
   if (localStorage.getItem("role") === "admin") {
-    settings = [ "logout"];
+    settings = ["logout"];
     pages = ["config"];
-  } 
-  else if (localStorage.getItem("role") === "user") {
+  } else if (localStorage.getItem("role") === "user") {
     settings = ["profile", "orders", "logout"];
     pages = ["home", "stores", "about", "contact"];
-  }
-  else {
+  } else {
     settings = ["login", "logout"];
-    pages =[];
+    pages = [];
   }
-
 
   // handle close snackbar
   const handleCloseSnackbar = () => {
@@ -123,9 +129,9 @@ function NavBar() {
   };
 
   // Shopping cart Modal Badge
-  const { cartItems } = useSelector((state) => state.cart)
-  const { totalPrice } = useSelector((state) => state.cart) // total price of all items in cart
-  const totalQty = cartItems.reduce((acc, item) => acc + item.quantity, 0)
+  const { cartItems } = useSelector((state) => state.cart);
+  const { totalPrice } = useSelector((state) => state.cart); // total price of all items in cart
+  const totalQty = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   // const cart = useContext(CartContext);
   // const productsCount = cart.items.reduce(
@@ -160,122 +166,119 @@ function NavBar() {
         setOpenSnackbar(true);
         setSnackbarMessage("Logout failed");
       });
-    }
+  };
 
-    // Go to Checkout - on Click
+  // Go to Checkout - on Click
 
-    const goToCartPage = () => {
-      navigate(`/checkout`);
-      setOpenModal(false);
-    };
+  const goToCartPage = () => {
+    navigate(`/checkout`);
+    setOpenModal(false);
+  };
 
-    return (
-      <AppBar
-        position="static"
-        sx={{
-          backgroundColor: "#F3EFE7",
-          boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.2)",
-        }}
-      >
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <Logo />
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="#414B3B"
-              >
-                <MenuIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                  display: { xs: "block", md: "none" },
-                }}
-              >
-                {pages.map((page) =>
-                  page === "config" ? (
-                    <Link
-                      to={`/${page}/stores`}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <MenuItem key={page} onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">{page}</Typography>
-                      </MenuItem>
-                    </Link>
-                  ) : (
-                    <Link to={`/${page}`} style={{ textDecoration: "none" }}>
-                      <MenuItem key={page} onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">{page}</Typography>
-                      </MenuItem>
-                    </Link>
-                  )
-                )}
-              </Menu>
-            </Box>
-
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {pages.map((page, idx) =>
+  return (
+    <AppBar
+      position="static"
+      sx={{
+        backgroundColor: "#F3EFE7",
+        boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.2)",
+      }}
+    >
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <Logo />
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="#414B3B"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: "block", md: "none" },
+              }}
+            >
+              {pages.map((page) =>
                 page === "config" ? (
                   <Link
                     to={`/${page}/stores`}
                     style={{ textDecoration: "none" }}
                   >
-                    <Typography
-                      key={idx}
-                      variant="h7"
-                      noWrap
-                      sx={{
-                        mr: 2,
-                        display: { xs: "none", md: "flex" },
-                        fontWeight: 400,
-                        color: "#414B3B",
-                        textDecoration: "none",
-                        margin: "20px",
-                      }}
-                    >
-                      {page}
-                    </Typography>
+                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">{page}</Typography>
+                    </MenuItem>
                   </Link>
                 ) : (
                   <Link to={`/${page}`} style={{ textDecoration: "none" }}>
-                    <Typography
-                      key={idx}
-                      variant="h7"
-                      noWrap
-                      sx={{
-                        mr: 2,
-                        display: { xs: "none", md: "flex" },
-                        fontWeight: 400,
-                        color: "#414B3B",
-                        textDecoration: "none",
-                        margin: "20px",
-                      }}
-                    >
-                      {page}
-                    </Typography>
+                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">{page}</Typography>
+                    </MenuItem>
                   </Link>
                 )
               )}
+            </Menu>
+          </Box>
 
-              {/* {page} */}
-              {/* {page === "stores" ? (
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {pages.map((page, idx) =>
+              page === "config" ? (
+                <Link to={`/${page}/stores`} style={{ textDecoration: "none" }}>
+                  <Typography
+                    key={idx}
+                    variant="h7"
+                    noWrap
+                    sx={{
+                      mr: 2,
+                      display: { xs: "none", md: "flex" },
+                      fontWeight: 400,
+                      color: "#414B3B",
+                      textDecoration: "none",
+                      margin: "20px",
+                    }}
+                  >
+                    {page}
+                  </Typography>
+                </Link>
+              ) : (
+                <Link to={`/${page}`} style={{ textDecoration: "none" }}>
+                  <Typography
+                    key={idx}
+                    variant="h7"
+                    noWrap
+                    sx={{
+                      mr: 2,
+                      display: { xs: "none", md: "flex" },
+                      fontWeight: 400,
+                      color: "#414B3B",
+                      textDecoration: "none",
+                      margin: "20px",
+                    }}
+                  >
+                    {page}
+                  </Typography>
+                </Link>
+              )
+            )}
+
+            {/* {page} */}
+            {/* {page === "stores" ? (
                     <span style={{ display: "flex" }}>
                       {page}
                       <ArrowDropDownIcon
@@ -288,137 +291,149 @@ function NavBar() {
                 </Typography>
               </Link>
               ) */}
-            </Box>
+          </Box>
 
-            {/* profile + cart*/}
-            <Box sx={{ flexGrow: 0, margin: "0px 30px" }}>
-              <Tooltip>
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <PersonOutlineIcon sx={{ margin: "20px" }} />
-                </IconButton>
-                <Badge
-                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                  badgeContent={totalQty}
-                  sx={{
-                    "& .MuiBadge-badge": {
-                      color: "414B3B",
-                      backgroundColor: "#414B3B",
-                      margin: "20px",
-                    },
-                  }}
-                >
-                  <IconButton>
-                    <ShoppingBagOutlinedIcon
-                      onClick={handleOpenModal}
-                      sx={{ margin: "10px" }}
-                    />
-
-                    <Modal
-                      open={openModal}
-                      onClose={handleCloseModal}
-                      aria-labelledby="modal-modal-title"
-                      aria-describedby="modal-modal-description"
-                    >
-                      <Box sx={styleModal}>
-                        <Typography
-                          id="modal-modal-title"
-                          variant="h6"
-                          component="h2"
-                          fontFamily="Poppins"
-                          fontWeight="400"
-                          color="#414B3B"
-                        >
-                          your shopping cart
-                        </Typography>
-
-                        <Container>
-                          <Typography
-                            id="modal-modal-description"
-                            sx={{ mt: 2, display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center" }}
-                            variant="h7"
-                            fontFamily="Poppins"
-                            fontWeight="200"
-                            color="#414B3B"
-                          >
-                            <br />
-                            {cartItems.length > 0 ? (
-                              <>
-                                {/* <p>items in your cart</p> */}
-                                {cartItems.map((currentProduct, idx) => (
-                                  <CartProduct
-                                    key={idx}
-                                    name={currentProduct.name}
-                                    _id={currentProduct._id}
-                                    quantity={currentProduct.quantity}
-                                    price={currentProduct.price}
-                                    image={currentProduct.image}
-                                  ></CartProduct>
-                                ))}
-                                {/* <h4>total: $ {cart.getTotalCost().toFixed(2)}</h4> */}
-                                <br />
-                                <Button
-                                  variant="contained"
-                                  color="primary"
-                                  onClick={goToCartPage}
-                                  sx={{
-                                    display: "flex",
-                                    backgroundColor: "#99958C",
-                                    color: "#E4DCCD",
-                                    width: "20ch",
-                                    textAlign: "center",
-                                    margin: "10px auto",
-                                    padding: "18px",
-                                    "&:hover": {
-                                      backgroundColor: "#737373",
-                                    },
-                                  }}
-                                >
-                                  checkout ${totalPrice}
-                                </Button>
-                              </>
-                            ) : (
-                              <h4> add our awesome items to your cart!</h4>
-                            )}
-                          </Typography>
-                        </Container>
-                      </Box>
-                    </Modal>
-                  </IconButton>
-                </Badge>
-              </Tooltip>
-
-              <Menu
+          {/* profile + cart*/}
+          <Box sx={{ flexGrow: 0, margin: "0px 30px" }}>
+            <Tooltip>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <PersonOutlineIcon sx={{ margin: "20px" }} />
+              </IconButton>
+              <Badge
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                badgeContent={totalQty}
                 sx={{
-                  mt: "50px",
-                  ml: "-20px",
-                  "& .MuiPaper-root": {
-                    backgroundColor: "#EFE9DD",
+                  "& .MuiBadge-badge": {
+                    color: "414B3B",
+                    backgroundColor: "#414B3B",
+                    margin: "20px",
                   },
                 }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) =>
-                  setting === "logout" ? (
-                    <>
+                <IconButton>
+                  <ShoppingBagOutlinedIcon
+                    onClick={handleOpenModal}
+                    sx={{ margin: "10px" }}
+                  />
+
+                  <Modal
+                    open={openModal}
+                    onClose={handleCloseModal}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box sx={styleModal}>
+                      <Typography
+                        id="modal-modal-title"
+                        variant="h6"
+                        component="h2"
+                        fontFamily="Poppins"
+                        fontWeight="400"
+                        color="#414B3B"
+                      >
+                        your shopping cart
+                      </Typography>
+
+                      <Container>
+                        <Typography
+                          id="modal-modal-description"
+                          sx={{
+                            mt: 1,
+                            display: "flex",
+                            // width: "40px",
+                            // height: "10px",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                          variant="h7"
+                          fontFamily="Poppins"
+                          fontWeight="200"
+                          color="#414B3B"
+                        >
+                          <br />
+                          {cartItems.length > 0 ? (
+                            <>
+                              {/* <p>items in your cart</p> */}
+                              {cartItems.map((currentProduct, idx) => (
+                                <CartProduct
+                                  key={idx}
+                                  name={currentProduct.name}
+                                  _id={currentProduct._id}
+                                  quantity={currentProduct.quantity}
+                                  price={currentProduct.price}
+                                  image={currentProduct.image}
+                                ></CartProduct>
+                              ))}
+                              {/* <h4>total: $ {cart.getTotalCost().toFixed(2)}</h4> */}
+                              <br />
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={goToCartPage}
+                                sx={{
+                                  display: "flex",
+                                  backgroundColor: "#99958C",
+                                  color: "#E4DCCD",
+                                  width: "20ch",
+                                  textAlign: "center",
+                                  margin: "10px auto",
+                                  padding: "18px",
+                                  "&:hover": {
+                                    backgroundColor: "#737373",
+                                  },
+                                }}
+                              >
+                                checkout ${totalPrice}
+                              </Button>
+                            </>
+                          ) : (
+                            <h4> add our awesome items to your cart!</h4>
+                          )}
+                        </Typography>
+                      </Container>
+                    </Box>
+                  </Modal>
+                </IconButton>
+              </Badge>
+            </Tooltip>
+
+            <Menu
+              sx={{
+                mt: "50px",
+                ml: "-20px",
+                "& .MuiPaper-root": {
+                  backgroundColor: "#EFE9DD",
+                },
+              }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) =>
+                setting === "logout" ? (
+                  <>
                     <Divider />
                     <MenuItem
                       key={setting}
                       onClick={handleLogoutClick}
-                      sx={{ width: "100px", justifyContent: "center", color:"gray" }}
+                      sx={{
+                        width: "100px",
+                        justifyContent: "center",
+                        color: "gray",
+                      }}
                     >
-                      <LogoutIcon sx={{marginRight:"10px", width:"15px"}}/>
+                      <LogoutIcon sx={{ marginRight: "10px", width: "15px" }} />
                       <Typography
                         sx={{
                           color: "#414B3B",
@@ -429,41 +444,41 @@ function NavBar() {
                         {setting}
                       </Typography>
                     </MenuItem>
-                    </>
-                  ) : (
-                    <Link to={`/${setting}`} style={{ textDecoration: "none" }}>
-                      <MenuItem
-                        key={setting}
-                        onClick={handleCloseUserMenu}
-                        sx={{ width: "100px", justifyContent: "center" }}
+                  </>
+                ) : (
+                  <Link to={`/${setting}`} style={{ textDecoration: "none" }}>
+                    <MenuItem
+                      key={setting}
+                      onClick={handleCloseUserMenu}
+                      sx={{ width: "100px", justifyContent: "center" }}
+                    >
+                      {obj[setting]}
+                      <Typography
+                        sx={{
+                          color: "#414B3B",
+                          fontSize: "14px",
+                          fontFamily: "ovo",
+                        }}
                       >
-                        {obj[setting]}
-                        <Typography
-                          sx={{
-                            color: "#414B3B",
-                            fontSize: "14px",
-                            fontFamily: "ovo",
-                          }}
-                        >
-                          {setting}
-                        </Typography>
-                      </MenuItem>
-                    </Link>
-                  )
-                )}
-              </Menu>
-            </Box>
-          </Toolbar>
-          <Notification
-            openSnackbar={openSnackbar}
-            handleCloseSnackbar={handleCloseSnackbar}
-            snackbarMessage={snackbarMessage}
-            snackbarSeverity={snackbarSeverity}
-            vertical="bottom"
-            horizontal="right"
-          />
-        </Container>
-      </AppBar>
-    );
-  };
+                        {setting}
+                      </Typography>
+                    </MenuItem>
+                  </Link>
+                )
+              )}
+            </Menu>
+          </Box>
+        </Toolbar>
+        <Notification
+          openSnackbar={openSnackbar}
+          handleCloseSnackbar={handleCloseSnackbar}
+          snackbarMessage={snackbarMessage}
+          snackbarSeverity={snackbarSeverity}
+          vertical="bottom"
+          horizontal="right"
+        />
+      </Container>
+    </AppBar>
+  );
+}
 export default NavBar;
