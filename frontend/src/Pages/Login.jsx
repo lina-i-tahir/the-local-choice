@@ -15,7 +15,11 @@ const Login = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState('');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  let home = "/home"
+  const role = localStorage.getItem('role');
+  if (role === 'admin') {
+      home = "/config/stores"
+  }
   const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
@@ -96,8 +100,9 @@ const Login = () => {
       setSnackbarMessage('You are already logged in. Redirecting in 2 seconds...');
       setSnackbarSeverity('success');
       setOpenSnackbar(true);
+
       setTimeout(() => {
-        navigate("/home");
+        navigate(home);
       }, 3000);
     }
   }, [])
