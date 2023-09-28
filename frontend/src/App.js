@@ -31,16 +31,16 @@ import PlaceOrderCheckout from "./Pages/PlaceOrderCheckout";
 import AdminOrderStatus from "./Pages/AdminOrder";
 
 import responsiveMainTheme from "./design/themes";
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from "@mui/material/styles";
 
 import About from "./Pages/About";
 import Contact from "./Pages/Contact";
 import LandingPage from "./Pages/LandingPage";
 
 function App() {
-
   return (
     <ThemeProvider theme={responsiveMainTheme}>
+
     <CartProvider>
       <div
         className="App"
@@ -93,6 +93,7 @@ function App() {
       </div>
     </CartProvider>
   </ThemeProvider>
+
   );
 }
 
