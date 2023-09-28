@@ -13,6 +13,8 @@ import axios from "axios";
 import Notification from "../Components/Notification";
 import { useEffect, useContext } from "react";
 import { useState } from "react";
+import { clearCart } from "../Slices/cartSlice";
+import { useDispatch } from "react-redux";
 
 const Success = () => {
   const token = localStorage.getItem("token");
@@ -22,6 +24,7 @@ const Success = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
+  const dispatch = useDispatch();
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
@@ -61,6 +64,7 @@ const Success = () => {
   useEffect(() => {
     // Call the function if session_id exists
     console.log(session_id);
+    dispatch(clearCart());
     if (session_id) {
       createOrder();
     }
