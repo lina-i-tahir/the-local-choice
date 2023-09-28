@@ -118,14 +118,14 @@ const Success = () => {
           >
             shop for more!
           </Button>
-          {/* <Notification
-          openSnackbar={openSnackbar}
-          handleCloseSnackbar={handleCloseSnackbar}
-          snackbarMessage={snackbarMessage}
-          snackbarSeverity={snackbarSeverity}
-          vertical="bottom"
-          horizontal="right"
-        /> */}
+          <Notification
+            openSnackbar={openSnackbar}
+            handleCloseSnackbar={handleCloseSnackbar}
+            snackbarMessage={snackbarMessage}
+            snackbarSeverity={snackbarSeverity}
+            vertical="bottom"
+            horizontal="right"
+          />
         </Box>
       </div>
     </>
