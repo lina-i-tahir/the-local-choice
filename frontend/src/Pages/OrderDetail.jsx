@@ -10,33 +10,47 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useNavigate, useParams } from "react-router-dom";
 import ordersList from "../orderslist";
+import { useSelector } from "react-redux";
+
+
 
 const OrderDetail = () => {
+
+    const orderId = useSelector((state) => state.orderData.orderId);
+    const orderData = useSelector((state) => state.orderData.orderData);
+
 
     function ccyFormat(num) {
     return `${num.toFixed(2)}`;
     }
 
-    function priceRow(qty, unit) {
-    return qty * unit;
-    }
+    // function priceRow(qty, unit) {
+    // return qty * unit;
+    // }
 
-    function createRow(desc, qty, unit) {
-    const price = priceRow(qty, unit);
-    return { desc, qty, unit, price };
-    }
+    // function createRow(desc, qty, unit) {
+    // const price = priceRow(qty, unit);
+    // return { desc, qty, unit, price };
+    // }
 
-    function subtotal(items) {
-    return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
-    }
 
-    const rows = [
-    createRow('Rose Sakura Earrings - Pink', 1, 19.99),
-    createRow('Cherry Blossoms Sticker Pack - Digital', 10, 5.99),
-    createRow('Yellow Sunflower Rings', 2, 17.99),
-    ];
+    const subtotal = (items) => {
+        const subtotals = items.map((item) => {
+            return (item.qty)*(item.price)
+          });
+    
+        return (subtotals.reduce((acc, cur) => {
+            return acc + cur;
+            }, 0))
+    };
 
-    const invoiceSubtotal = subtotal(rows);
+
+    const invoiceSubtotal = subtotal(orderData.orderItems);
+
+    const orderDate = orderData.createdAt
+    const newDate = new Date(orderDate);
+    const formattedDate = newDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
 
     // const navigate = useNavigate();
 
@@ -64,7 +78,7 @@ const OrderDetail = () => {
                     
                 >
                     <p style={{ color: '#99958c',
-                                fontSize: '13px' }}>Order #23336 was placed on December 20, 2020 and is currently Completed.</p>
+                                fontSize: '13px' }}>{`Order #${orderData.orderId} was placed on ${formattedDate} and is currently ${orderData.status}.`}</p>
                     <h3>Order Details</h3>
                     <TableContainer component={Paper}
                                     sx={{ width: "80%",
@@ -81,18 +95,18 @@ const OrderDetail = () => {
                         </TableRow>
                         </TableHead>
                         <TableBody>
-                        {rows.map((row) => (
-                            <TableRow key={row.desc}>
-                            <TableCell>{row.desc}</TableCell>
-                            <TableCell align="right">{row.qty}</TableCell>
-                            <TableCell align="right">{row.unit}</TableCell>
-                            <TableCell align="right">{ccyFormat(row.price)}</TableCell>
+                        {(orderData.orderItems).map((item) => (
+                            <TableRow key={item.id}>
+                            <TableCell>{item.name}</TableCell>
+                            <TableCell align="right">{item.qty}</TableCell>
+                            <TableCell align="right">{`$${ccyFormat(item.price)}`}</TableCell>
+                            <TableCell align="right">{`$${ccyFormat((item.price)*(item.qty))}`}</TableCell>
                             </TableRow>
                         ))}
                         <TableRow>
                             <TableCell rowSpan={4} />
                             <TableCell colSpan={2}>Subtotal</TableCell>
-                            <TableCell align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
+                            <TableCell align="right">{`$${ccyFormat(invoiceSubtotal)}`}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={2}>Shipping</TableCell>
@@ -105,7 +119,7 @@ const OrderDetail = () => {
                         <TableRow>
                             <TableCell colSpan={2}>Total</TableCell>
                             <TableCell align="right"
-                                        style={{ fontWeight: 'bold' }}>{ccyFormat(invoiceSubtotal)}</TableCell>
+                                        style={{ fontWeight: 'bold' }}>{`$${ccyFormat(invoiceSubtotal)}`}</TableCell>
                         </TableRow>
                         </TableBody>
                     </Table>

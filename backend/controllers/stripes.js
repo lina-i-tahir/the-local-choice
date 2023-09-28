@@ -24,6 +24,7 @@ async function createCheckoutSession(req,res) {
           name: item.name,
           id: item._id, 
           quantity: item.quantity,
+          price: item.price
           storeId: item.storeId,
       };
   });
@@ -95,7 +96,8 @@ async function createOrder(req, res) {
     const formattedOrderItems = cartItems.map(item => ({
       name: item.name,
       id: item.id,
-      qty: item.quantity
+      qty: item.quantity,
+      price: item.price
     }));
 
     console.log("customer", customer)

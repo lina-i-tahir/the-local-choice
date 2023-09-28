@@ -30,8 +30,21 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
                 };
             },
             keepUnusedDataFor: 30
+        }),
+        getMyOrderById: builder.query({
+            query: ({orderId, token}) => {
+                return {
+                    url: `orders/myorders/${orderId}`,
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                };
+            },
+            keepUnusedDataFor: 30
         })
     })
 })
 
-export const { useCreateOrderMutation, usePayOrderMutation, useGetMyOrderQuery } = ordersApiSlice
+export const { useCreateOrderMutation, usePayOrderMutation, useGetMyOrderQuery, useGetMyOrderByIdQuery } = ordersApiSlice
