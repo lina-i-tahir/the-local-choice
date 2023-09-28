@@ -52,6 +52,7 @@ const ProductDetail = () => {
   console.log(cart.items);
 
   const [quantity, setQuantity] = useState(1);
+  const storeId = currentStore.store._id; 
 
   const handleQuantityChange = (event) => {
     setQuantity(event.target.value);
@@ -69,8 +70,9 @@ const ProductDetail = () => {
 
 // =======
   const handleAddToCart = () => {
-    dispatch(addToCart({ ...currentProduct, quantity}))
+    dispatch(addToCart({ ...currentProduct, quantity, storeId}))
   };
+
   const handleCloseSnackbar = () => {
       setOpenSnackbar(false);
   };
