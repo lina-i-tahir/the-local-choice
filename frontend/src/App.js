@@ -64,7 +64,7 @@ function App() {
             <Route path="/products" element={<Products />} />
             {/* user routes mainly */}
             <Route path="/sccancel" element={<SCCancel />} />
-            <Route path="/scsuccess" element={<SCSuccess />} />
+            <Route path="/scsuccess/:session_id" element={<SCSuccess />} />
             <Route path="/products/:id" element={<ProductDetail />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/orders/:id" element={<OrderDetail />} />

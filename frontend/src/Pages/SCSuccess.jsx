@@ -9,9 +9,59 @@ import {
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { Typography } from "@mui/material";
 import RouteHistory from "../Components/RouteHistory";
+import axios from "axios";
+import Notification from "../Components/Notification";
+import { useEffect, useContext } from "react";
+import {useState} from "react";
+
 
 const Success = () => {
   const navigate = useNavigate(); // Define the navigate function
+  const { session_id } = useParams();
+  const [orderData, setOrderData] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("");
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
+  const createOrder = async () => {
+      await axios({
+        method: "POST",
+        url: `http://localhost:8000/scsuccess/${session_id}`,
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    .then((response) => {
+        console.log(response);
+        if (response.status === 201) {
+            console.log("Created successfully");
+            setOrderData(response.data.order);
+            setOpenSnackbar(true);
+            setSnackbarMessage("Order created successfully! Redirecting to home page...");
+            setSnackbarSeverity("success");
+            setTimeout(() => {
+                navigate("/home");
+            }, 3000);
+        }
+    })
+    .catch((error) => {
+        console.log(error);
+        setOpenSnackbar(true);
+        setSnackbarMessage("Error creating order!");
+        setSnackbarSeverity("error");
+    });
+  }
+  useEffect(() => {
+    // Call the function if session_id exists
+    console.log(session_id);
+    if (session_id) {
+      createOrder();
+    }
+  }, []);
   return (
     <>
       <RouteHistory page="orders" routeName="orders" />
@@ -49,6 +99,7 @@ const Success = () => {
         >
           shop for more!
         </Button>
+        <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
       </Container>
     </>
   );
