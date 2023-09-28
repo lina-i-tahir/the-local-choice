@@ -8,6 +8,16 @@ import { handleExpire } from "../utils/logoutUtils";
 import { useState, useEffect } from "react";
 import Notification from "../Components/Notification";
 import Loading from "../Components/Loading";
+import { useDispatch, useSelector } from 'react-redux';
+import { setSortBy, setSortedProducts } from "../Slices/sortingSlice";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import StoreProductView from "../Components/StoreProductView";
+import IconButton from '@mui/material/IconButton';
+import ArrowDropDownCircleOutlinedIcon from '@mui/icons-material/ArrowDropDownCircleOutlined';
+
 
 const Store = () => {
   const token = localStorage.getItem('token');
@@ -16,6 +26,56 @@ const Store = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
+
+  const dispatch = useDispatch();
+  const sortBy = useSelector((state) => state.sorting.sortBy);
+  const sortedProducts = useSelector((state) => state.sorting.sortedProducts);
+  
+  // Pages logic 
+  const itemsPerPage = 9;
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalItems = sortedProducts.length
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+
+  // Sort products by name
+  const sortByName = () => {
+    const sorted = [...currentStore.store.products].sort((a, b) => a.name.localeCompare(b.name));
+    dispatch(setSortBy('name'));
+    dispatch(setSortedProducts(sorted));
+  };
+
+  // Sort products initial
+  const sortByInitial = () => {
+    const sorted = currentStore.store.products
+    dispatch(setSortBy('initial'));
+    dispatch(setSortedProducts(sorted));
+  };
+
+  // Sort products by price
+  const sortByPrice = () => {
+    const sorted = [...currentStore.store.products].sort((a, b) => a.price - b.price);
+    dispatch(setSortBy('price'));
+    dispatch(setSortedProducts(sorted));
+  };
+
+  // handle sort
+    const [type, setType] = useState('');
+
+    const handleChange = (event) => {
+      setType(event.target.value);
+      if (event.target.value === 'name') { 
+        sortByName();
+      } else if (event.target.value === 'price') {
+        sortByPrice();
+      }
+    };
 
   const handleCloseSnackbar = () => {
       setOpenSnackbar(false);
@@ -43,6 +103,13 @@ const Store = () => {
   }, [error]); 
 
 
+  useEffect(() => {
+    if (currentStore) {
+      sortByInitial();
+    }
+  }, [currentStore]);
+
+
 
   return (
     <>  
@@ -67,10 +134,47 @@ const Store = () => {
             <Grid container spacing={0} sx={{
                                             bgcolor: 'primary.light',
                                             p: 3,
-                                            justifyContent: "flex-start",
+                                            justifyContent: "flex-end",
                                             }} >
-                <Grid item sx={{marginInlineStart: 7}}>
-                    Sort By : ____
+                <Grid item lg={1.5}
+                           md={2}
+                           xs={3} sx={{marginRight: '20px'}}>
+                  <FormControl sx={{ m: 1, minWidth: 120}} size="small">
+                    <Select
+                      displayEmpty
+                      id="sortby"
+                      value={type}
+                      inputProps={{ 'aria-label': 'Without label' }}
+                      onChange={handleChange}
+                      sx={{
+                        fontSize: '12px',
+                        color: 'primary.contrastText'
+                      }}
+                    >
+                    <MenuItem disabled value="" 
+                              sx={{
+                                fontSize: '12px',
+                                color: 'primary.contrastText'
+                                }}
+                    >
+                      <em>sort by</em>
+                    </MenuItem>
+                      <MenuItem value={'name'} 
+                                sx={{
+                                fontSize: '12px',
+                                color: 'primary.contrastText'
+                                }}
+                      >
+                      name
+                      </MenuItem>
+                      <MenuItem value={'price'}
+                                sx={{
+                                  fontSize: '12px',
+                                  color: 'primary.contrastText'
+                                  }}
+                      >price</MenuItem>
+                    </Select>
+                  </FormControl>
                 </Grid>
             </Grid>
 
@@ -81,58 +185,28 @@ const Store = () => {
                                             paddingRight: 8, 
                                             justifyContent: "center",
                                             }} >
-
-              {(currentStore.store.products).map((product) => (
-              <Card
-              key={product._id}
-              sx={{
-                minWidth: 345,
-                margin: "30px 15px",
-                borderRadius: "10px",
-                backgroundColor: "transparent",
-                boxShadow: "none",
-                outline: "none",
-                '&:hover': {
-                  cursor: "pointer",
-                }
-              }}
-              onClick={() => viewProduct(product._id)}
-            >
-              <CardMedia
-                component="img"
-                height="200"
-                image={product.image}
-                alt={product.name}
-                sx={{
-                  objectFit: "contain",
-                  width: "90%",
-                  margin: "0 auto",
-                }}
-              />
-              <CardContent>
-                <Link key={product._id} to={`/products/${product._id}`}>
-                  <Typography
-                    gutterBottom
-                    variant="h6"
-                    component="div"
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      fontFamily: "Poppins",
-                      fontWeight: 500,
-                      color: "#75695A",
-                      textDecoration: "none",
-                      margin: "0px",
-                    }}
-                  >
-                  {product.name}
-                  <br />
-                  ${product.price.toFixed(2)}
-                  </Typography>
-                </Link>
-              </CardContent>
-              </Card>
-              ))}
+              
+              {
+                sortedProducts.slice(startIndex, endIndex).map((product) => (
+                <Card
+                  key={product._id}
+                  sx={{
+                  minWidth: 345,
+                  margin: "30px 15px",
+                  borderRadius: "10px",
+                  backgroundColor: "transparent",
+                  boxShadow: "none",
+                  outline: "none",
+                  '&:hover': {
+                      cursor: "pointer",
+                  }
+                  }}
+                  onClick={() => viewProduct(product._id)}
+                >
+                {StoreProductView(product)}
+                </Card>
+                ))
+              }
             </Grid>
             </>
           )}
@@ -143,13 +217,33 @@ const Store = () => {
                                         paddingTop: 8,
                                         }} >
             <Grid item xs={2}>
-                left
+              <IconButton onClick={() => handlePageChange(currentPage - 1)}
+                          disabled={currentPage === 1}>
+                <ArrowDropDownCircleOutlinedIcon style={{ transform: 'rotate(90deg)' }} />
+              </IconButton>
             </Grid>
             <Grid item xs={8}>
-                PAGE 1 / 3
+                <Typography
+                gutterBottom
+                component="div"
+                sx={{
+                    fontSize: '15px',
+                    fontWeight: 500,
+                    color: "primary.contrastText",
+                    textDecoration: "none",
+                    margin: "0px",
+                }}
+                >
+                PAGE {currentPage} / {Math.ceil(totalItems / itemsPerPage)} 
+                </Typography>
             </Grid>
             <Grid item xs={2}>
-                right
+                <IconButton
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === Math.ceil(totalItems / itemsPerPage)}
+                >
+                  <ArrowDropDownCircleOutlinedIcon style={{ transform: 'rotate(270deg)' }} />
+                </IconButton>
             </Grid>
         </Grid>
 

@@ -4,11 +4,10 @@ import { Link } from "react-router-dom";
 const RouteHistory = (props) => {
     const routeStyle ={
         display: { xs: 'none', md: 'flex' },
-        fontFamily: 'ovo',
-        fontWeight: 500,
-        letterSpacing: '0.05rem',
-        color: '#414B3B',
-        fontSize:'15px',
+        fontWeight: 400,
+        letterSpacing: '0.01rem',
+        color: 'secondary.dark',
+        fontSize:'13px',
         margin:"30px 5px",
         '&:hover': {
             color: "#737373"}

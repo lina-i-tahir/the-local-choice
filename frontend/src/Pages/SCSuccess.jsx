@@ -65,42 +65,67 @@ const Success = () => {
   return (
     <>
       <RouteHistory page="orders" routeName="orders" />
-      <Container maxWidth="xs" zeroMinWidth>
+      <div
+        style={{
+          minHeight: "100vh",
+          width: "60%",
+          margin: "0 auto",
+          justifyContent: "center",
+        }}
+      >
         <Typography
-          variant="h4"
+          variant="h5"
           sx={{
-            display: "flex",
-            justifyContent: "center ",
-
+            textAlign: "center",
             fontFamily: "Poppins",
-            fontWeight: 300,
+            fontWeight: 500,
             color: "#414B3B",
-            textDecoration: "none",
-            margin: "150px 0px 0px 0px",
+            marginTop: "100px",
+            fontSize: "20px",
           }}
         >
-          Thank you for your purchase you awesome person!
+          Payment is successful!
         </Typography>
-        <Button
-          onClick={() => navigate("/")}
-          variant="contained"
+        <Typography
           sx={{
-            display: "flex",
-
-            justifyContent: "center",
-            backgroundColor: "#99958C",
-            color: "#E4DCCD",
-            width: "20ch",
-            margin: "50px 0px 0px 110px",
-            "&:hover": {
-              backgroundColor: "#737373",
-            },
+            textAlign: "center",
+            fontFamily: "Poppins",
+            fontWeight: 400,
+            color: "#414B3B",
+            marginTop: "15px",
+            fontSize: "15px",
           }}
         >
+
           shop for more!
         </Button>
         <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
       </Container>
+
+          Thank you for your purchase, you awesome person!
+        </Typography>
+        <Box sx={{ display: "flex", justifyContent: "center", margin: "20px" }}>
+          <Button
+            onClick={() => navigate("/")}
+            variant="contained"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#99958C",
+              color: "#E4DCCD",
+              width: "250px",
+              marginTop: "30px",
+              "&:hover": {
+                backgroundColor: "#737373",
+              },
+            }}
+          >
+            shop for more!
+          </Button>
+        </Box>
+      </div>
+
     </>
   );
 };
