@@ -60,7 +60,7 @@ const styleModal = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "600px",
+  width: "410px",
   maxHeight: "50vh", // set this to a desired maximum height, 90vh is 90% of the viewport height
   overflow: "auto", // content will scroll if it overflows
   bgcolor: "#F3EFE7",
@@ -68,6 +68,14 @@ const styleModal = {
   boxShadow: 24,
   p: 4,
 };
+
+const isMobile = window.matchMedia("(max-width: 600px)").matches;
+if (isMobile) {
+  styleModal.width = "50%"; // Adjust width for mobile screens
+  styleModal.maxHeight = "70vh"; // You can adjust this value as needed
+  styleModal.left = "0"; // Center on smaller screens
+  styleModal.transform = "none"; // Remove the transform on smaller screens
+}
 
 function NavBar() {
   // notification
@@ -304,7 +312,7 @@ function NavBar() {
                 badgeContent={totalQty}
                 sx={{
                   "& .MuiBadge-badge": {
-                    color: "414B3B",
+                    color: "#D9CDCE",
                     backgroundColor: "#414B3B",
                     margin: "20px",
                   },
@@ -340,8 +348,6 @@ function NavBar() {
                           sx={{
                             mt: 1,
                             display: "flex",
-                            // width: "40px",
-                            // height: "10px",
                             flexDirection: "column",
                             justifyContent: "center",
                             alignItems: "center",
