@@ -10,6 +10,8 @@ import { useState } from "react";
 import { useGetMyOrderQuery } from "../Slices/orderSlice";
 import Notification from "../Components/Notification";
 import Loading from "../Components/Loading";
+import { useDispatch, useSelector } from 'react-redux';
+import { setOrderId, setOrderData } from "../Slices/orderDataSlice";
 
 
 const Orders = () => {
@@ -21,9 +23,13 @@ const Orders = () => {
     const { data: myOrders, error, isLoading } = useGetMyOrderQuery({userId: userId, token});
     console.log("myOrders", myOrders);
 
+    const orderId = useSelector((state) => state.orderData.orderId);
+    const orderData = useSelector((state) => state.orderData.orderData);
+    
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("");
+    const [rows, setRows] = useState([]);
     const handleCloseSnackbar = () => {
         setOpenSnackbar(false);
     };
@@ -43,22 +49,48 @@ const Orders = () => {
       }
     }, [error]); 
 
+    useEffect(() => {
+      if (myOrders) {
+        console.log("myOrders", myOrders)
+
+          const updatedRows = (myOrders.orders).map((order) => ({
+              id: order.orderId,
+              date: new Date(order.createdAt).toLocaleDateString('en-US', {
+                day: '2-digit',
+                month: '2-digit',
+                year: '2-digit',
+              }), 
+              status: order.status,
+              total: order.totalPrice, 
+          }));
+
+          setRows(updatedRows);
+      }
+    }, [myOrders]);
+
+
     const columns = [
         { field: 'id', headerName: 'Order No.', width: 150, headerAlign: 'center', align: 'center'  },
-        { field: 'date', headerName: 'Date', width: 200 },
-        { field: 'status', headerName: 'Status', width: 200 },
+        { field: 'date', headerName: 'Date', width: 120, headerAlign: 'center', align: 'center' },
+        { field: 'status', headerName: 'Status', width: 120, headerAlign: 'center', align: 'center' },
         {
           field: 'total',
           headerName: 'Total',
           type: 'number',
-          width: 200,
+          width: 150,
           align: 'center',
-          headerAlign: 'center' 
+          headerAlign: 'center',
+          valueGetter: (params) => {
+            if (typeof params.value === 'number') {
+              return `$${params.value.toFixed(2)}`; // Add a dollar sign and format with 2 decimal places
+            }
+            return params.value;
+          }
         },
         {
             field: 'view',
             headerName: '',
-            width: 200,
+            width: 80,
             align: 'center',
             headerAlign: 'center',
             renderCell: (params) => {
@@ -72,22 +104,28 @@ const Orders = () => {
         },
       ];
 
-      const rows = [
-        { id: 1, date: '20 Sep 2023', status: 'processing', total: 35},
-        { id: 2, date: '10 Sep 2023', status: 'shipped', total: 42 },
-        { id: 3, date: '18 Sep 2023', status: 'completed', total: 45 },
-        { id: 4, date: '16 Aug 2023', status: 'completed', total: 16 },
-        { id: 5, date: '12 Jun 2023', status: 'completed', total: 110 },
-        { id: 6, date: '19 May 2023', status: 'completed', total: 150 },
-        { id: 7, date: '21 Mar 2023', status: 'completed', total: 44 },
-        { id: 8, date: '23 Mar 2022', status: 'completed', total: 36 },
-        { id: 9, date: '1 Mar 2022', status: 'completed', total: 65 },
-      ];
+      // const rows = [
+      //   { id: 1, date: '20 Sep 2023', status: 'processing', total: 35},
+      //   { id: 2, date: '10 Sep 2023', status: 'shipped', total: 42 },
+      //   { id: 3, date: '18 Sep 2023', status: 'completed', total: 45 },
+      //   { id: 4, date: '16 Aug 2023', status: 'completed', total: 16 },
+      //   { id: 5, date: '12 Jun 2023', status: 'completed', total: 110 },
+      //   { id: 6, date: '19 May 2023', status: 'completed', total: 150 },
+      //   { id: 7, date: '21 Mar 2023', status: 'completed', total: 44 },
+      //   { id: 8, date: '23 Mar 2022', status: 'completed', total: 36 },
+      //   { id: 9, date: '1 Mar 2022', status: 'completed', total: 65 },
+      // ];
 
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
+    
     const viewOrder = (orderId) => {
         navigate(`/orders/${orderId}`)
+
+        const currentOrder = myOrders.orders.find((order) => order.orderId === orderId)
+        const mongoOrderId = currentOrder._id
+        dispatch(setOrderId(mongoOrderId));
+        dispatch(setOrderData(currentOrder));
     };
       
 
@@ -115,17 +153,17 @@ const Orders = () => {
                     justifyContent={"flex-start"}
                     
                 >
-                    <h3>orders</h3>
-                    <div style={{ height: 400, width: '100%' }}>
+                    <h3 style={{fontWeight: 500, fontSize: '20px'}}>Your Orders</h3>
+                    <div style={{ height: 430, width: '70%' }}>
                     <DataGrid
                         rows={rows}
                         columns={columns}
                         initialState={{
                         pagination: {
-                            paginationModel: { page: 0, pageSize: 5 },
+                            paginationModel: { page: 0, pageSize: 6 },
                         },
                         }}
-                        pageSizeOptions={[5, 10]}
+                        pageSizeOptions={[6, 11]}
                     />
                     </div>
                 </Stack>
