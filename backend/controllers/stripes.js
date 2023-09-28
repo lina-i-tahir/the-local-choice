@@ -8,7 +8,6 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 module.exports = {
     createCheckoutSession,
     createOrder,
-    getAllOrders,
 };
 
 async function createCheckoutSession(req,res) {
@@ -26,6 +25,7 @@ async function createCheckoutSession(req,res) {
           id: item._id, 
           quantity: item.quantity,
           price: item.price
+          storeId: item.storeId,
       };
   });
 
@@ -100,13 +100,17 @@ async function createOrder(req, res) {
       price: item.price
     }));
 
+    console.log("customer", customer)
+    console.log("session", session)
+    console.log("cartItems", cartItems)
+
     const order = new orderModel({
       user: customer.metadata.userId,
       stripeId: session.id,
       orderId: customer.invoice_prefix,
       orderItems: formattedOrderItems,
       shippingAddress: {
-        address: session.shipping_details.address.line1,
+        address: session.shipping_details.address.line1 + " " + session.shipping_details.address.line2,
         postalCode: session.shipping_details.address.postal_code,
         country: session.shipping_details.address.country,
       },
@@ -120,13 +124,15 @@ async function createOrder(req, res) {
     });
 
     // update the store inventory
-    // cartItems.forEach(async (item) => {
-    //   const store = await Store.findById(item.storeId);
-    //   const product = store.products.id(item.id);
-    //   product.quantity -= item.quantity;
+    cartItems.forEach(async (item) => {
+      console.log("item", item);
+      const store = await Store.findById(item.storeId);
+      const product = store.products.id(item.id); 
+      console.log("product", product);
+      product.quantity -= item.quantity;
 
-    //   await store.save();
-    // });
+      await store.save();
+    });
     
     await order.save();
     console.log("after order", order)
@@ -136,30 +142,6 @@ async function createOrder(req, res) {
     console.log(err);
     res.status(500).json({ errorMsg: err.message });
   }
-}
-
-
-async function getMyOrders(req,res){
-    try{
-        const orders = await orderModel.find({user: req.user._id});
-        res.json({ title: "My Orders", orders });
-    }
-    catch (err) {
-        console.log(err);
-        res.status(500).json({ errorMsg: err.message });
-    }
-}
-
-
-async function getAllOrders(req,res){
-    try{
-        const orders = await orderModel.find({});
-        res.json({ title: "All Orders", orders });
-    }
-    catch (err) {
-        console.log(err);
-        res.status(500).json({ errorMsg: err.message });
-    }
 }
 
 

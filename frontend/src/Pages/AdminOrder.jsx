@@ -187,7 +187,7 @@ const AdminOrderStatus = () => {
                                 <TableCell>{order.orderId}</TableCell>
                                 <TableCell align="right">{order.createdAt.slice(0, 10)}</TableCell>
                                 <TableCell align="right">{order.totalPrice.toFixed(2)}</TableCell>
-                                <TableCell align="right">{order.orderItems.length}</TableCell>
+                                <TableCell align="right">{order.orderItems.map(item => item.qty).reduce((a, b) => a + b, 0)}</TableCell>
                                 <TableCell align="right">
                                     <Select
                                         disabled={editingOrderNumber !== order.orderId}
