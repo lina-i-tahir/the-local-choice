@@ -9,7 +9,7 @@ module.exports = {
     getOrderById,
     updateOrderToPaid,
     updateOrderStatus,
-    getOrders
+    getAllOrders
 };
 
 
@@ -17,12 +17,21 @@ module.exports = {
 // // @route GET /api/orders
 // // @access Private/Admin
 
-async function getOrders(req, res){
-    const orders = await Order.find({});
-    res.json({ title: "All Orders", orders });
+// async function getOrders(req, res){
+//     const orders = await Order.find({});
+//     res.json({ title: "All Orders", orders });
+// }
+
+async function getAllOrders(req,res){
+    try{
+        const orders = await Order.find({});
+        res.json({ title: "All Orders", orders });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ errorMsg: err.message });
+    }
 }
-
-
 // @desc Create new order 
 // @route POST /api/orders
 // @access Private
@@ -144,3 +153,5 @@ async function updateOrderStatus(req, res){
         res.status(500).json({ errorMsg: err.message });
     }
 }
+
+
