@@ -35,10 +35,11 @@ router.post("/create-checkout-session", async (req, res) => {
         name: item.name,
         metadata: {
           id: item._id,
-          // image: item.image,
+          description: item.description,
+          // images: item.image,
         },
       },
-      unit_amount: item.price * 100, // Convert the unit price to cents
+      unit_amount: Math.round(item.price * 100), // Convert the unit price to cents
     },
 
     quantity: item.quantity, // Include the quantity property
@@ -80,9 +81,6 @@ router.post("/create-checkout-session", async (req, res) => {
 
 // stripe webhooks
 
-// This is your Stripe CLI webhook secret for testing your endpoint locally.
-const endpointSecret = Stripe(process.env.STRIPE_WEBHOOK_ENDPOINT);
-
 router.post(
   "/webhook",
   express.json({ type: "application/json" }),
@@ -90,48 +88,50 @@ router.post(
     console.log("Webhook successfully started");
     const sig = request.headers["stripe-signature"];
 
-    const event = req.body;
-
-    // let event;
-    // try {
-    //   event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-    // } catch (err) {
-    //   console.log(`Webhook Error: ${err.message}`);
-    //   res.status(400).send(`Webhook Error: ${err.message}`);
-    //   return;
-    // }
+    // This is your Stripe CLI webhook secret for testing your endpoint locally.
+    const endpointSecret = process.env.STRIPE_WEBHOOK_ENDPOINT;
 
     // Handle the event
-    switch (event.type) {
-      case "checkout.session.async_payment_failed":
-        const checkoutSessionAsyncPaymentFailed = event.data.object;
-        handleAsyncPaymentFailed(checkoutSessionAsyncPaymentFailed);
-        break;
-      case "checkout.session.async_payment_succeeded":
-        const checkoutSessionAsyncPaymentSucceeded = event.data.object;
-        handleAsyncPaymentSucceeded(checkoutSessionAsyncPaymentSucceeded);
-        break;
-      // ... handle other event types
-      default:
-        console.log(`Unhandled event type ${event.type}`);
-    }
+    try {
+      const event = stripe.webhooks.constructEvent(
+        req.body,
+        sig,
+        endpointSecret
+      );
 
-    // Define functions to handle the events
-    function handleAsyncPaymentFailed(data) {
-      // Your code to handle async payment failure goes here
-      console.log("Handling async payment failed event:", data);
-    }
+      switch (event.type) {
+        case "checkout.session.async_payment_failed":
+          const checkoutSessionAsyncPaymentFailed = event.data.object;
+          handleAsyncPaymentFailed(checkoutSessionAsyncPaymentFailed);
+          break;
+        case "checkout.session.async_payment_succeeded":
+          const checkoutSessionAsyncPaymentSucceeded = event.data.object;
+          handleAsyncPaymentSucceeded(checkoutSessionAsyncPaymentSucceeded);
+          break;
+        // Handle other event types as needed
+        default:
+          console.log(`Unhandled event type: ${event.type}`);
+      }
 
-    function handleAsyncPaymentSucceeded(data) {
-      // Your code to handle async payment success goes here
-      console.log("Handling async payment succeeded event:", data);
+      res.send();
+    } catch (err) {
+      console.error("Webhook error:", err.message);
+      res.status(400).send(`Webhook Error: ${err.message}`);
     }
-
-    res.send();
   }
 );
 
-//for FE
+// Define functions to handle the events
+function handleAsyncPaymentFailed(data) {
+  // Your code to handle async payment failure goes here
+  console.log("Handling async payment failed event:", data);
+}
+
+function handleAsyncPaymentSucceeded(data) {
+  // Your code to handle async payment success goes here
+  console.log("Handling async payment succeeded event:", data);
+}
+
 module.exports = router;
 
 // original
