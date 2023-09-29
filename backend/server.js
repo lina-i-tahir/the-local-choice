@@ -49,12 +49,13 @@ app.use("/profile", profileRouter);
 
 app.use("/", stripeRouter);
 
-app.use(
-  cors({
-    credentials: true,
-    origin: process.env.CLIENT_URL,
-  })
-);
+const corsOptions = {
+  origin: 'https://localhost:3000', // or you can use a function to dynamically allow origins
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // allow session cookie from browser to pass through
+};
+
+app.use(cors(corsOptions));
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
