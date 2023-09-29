@@ -1,7 +1,6 @@
-import { useState, useEffect, useContext } from "react";
-import axios from "axios";
-import { useNavigate, useParams, Link } from "react-router-dom";
-import { Box, Button, Container, Grid, Divider } from "@mui/material";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Button, Container, Grid } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -9,13 +8,9 @@ import Select from "@mui/material/Select";
 
 import { Typography } from "@mui/material";
 import RouteHistory from "../Components/RouteHistory";
-// import products from "../products";
-import store from "../store";
-import Rating from "../Components/Rating";
 
 // cart context
-import { CartContext } from "../CardContext";
-import { useCart } from "../CardContext";
+// import { CartContext } from "../CardContext";
 import { useGetStoreByIdQuery } from "../Slices/storeSlice";
 import { addToCart } from "../Slices/cartSlice";
 import { useDispatch } from "react-redux";
@@ -24,15 +19,21 @@ import { handleExpire } from "../utils/logoutUtils";
 import Loading from "../Components/Loading";
 
 const ProductDetail = () => {
+
+  // fetch data by storeId
   const { id, productId } = useParams();
+  const token = localStorage.getItem("token");
+  const {data: currentStore, isLoading, error} = useGetStoreByIdQuery({ storeId: id, token });
+  
   const [currentProduct, setCurrentProduct] = useState({});
-  const dispatch = useDispatch();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
 
-  const token = localStorage.getItem("token");
-  const {data: currentStore, isLoading, error} = useGetStoreByIdQuery({ storeId: id, token });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
+  // render store after data fetched 
   useEffect(() => {
     if (!isLoading) {
       setCurrentProduct(
@@ -41,34 +42,18 @@ const ProductDetail = () => {
     }
   }, [currentStore, isLoading]);
 
-  console.log("current", currentProduct);
 
-  const navigate = useNavigate(); // Define the navigate function
-
-  // cart context
-  const cart = useContext(CartContext);
-  const productQuantity = cart.getProductQty(currentProduct._id);
-  console.log(cart.items);
+  // // cart context
+  // const cart = useContext(CartContext);
+  // const productQuantity = cart.getProductQty(currentProduct._id);
 
   const [quantity, setQuantity] = useState(1);
-  // const storeId = currentStore.store._id;
   const storeId = currentStore?.store?._id;
-
 
   const handleQuantityChange = (event) => {
     setQuantity(event.target.value);
   };
 
-  // <<<<<<< page-stripe
-  //   // const { id } = useParams();
-  //   const product = store[0].products.find((item) => item._id === parseInt(id));
-  //   // const navigate = useNavigate(); // Define the navigate function
-
-  //   const handleAddToCart = () => {
-  //     cart.addToCart(id, productId, quantity, currentProduct.price);
-  //   };
-
-  // =======
   const handleAddToCart = () => {
     dispatch(addToCart({ ...currentProduct, quantity, storeId }));
   };
@@ -77,6 +62,7 @@ const ProductDetail = () => {
     setOpenSnackbar(false);
   };
 
+  // errors 
   useEffect(() => {
     if (error?.status === 401) {
       console.log("401 error");
