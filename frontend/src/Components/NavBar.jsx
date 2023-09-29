@@ -30,11 +30,17 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import LoginIcon from "@mui/icons-material/Login";
+import HomeIcon from "@mui/icons-material/Home";
+import StoreIcon from "@mui/icons-material/Store";
+import InfoIcon from "@mui/icons-material/Info";
+import ConnectWithoutContactIcon from "@mui/icons-material/ConnectWithoutContact";
+
 import { useEffect } from "react";
 
 import { useSelector } from "react-redux";
+import Store from "@mui/icons-material/Store";
 
-var pages = ["stores", "about", "contact"];
+var pages = ["home", "stores", "about", "contact"];
 var settings = ["profile", "orders", "login", "logout"];
 const obj = {
   profile: (
@@ -49,6 +55,19 @@ const obj = {
   ),
   login: (
     <LoginIcon sx={{ marginRight: "16px", width: "15px", color: "gray" }} />
+  ),
+
+  home: <HomeIcon sx={{ marginRight: "16px", width: "15px", color: "gray" }} />,
+  stores: (
+    <StoreIcon sx={{ marginRight: "16px", width: "15px", color: "gray" }} />
+  ),
+  about: (
+    <InfoIcon sx={{ marginRight: "16px", width: "15px", color: "gray" }} />
+  ),
+  contact: (
+    <ConnectWithoutContactIcon
+      sx={{ marginRight: "16px", width: "15px", color: "gray" }}
+    />
   ),
 };
 
@@ -194,6 +213,7 @@ function NavBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Logo />
+          {/* Hamburger Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -206,6 +226,13 @@ function NavBar() {
               <MenuIcon />
             </IconButton>
             <Menu
+              sx={{
+                mt: "-10px",
+                ml: "15px",
+                "& .MuiPaper-root": {
+                  backgroundColor: "#EFE9DD",
+                },
+              }}
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
@@ -219,9 +246,6 @@ function NavBar() {
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
             >
               {pages.map((page) =>
                 page === "config" ? (
@@ -229,14 +253,44 @@ function NavBar() {
                     to={`/${page}/stores`}
                     style={{ textDecoration: "none" }}
                   >
-                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                      <Typography textAlign="center">{page}</Typography>
+                    <MenuItem
+                      key={page}
+                      onClick={handleCloseNavMenu}
+                      sx={{
+                        width: "100px",
+                        justifyContent: "center",
+                        color: "gray",
+                      }}
+                    >
+                      {obj[settings]}
+                      <Typography
+                        sx={{
+                          color: "#414B3B",
+                          fontSize: "14px",
+                          fontFamily: "ovo",
+                        }}
+                      >
+                        {page}
+                      </Typography>
                     </MenuItem>
                   </Link>
                 ) : (
                   <Link to={`/${page}`} style={{ textDecoration: "none" }}>
-                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                      <Typography textAlign="center">{page}</Typography>
+                    <MenuItem
+                      key={page}
+                      onClick={handleCloseNavMenu}
+                      sx={{ width: "100px", justifyContent: "center" }}
+                    >
+                      {obj[page]}
+                      <Typography
+                        sx={{
+                          color: "#414B3B",
+                          fontSize: "14px",
+                          fontFamily: "ovo",
+                        }}
+                      >
+                        {page}
+                      </Typography>
                     </MenuItem>
                   </Link>
                 )
@@ -244,7 +298,12 @@ function NavBar() {
             </Menu>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", md: "flex" },
+            }}
+          >
             {pages.map((page, idx) =>
               page === "config" ? (
                 <Link to={`/${page}/stores`} style={{ textDecoration: "none" }}>
@@ -307,6 +366,7 @@ function NavBar() {
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <PersonOutlineIcon sx={{ margin: "20px" }} />
               </IconButton>
+              {/* Shopping cart */}
               <Badge
                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                 badgeContent={totalQty}
@@ -403,7 +463,7 @@ function NavBar() {
                 </IconButton>
               </Badge>
             </Tooltip>
-
+            {/* profile menu */}
             <Menu
               sx={{
                 mt: "50px",
