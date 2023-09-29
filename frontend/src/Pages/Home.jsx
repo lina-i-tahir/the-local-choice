@@ -14,11 +14,12 @@ import Loading from "../Components/Loading";
 
 
 const Home = () => {
-  // const { data: stores, isLoading, error } = useGetStoresQuery()
+// Fetch Stores Data
   const token = localStorage.getItem("token");
   const { data: stores, error, isLoading } = useGetStoresQuery(token);
+  const navigate = useNavigate();
 
-
+// states
   const [count, setCount] = useState(0);
   const [maxCount, setMaxCount] = useState(0);
   const [storeOverview, setStoreOverview] = useState([]);
@@ -26,7 +27,7 @@ const Home = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
 
-  const navigate = useNavigate();
+  
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
@@ -52,6 +53,7 @@ const Home = () => {
     },
   };
 
+  // render storeOverview after data fetched
   useEffect(() => {
     if (!isLoading && stores && stores.stores) {
       if (count === 0) {
@@ -64,6 +66,7 @@ const Home = () => {
     }
   }, [count, stores, isLoading]);
 
+  // errors
   useEffect(() => {
     if (error?.status === 401) {
       console.log("401 error");
@@ -122,7 +125,6 @@ const Home = () => {
                   return (
                     <>
                       {(idx + 1) % 2 !== 0 ? (
-                        // <div style={{width: "100vw"}}>
                         <>
                           {StoresOverviewDisplay(store)}
                           <Divider
@@ -131,7 +133,6 @@ const Home = () => {
                           />
                         </>
                       ) : (
-                        // </div>
                         StoresOverviewDisplay(store)
                       )}
                     </>
