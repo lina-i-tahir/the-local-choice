@@ -50,7 +50,7 @@ const AddProducts = () => {
         if (productForm.name !== "" && productForm.image !== "" && productForm.price !== "" && productForm.quantity !== "" && productForm.category !== "" && productForm.description !== "") {
             createNewProduct();
         }
-    }, [productForm]);
+    }, [productForm, createNewProduct]);
 
     const handleImageProductChange = (event) => {
         console.log("image changed")

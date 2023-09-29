@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { Box, TextField, Button, Grid, Container } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { Typography } from "@mui/material";
-import Window from "../assets/Window.png";
 import { Divider } from "@mui/material";
 import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
@@ -9,18 +8,16 @@ import { useGetStoresQuery } from "../Slices/storeSlice";
 import StoresOverviewDisplay from "../Components/StoresOverviewDisplay";
 import WindowAnimation from "../Components/WindowAnimation";
 import Notification from "../Components/Notification";
-import { CircularProgress } from "@mui/material";
-import { handleLogout } from "../utils/logoutUtils";
 import { handleExpire } from "../utils/logoutUtils";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Components/Loading";
-import { usePrefetch } from "../Slices/apiSlice";
-import { useGetStoreByIdQuery } from "../Slices/storeSlice";
+
 
 const Home = () => {
   // const { data: stores, isLoading, error } = useGetStoresQuery()
   const token = localStorage.getItem("token");
   const { data: stores, error, isLoading } = useGetStoresQuery(token);
+
 
   const [count, setCount] = useState(0);
   const [maxCount, setMaxCount] = useState(0);
