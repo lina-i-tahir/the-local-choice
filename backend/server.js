@@ -32,7 +32,7 @@ app.use(express.json({ limit: "50mb" }));
 app.use(
   cors({
     credentials: true,
-    origin: process.env.CLIENT_URL,
+    origin: "http://localhost:3000",
   })
 );
 // view engine setup
