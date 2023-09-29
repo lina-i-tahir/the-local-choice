@@ -73,12 +73,25 @@ const Checkout = () => {
       >
         <RouteHistory page="checkout" routeName="checkout" />
         <Typography
+          sx={{
+            inHeight: "100vh",
+            minWidth: "60%",
+            textAlign: "center",
+            fontFamily: "Poppins",
+            fontWeight: 500,
+            color: "#75695A",
+            margin: "20px 0",
+            fontSize: "26px",
+            overflowY: "hidden",
+          }}
+        >
+          {/* <Typography
           variant="h4"
           textAlign="center"
           fontWeight="bold"
           color="#414B3B"
           marginBottom="2em"
-        >
+        > */}
           Your Cart
         </Typography>
         <TableContainer
