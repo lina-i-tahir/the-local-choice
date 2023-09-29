@@ -47,7 +47,7 @@ const AdminOrderStatus = () => {
     const getAllOrders = async () => {
         await axios({
             method: "GET",
-            url: "http://localhost:8000/orders",
+            url: "/orders",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
@@ -69,7 +69,7 @@ const AdminOrderStatus = () => {
     const updateOrderStatus = async (orderId, status) => {
         await axios({
             method: "PUT",
-            url: `http://localhost:8000/orders/${orderId}`,
+            url: `/orders/${orderId}`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
@@ -97,7 +97,7 @@ const AdminOrderStatus = () => {
     const deleteOrder = async (orderId) => {
         await axios({
             method: "DELETE",
-            url: `http://localhost:8000/orders/${orderId}`,
+            url: `/orders/${orderId}`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
