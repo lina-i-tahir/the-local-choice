@@ -61,7 +61,7 @@ const EditForm = () => {
     const postStoreDetails = () => {
         axios({
             method: "PUT",
-            url: `http://localhost:8000/config/stores/${id}`,
+            url: `/config/stores/${id}`,
             headers: {
                 "Content-Type": "application/json",
             },
@@ -97,7 +97,7 @@ const EditForm = () => {
     const deleteProduct = async (productId) => {
         await axios({
             method: "DELETE",
-            url: `http://localhost:8000/config/stores/${id}/products/${productId}`,
+            url: `/config/stores/${id}/products/${productId}`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
@@ -143,7 +143,7 @@ const EditForm = () => {
     const getStoreDetails = () => {
         axios({
             method: "GET",
-            url: `http://localhost:8000/config/stores/${id}`,
+            url: `/config/stores/${id}`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,

@@ -49,7 +49,7 @@ const EditProduct = (props) => {
     const updateProduct = async () => {
         await axios({
             method: "PUT",
-            url: `http://localhost:8000/config/stores/${id}/products/${productId}`,
+            url: `/config/stores/${id}/products/${productId}`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,

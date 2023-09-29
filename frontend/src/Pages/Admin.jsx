@@ -28,7 +28,7 @@ const Admin = () => {
     const getStores = async () => {
         await axios({
             method: "GET",
-            url: "http://localhost:8000/config/stores",
+            url: "/config/stores",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
