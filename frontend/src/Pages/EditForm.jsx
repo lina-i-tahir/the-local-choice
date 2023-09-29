@@ -83,7 +83,7 @@ const EditForm = () => {
         })
         .then((response) => {
             console.log(response);
-            navigate("/config/stores");
+            window.location.reload()
         })
         .catch((error) => {
             console.log(error);
