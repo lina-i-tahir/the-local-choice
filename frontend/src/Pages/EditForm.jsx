@@ -334,7 +334,6 @@ const EditForm = () => {
 
             : null}
             <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
-
         </Container>
     );
 }
