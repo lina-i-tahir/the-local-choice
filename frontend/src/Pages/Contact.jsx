@@ -4,7 +4,7 @@ import { Typography, Container } from "@mui/material";
 const Contact = () => {
   return (
     <>
-      <div style={{ height: "84vh", overflowY: "hidden" }}>
+      <div style={{ height: "89vh", overflowY: "hidden" }}>
         <RouteHistory page="contact" routeName="contact" />
         <Container>
           <Typography

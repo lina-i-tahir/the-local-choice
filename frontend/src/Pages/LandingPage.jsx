@@ -31,7 +31,7 @@ const LandingPage = () => {
       >
         <div
           style={{
-            height: "84vh",
+            height: "89vh",
             width: "100%",
             margin: "0 auto",
             backgroundColor: "#F3EFE7",

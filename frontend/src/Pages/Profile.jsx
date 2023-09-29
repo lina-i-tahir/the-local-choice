@@ -205,20 +205,27 @@ const Profile = () => {
             xs={8.5}
             sx={{
               backgroundColor: "#F8F5ED",
+
               margin: "30px 0px",
               borderRadius: "15px",
               flexGrow: "1",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              minHeight: "80vh",
+              minHeight: "70vh",
             }}
           >
             <CircularProgress color="secondary" />
           </Grid>
         </Grid>
       ) : (
-        <Grid container spacing={0} component="form" onSubmit={onSubmit}>
+        <Grid
+          container
+          spacing={0}
+          component="form"
+          onSubmit={onSubmit}
+          sx={{ height: "90vh" }}
+        >
           <SidePanel page={"profile"} route={"profile"} />
           <Grid
             item
@@ -228,6 +235,7 @@ const Profile = () => {
               margin: "30px 0px",
               borderRadius: "15px",
               flexGrow: "1",
+              maxHeight: "78vh",
             }}
           >
             <Container
