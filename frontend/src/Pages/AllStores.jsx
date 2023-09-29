@@ -1,6 +1,4 @@
 import { Grid, Typography, Container, Box } from "@mui/material";
-import allStoresBanner from "../assets/allStoresImages/allStoresBanner.png";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { useGetStoresQuery } from "../Slices/storeSlice";
 import WindowAnimation from "../Components/WindowAnimation";
@@ -11,20 +9,20 @@ import Loading from "../Components/Loading";
 import RouteHistory from "../Components/RouteHistory";
 
 const AllStores = () => {
+
   const navigate = useNavigate();
+
+  // fetch stores data
   const token = localStorage.getItem("token");
   const { data: stores, isLoading, error } = useGetStoresQuery(token);
 
+  // states
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
-  };
-
-  const enterStore = (storeId) => {
-    navigate(`/stores/${storeId}`);
   };
 
   useEffect(() => {
@@ -108,29 +106,6 @@ const AllStores = () => {
                   </>
                 );
               })}
-              {/* {(stores.stores).map((store) => (
-            <Card
-            key={store._id}
-            sx={{
-              minWidth: 300,
-              margin: "30px 15px",
-              backgroundColor: "transparent",
-              boxShadow: "none", 
-              outline: "none", 
-            }}
-            onClick={() => enterStore(store._id)}
-            >
-            <CardMedia
-              component="img"
-              height="75"
-              image={store.image}
-              alt={store.name}
-              sx={{
-                objectFit: "contain",
-              }}
-            />
-            </Card>
-            ))} */}
             </>
           )}
         </Grid>
