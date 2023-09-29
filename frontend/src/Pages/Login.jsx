@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import RouteHistory from "../Components/RouteHistory";
 import Notification from "../Components/Notification";
 
+
 const Login = () => {
   // notification
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -14,6 +15,8 @@ const Login = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+
   let home = "/home";
   const role = localStorage.getItem("role");
   if (role === "admin") {
@@ -50,6 +53,7 @@ const Login = () => {
           console.log("test local storage", localStorage.getItem("user"));
           // console.log(response.data.token);
           console.log(response.data.user.role);
+          
 
           if (response.data.user.role === "admin") {
             setSnackbarMessage("admin login successfully");
@@ -107,6 +111,7 @@ const Login = () => {
     }
   }, []);
 
+  
   return (
     <div style={{ height: "90vh", overflowY: "clip" }}>
       <RouteHistory page="login" routeName="login" />

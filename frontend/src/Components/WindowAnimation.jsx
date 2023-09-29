@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { Container, Grid } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { usePrefetch } from "../Slices/apiSlice";
+import { useGetStoreByIdQuery } from "../Slices/storeSlice";
 
 
 const leftWindow = (
@@ -88,14 +90,19 @@ const leftWindow = (
 
 const WindowAnimation = (props) => {
 
+  const prefetchStoreById = usePrefetch('getStoreById')
+  const token = localStorage.getItem('token');
+
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
   const enterStore = (storeId) => {
     navigate(`/stores/${storeId}`)
   }
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = (storeId, token) => {
+    console.log('storeId', storeId)
     setIsHovered(true);
+    prefetchStoreById({ storeId: storeId, token })
   };
 
   const handleMouseLeave = () => {
@@ -137,7 +144,7 @@ const WindowAnimation = (props) => {
         </div>
       <Grid container spacing={0}
                       direction="row"
-                      onMouseEnter={handleMouseEnter}
+                      onMouseEnter={() => handleMouseEnter(props.store._id, token)}
                       onMouseLeave={handleMouseLeave}>
         <motion.div 
                     animate={{ transform: isHovered ? 'rotateY(-140deg)' : 'rotateY(0deg)'
