@@ -43,6 +43,7 @@ async function updateOne (req, res) {
         product.price = req.body.price;
         product.description = req.body.description;
         product.category = req.body.category;
+        product.image = req.body.image;
 
         await store.save();
         

@@ -22,14 +22,30 @@ const EditProduct = (props) => {
         quantity: "",
         description: "",
         category: "",
+        image: "",
     }); 
+    const [imageProductPreview, setImageProductPreview] = useState(null);
+
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("");
     const handleCloseSnackbar = () => {
         setOpenSnackbar(false);
-      };
-
+    };
+    const handleImageProductChange = (event) => {
+        console.log("image changed")
+        const file = event.target.files[0];
+        // console.log(file);
+        if (file) {
+            // Create an image preview
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                console.log(reader.result)
+                setImageProductPreview(reader.result);
+            };
+        }
+    };
     const updateProduct = async () => {
         await axios({
             method: "PUT",
@@ -83,6 +99,7 @@ const EditProduct = (props) => {
             quantity: event.target.productQuantity.value,
             description: event.target.productDescription.value,
             category: event.target.productCategory.value,
+            image: imageProductPreview,
         });
 
     }
@@ -98,6 +115,7 @@ const EditProduct = (props) => {
         .then((response) => {
             console.log(response.data);
             setStore(response.data);
+            setImageProductPreview(response.data.image);
             setOpenSnackbar(true);
             setSnackbarMessage("Product retrieved successfully!");
             setSnackbarSeverity("success");
@@ -194,6 +212,7 @@ const EditProduct = (props) => {
                         marginBottom: "20px",
                     }}
                 />
+                <ImageForm image={imageProductPreview} func={handleImageProductChange} inputId="upload-product-button" />
                 <Button 
                     type="submit"
                     variant="contained"
