@@ -28,9 +28,9 @@ To run this project locally, follow these steps:
 
 1. Clone the repository to your local machine.
 2. Navigate to the project directory.
-3. Install the required dependencies using `npm install` or `yarn install`.
+3. Install the required dependencies using `npm install`.
 4. Set up your environment variables and configurations for MongoDB and JWT authentication.
-5. Start the development server using `npm start` or `yarn start`.
+5. Start the development server using `npm start`.
 
 ## User Stories
 
