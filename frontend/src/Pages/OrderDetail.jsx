@@ -11,18 +11,20 @@ import Paper from '@mui/material/Paper';
 import { useNavigate, useParams } from "react-router-dom";
 import ordersList from "../orderslist";
 import { useSelector } from "react-redux";
-
+import Loading from "../Components/Loading";
+import { useEffect, useState } from "react";
 
 
 const OrderDetail = () => {
 
     const orderId = useSelector((state) => state.orderData.orderId);
     const orderData = useSelector((state) => state.orderData.orderData);
+    
 
-
-    function ccyFormat(num) {
-    return `${num.toFixed(2)}`;
+     function ccyFormat(num) {
+        return num ? `${num.toFixed(2)}` : '0.00';
     }
+
 
     // function priceRow(qty, unit) {
     // return qty * unit;
@@ -43,13 +45,14 @@ const OrderDetail = () => {
             return acc + cur;
             }, 0))
     };
+    const invoiceSubtotal = orderData && orderData.orderItems ? subtotal(orderData.orderItems) : 0;
 
-
-    const invoiceSubtotal = subtotal(orderData.orderItems);
+    // const invoiceSubtotal = subtotal(orderData.orderItems);
 
     const orderDate = orderData.createdAt
     const newDate = new Date(orderDate);
-    const formattedDate = newDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    // const formattedDate = newDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    const formattedDate = orderData ? new Date(orderData.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : "";
 
 
     // const navigate = useNavigate();

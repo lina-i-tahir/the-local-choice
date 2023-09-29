@@ -87,7 +87,7 @@ function App() {
                 element={<AdminOrderStatus />}
               />
             </Routes>
-            <FooterContent />
+            {/* <FooterContent /> */}
           </Router>
         </div>
       </CartProvider>

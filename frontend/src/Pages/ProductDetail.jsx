@@ -32,18 +32,14 @@ const ProductDetail = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
 
   const token = localStorage.getItem("token");
-  const {
-    data: currentStore,
-    isLoading,
-    error,
-  } = useGetStoreByIdQuery({ storeId: id, token });
+  const {data: currentStore, isLoading, error} = useGetStoreByIdQuery({ storeId: id, token });
   useEffect(() => {
     if (!isLoading) {
       setCurrentProduct(
-        currentStore.store.products.find((product) => product._id === productId)
+        currentStore?.store?.products.find((product) => product._id === productId)
       );
     }
-  }, [currentStore]);
+  }, [currentStore, isLoading]);
 
   console.log("current", currentProduct);
 
@@ -55,7 +51,9 @@ const ProductDetail = () => {
   console.log(cart.items);
 
   const [quantity, setQuantity] = useState(1);
-  const storeId = currentStore.store._id;
+  // const storeId = currentStore.store._id;
+  const storeId = currentStore?.store?._id;
+
 
   const handleQuantityChange = (event) => {
     setQuantity(event.target.value);
