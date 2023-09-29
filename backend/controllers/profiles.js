@@ -38,7 +38,7 @@ async function updateProfile(req, res) {
             for (let key in req.body.profile) {
                 user.profile[key] = req.body.profile[key];
             }
-            user.markModified('profile');  // This is required to tell mongoose that the profile object has been modified
+            user.markModified('profile');  // this is required to tell mongoose that the profile object has been modified
         }
 
         const updatedUser = await user.save();
