@@ -14,6 +14,8 @@ import { handleLogout } from "../utils/logoutUtils";
 import { handleExpire } from "../utils/logoutUtils";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Components/Loading";
+import { usePrefetch } from "../Slices/apiSlice";
+import { useGetStoreByIdQuery } from "../Slices/storeSlice";
 
 const Home = () => {
   // const { data: stores, isLoading, error } = useGetStoresQuery()
