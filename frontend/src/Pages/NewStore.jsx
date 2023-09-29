@@ -5,6 +5,8 @@ import { Box, TextField, Button } from "@mui/material";
 import { Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import RouteHistory from "../Components/RouteHistory";
+import { handleExpire } from "../utils/logoutUtils";
+import Notification from "../Components/Notification";
 
 const NewStore = () => {
     const navigate = useNavigate();
@@ -14,6 +16,12 @@ const NewStore = () => {
         name: "",
         image: "",
     });
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState("");
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+      };
     const token = localStorage.getItem('token');
 
     const handleFormSubmit = (event) => {
@@ -38,12 +46,28 @@ const NewStore = () => {
           .then(function (response) {
             console.log(response);
             if (response.status === 201) {
-              console.log("Created successfully");
-              navigate("/config/stores");
+                console.log("Created successfully");
+                setSnackbarMessage("Store created successfully!");
+                setSnackbarSeverity("success");
+                setOpenSnackbar(true);
+                setTimeout(() => {
+                    navigate("/config/stores");
+                }, 2000);
             }
           })
           .catch(function (error) {
             console.log(error);
+            if (error.response.status === 401) {
+                setOpenSnackbar(true);
+                setSnackbarMessage("Please login or create an account to view this page! Redirecting in 3 seconds...");
+                setSnackbarSeverity("error");
+                handleExpire();
+                setTimeout(() => {
+                    navigate("/login");
+                    window.location.reload();
+                }
+                , 3000);
+            }
           });
       };
 
