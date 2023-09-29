@@ -9,7 +9,7 @@ const About = () => {
         <div
           style={{
             minHeight: "83vh",
-            minWidth: "60%",
+            maxWidth: "60%",
             margin: "0 auto",
             justifyContent: "center",
             overflowY: "hidden",

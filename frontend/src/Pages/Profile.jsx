@@ -232,10 +232,13 @@ const Profile = () => {
             xs={8.5}
             sx={{
               backgroundColor: "#F8F5ED",
+              display: "flex",
+              flexDirection: "column",
               margin: "30px 0px",
               borderRadius: "15px",
               flexGrow: "1",
               maxHeight: "78vh",
+              padding: "2px",
             }}
           >
             <Container

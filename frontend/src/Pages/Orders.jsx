@@ -176,17 +176,16 @@ const Orders = () => {
             item
             xs={8.5}
             sx={{
-              // backgroundColor: "black",
-
+              display: "flex",
+              flexDirection: "column",
               backgroundColor: "#F8F5ED",
               margin: "30px 0px",
               height: "60vh",
               maxWidth: "100%",
               borderRadius: "15px",
-              margin: "10px auto",
+              marginTop: "50px",
               flexGrow: "1",
               justifyContent: "center",
-
             }}
           >
             <Stack
@@ -195,7 +194,7 @@ const Orders = () => {
               alignItems={"center"}
               marginTop={1}
               // marginRight={5}
-              paddingTop={5}
+              padding={5}
               style={{
                 display: "flex",
                 flexDirection: "column",
