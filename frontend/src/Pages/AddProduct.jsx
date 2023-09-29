@@ -33,7 +33,7 @@ const AddProducts = () => {
         })
         .then(function (response) {
             console.log(response);
-            if (response.status === 201) {
+            if (response.status === 200) {
                 console.log("Created successfully");
                 navigate(`/config/stores/${id}`);
             }
@@ -114,7 +114,8 @@ const AddProducts = () => {
                     label="Name" 
                     variant="filled"
                     color="secondary"
-                    defaultValue="" 
+                    defaultValue=""
+                    autoComplete='off' 
 
                     sx={{
                         marginBottom: "20px",
@@ -129,6 +130,7 @@ const AddProducts = () => {
                     variant="filled"
                     color="secondary"
                     defaultValue="" 
+                    autoComplete='off'
                     sx={{
                         marginBottom: "20px",
                         marginTop: "20px",
@@ -140,6 +142,7 @@ const AddProducts = () => {
                     variant="filled"
                     color="secondary"
                     defaultValue="" 
+                    autoComplete='off'
                     sx={{
                         marginBottom: "20px",
                     }}
@@ -150,6 +153,7 @@ const AddProducts = () => {
                     variant="filled"
                     color="secondary"
                     defaultValue="" 
+                    autoComplete='off'
                     sx={{
                         marginBottom: "20px",
                     }}
@@ -160,6 +164,7 @@ const AddProducts = () => {
                     variant="filled"
                     color="secondary"
                     defaultValue="" 
+                    autoComplete='off'
                     sx={{
                         marginBottom: "20px",
                     }}
