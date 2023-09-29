@@ -75,6 +75,7 @@ const stores = ["handfully", "handxmade"];
 
 // Shopping cart Modal style
 const styleModal = {
+  anchorOrigin: "top",
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -88,11 +89,12 @@ const styleModal = {
   p: 4,
 };
 
-const isMobile = window.matchMedia("(max-width: 600px)").matches;
+const isMobile = window.matchMedia("(max-width: 480px)").matches;
 if (isMobile) {
   styleModal.width = "50%"; // Adjust width for mobile screens
   styleModal.maxHeight = "70vh"; // You can adjust this value as needed
   styleModal.left = "0"; // Center on smaller screens
+  styleModal.overflowX = "auto";
   styleModal.transform = "none"; // Remove the transform on smaller screens
 }
 
