@@ -169,11 +169,11 @@ const Orders = () => {
             item
             xs={8.5}
             sx={{
-              backgroundColor: "black",
-              // backgroundColor: "#F8F5ED",
-              margin: "30px 0px",
+              // backgroundColor: "black",
               borderRadius: "15px",
+              margin: "10px auto",
               flexGrow: "1",
+              minHeight: "100vh",
             }}
           >
             <Stack
@@ -188,7 +188,7 @@ const Orders = () => {
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "#E4DCCD",
+                backgroundColor: "#F8F5ED",
                 minWidth: "80%",
                 minHeight: "70vh",
                 borderRadius: "10px",
