@@ -11,6 +11,8 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { handleExpire } from "../utils/logoutUtils";
 import Notification from "../Components/Notification";
+import Loading from "../Components/Loading";
+
 
 const Admin = () => {
     const navigate = useNavigate();
@@ -190,7 +192,7 @@ const Admin = () => {
                     fontSize:"20px",
                     margin:"30px 0px",
                 }}>
-                    No stores added yet
+                    <Loading bgColor="primary.light" />
                 </Typography>}
             </div>
             <Button variant="contained" 

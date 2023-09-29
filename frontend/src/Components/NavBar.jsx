@@ -40,6 +40,9 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Store from "@mui/icons-material/Store";
 
+import { usePrefetch } from "../Slices/apiSlice";
+import { useGetStoresQuery } from "../Slices/storeSlice";
+
 var pages = ["home", "stores", "about", "contact"];
 var settings = ["profile", "orders", "login", "logout"];
 const obj = {
@@ -103,6 +106,13 @@ function NavBar() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
+
+  const prefetchStores = usePrefetch('getStores')
+  const token = localStorage.getItem('token');
+
+  const prefetchData = () => {
+    prefetchStores(token);
+  }
 
   if (localStorage.getItem("role") === "admin") {
     settings = ["logout"];
@@ -326,7 +336,9 @@ function NavBar() {
                   </Typography>
                 </Link>
               ) : (
-                <Link to={`/${page}`} style={{ textDecoration: "none" }}>
+                <Link to={`/${page}`} 
+                    onMouseEnter={prefetchData}
+                    style={{ textDecoration: "none" }}>
                   <Typography
                     key={idx}
                     variant="h7"

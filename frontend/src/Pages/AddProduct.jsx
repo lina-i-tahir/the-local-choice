@@ -50,7 +50,7 @@ const AddProducts = () => {
                 setTimeout(() => {
                     navigate(`/config/stores/${id}`);
                 }, 2000);
-            }
+
         })
         .catch(function (error) {
             console.log(error);
@@ -135,7 +135,8 @@ const AddProducts = () => {
                     label="Name" 
                     variant="filled"
                     color="secondary"
-                    defaultValue="" 
+                    defaultValue=""
+                    autoComplete='off' 
 
                     sx={{
                         marginBottom: "20px",
@@ -150,6 +151,7 @@ const AddProducts = () => {
                     variant="filled"
                     color="secondary"
                     defaultValue="" 
+                    autoComplete='off'
                     sx={{
                         marginBottom: "20px",
                         marginTop: "20px",
@@ -161,6 +163,7 @@ const AddProducts = () => {
                     variant="filled"
                     color="secondary"
                     defaultValue="" 
+                    autoComplete='off'
                     sx={{
                         marginBottom: "20px",
                     }}
@@ -171,6 +174,7 @@ const AddProducts = () => {
                     variant="filled"
                     color="secondary"
                     defaultValue="" 
+                    autoComplete='off'
                     sx={{
                         marginBottom: "20px",
                     }}
@@ -181,6 +185,7 @@ const AddProducts = () => {
                     variant="filled"
                     color="secondary"
                     defaultValue="" 
+                    autoComplete='off'
                     sx={{
                         marginBottom: "20px",
                     }}
