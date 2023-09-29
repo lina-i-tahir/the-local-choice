@@ -72,6 +72,7 @@ const Admin = () => {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
+            withCredentials: true,
         })
         .then((response) => {
             console.log(response);
