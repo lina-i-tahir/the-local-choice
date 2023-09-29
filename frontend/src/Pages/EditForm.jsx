@@ -138,6 +138,7 @@ const EditForm = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            minHeight: "100vh",
         }}>
             {storeDetails.length !== 0 ?
                 <Box 

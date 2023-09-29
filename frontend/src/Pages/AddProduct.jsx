@@ -85,6 +85,7 @@ const AddProducts = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            minHeight: "100vh",
         }}>
             <Typography
                 variant="h6"

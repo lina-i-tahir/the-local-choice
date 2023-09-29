@@ -158,7 +158,7 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <Link to="/forgetpassword" style={{ textDecoration: "none" }}>
+        {/* <Link to="/forgetpassword" style={{ textDecoration: "none" }}>
           <Typography
             noWrap
             sx={{
@@ -177,7 +177,7 @@ const Login = () => {
           >
             Forgot your password?
           </Typography>
-        </Link>
+        </Link> */}
         <Button
           type="submit"
           variant="contained"

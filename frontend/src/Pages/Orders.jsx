@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import Stack from "@mui/system/Stack";
 import SidePanel from "../Components/SidePanel";
 import { DataGrid } from "@mui/x-data-grid";
@@ -100,7 +100,6 @@ const Orders = () => {
       width: 150,
       align: "center",
       headerAlign: "center",
-
       valueGetter: (params) => {
         if (typeof params.value === "number") {
           return `$${params.value.toFixed(2)}`; // Add a dollar sign and format with 2 decimal places
@@ -163,12 +162,6 @@ const Orders = () => {
         <Grid
           container
           spacing={0}
-          sx={{
-            height: "90vh",
-            overflowY: "hidden",
-            width: "100%",
-          }}
-
           // style={{ minHeight: "80vh", margin: "10px auto" }}
         >
           <SidePanel page={"orders"} route={"orders"} />
@@ -176,63 +169,42 @@ const Orders = () => {
             item
             xs={8.5}
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              backgroundColor: "#F8F5ED",
-              margin: "30px 0px",
-              height: "60vh",
-              maxWidth: "100%",
+              // backgroundColor: "black",
               borderRadius: "15px",
-              marginTop: "50px",
+              margin: "20px auto",
               flexGrow: "1",
-              justifyContent: "center",
+              minHeight: "100vh",
             }}
           >
             <Stack
               direction={{ xs: "column" }}
               spacing={{ xs: 4 }}
               alignItems={"center"}
-              marginTop={1}
+              marginTop={2}
               // marginRight={5}
-              padding={5}
+              // paddingTop={5}
               style={{
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                // backgroundColor: "#E4DCCD",
-                maxWidth: "100%",
-                maxHeight: "50vh",
-
+                backgroundColor: "#F8F5ED",
+                width: "95%",
+                minHeight: "70vh",
                 borderRadius: "10px",
               }}
               justifyContent={"flex-start"}
             >
-              <Typography
-                sx={{
-                  inHeight: "100vh",
-                  maxWidth: "60%",
-                  justifyContent: "center",
-                  textAlign: "center",
-                  fontFamily: "Poppins",
-                  fontWeight: 500,
-                  color: "#75695A",
-                  fontSize: "26px",
-                  overflowY: "hidden",
-                }}
-              >
-                Your Orders
-              </Typography>
-              <div
-                style={{
-                  height: 500,
-                  maxWidth: "100%",
-                  justifyContent: "center",
-                }}
-              >
+              <h3 style={{ fontWeight: 500, fontSize: "20px" }}>Your Orders</h3>
+              <div style={{ width: "70%" }}>
                 <DataGrid
                   rows={rows}
                   columns={columns}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
                   initialState={{
                     pagination: {
                       paginationModel: { page: 0, pageSize: 6 },
