@@ -159,13 +159,14 @@ const ProductDetail = () => {
               minWidth: "480px",
               height: "95vh",
               overflowY: "auto",
+              overflowX: "hidden",
               justifyContent: "center",
             }}
           >
             <Grid
               container
               spacing={{ s: 12, md: 2 }}
-              sx={{ justifyContent: "center" }}
+              sx={{ justifyContent: "center", overflowX: "clip" }}
             >
               <Grid item xs={12} md={6} key={id}>
                 <img
@@ -264,7 +265,7 @@ const ProductDetail = () => {
                 description
               </Typography>
             </Grid>
-            <Grid spacing={{ s: 12, md: 6 }}>
+            <Grid spacing={{ s: 12, md: 6, overflowX: "clip" }}>
               <Typography
                 variant="h7"
                 sx={{
