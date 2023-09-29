@@ -42,9 +42,7 @@ Our users want an easy-to-navigate platform that helps them discover local busin
 
 ## Wireframes
 
-[Hosted on Canva]
-
-(https://www.canva.com/design/DAFtXxtvdnc/vGRR6Mx78a-k-8lcPkS9pQ/edit?utm_content=DAFtXxtvdnc&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+[Hosted on Canva](https://www.canva.com/design/DAFtXxtvdnc/vGRR6Mx78a-k-8lcPkS9pQ/edit?utm_content=DAFtXxtvdnc&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 ## Unsolved Problems
 
