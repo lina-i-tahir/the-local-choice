@@ -28,8 +28,13 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.json({ limit: "50mb" }));
 // Set up CORS to allow React app to make requests to this API
-app.use(cors());
-
+// app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.CLIENT_URL,
+  })
+);
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -49,12 +54,7 @@ app.use("/profile", profileRouter);
 
 app.use("/", stripeRouter);
 
-app.use(
-  cors({
-    credentials: true,
-    origin: process.env.CLIENT_URL,
-  })
-);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
