@@ -25,6 +25,7 @@ const AllStores = () => {
     setOpenSnackbar(false);
   };
 
+  // errors
   useEffect(() => {
     if (error?.status === 401) {
       console.log("401 error");

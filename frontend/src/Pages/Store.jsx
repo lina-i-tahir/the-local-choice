@@ -1,4 +1,4 @@
-import { Grid, Card, CardMedia, CardContent, Link, Typography } from "@mui/material"
+import { Grid, Card, Typography } from "@mui/material"
 import drawer from "../assets/drawer.png";
 import hangingPlant from "../assets/hangingPlant.png";
 
@@ -10,7 +10,6 @@ import Notification from "../Components/Notification";
 import Loading from "../Components/Loading";
 import { useDispatch, useSelector } from 'react-redux';
 import { setSortBy, setSortedProducts } from "../Slices/sortingSlice";
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -20,30 +19,24 @@ import ArrowDropDownCircleOutlinedIcon from '@mui/icons-material/ArrowDropDownCi
 
 
 const Store = () => {
+  const navigate = useNavigate();
+
+  // fetch store by ID
   const token = localStorage.getItem('token');
   const { id } = useParams();
   const { data: currentStore, isLoading, error } = useGetStoreByIdQuery({ storeId: id, token });
+
+  // states
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
+  const [type, setType] = useState('');
 
+  // redux (store products & sort)
   const dispatch = useDispatch();
   const sortBy = useSelector((state) => state.sorting.sortBy);
   const sortedProducts = useSelector((state) => state.sorting.sortedProducts);
   
-  // Pages logic 
-  const itemsPerPage = 9;
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalItems = sortedProducts.length
-
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
-
-
   // Sort products by name
   const sortByName = () => {
     const sorted = [...currentStore.store.products].sort((a, b) => a.name.localeCompare(b.name));
@@ -66,27 +59,37 @@ const Store = () => {
   };
 
   // handle sort
-    const [type, setType] = useState('');
+  const handleChange = (event) => {
+    setType(event.target.value);
+    if (event.target.value === 'name') { 
+      sortByName();
+    } else if (event.target.value === 'price') {
+      sortByPrice();
+    }
+  };
 
-    const handleChange = (event) => {
-      setType(event.target.value);
-      if (event.target.value === 'name') { 
-        sortByName();
-      } else if (event.target.value === 'price') {
-        sortByPrice();
-      }
-    };
+  // Pages logic 
+  const itemsPerPage = 9;
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalItems = sortedProducts.length
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+  // handle page
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
 
   const handleCloseSnackbar = () => {
       setOpenSnackbar(false);
   };
 
-  const navigate = useNavigate();
-
   const viewProduct = (productId) => {
     navigate(`/stores/${id}/${productId}`)
   }
 
+  // errors
   useEffect(() => {
     if (error?.status === 401) {
         console.log("401 error");
@@ -103,12 +106,12 @@ const Store = () => {
   }, [error]); 
 
 
+  // sort by initial after data fetched 
   useEffect(() => {
     if (currentStore) {
       sortByInitial();
     }
   }, [currentStore]);
-
 
 
   return (
