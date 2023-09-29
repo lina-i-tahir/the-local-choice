@@ -34,7 +34,7 @@ const AddProducts = () => {
     const createNewProduct = async () => {
         await axios({
             method: "POST",
-            url: `http://localhost:8000/config/stores/${id}/products`,
+            url: `/config/stores/${id}/products`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,

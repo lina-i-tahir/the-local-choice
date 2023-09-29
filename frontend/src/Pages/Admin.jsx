@@ -66,7 +66,7 @@ const Admin = () => {
     const deleteStore = async (storeId) => {
         await axios({
             method: "DELETE",
-            url: `http://localhost:8000/config/stores/${storeId}`,
+            url: `/config/stores/${storeId}`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,

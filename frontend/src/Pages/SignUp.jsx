@@ -25,7 +25,7 @@ const SignUp = () => {
   const postUser = async () => {
     await axios({
       method: "POST",
-      url: "http://localhost:8000/signup",
+      url: "/signup",
       headers: {
         "Content-Type": "application/json",
       },

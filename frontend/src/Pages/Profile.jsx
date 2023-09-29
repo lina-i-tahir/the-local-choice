@@ -88,7 +88,7 @@ const Profile = () => {
     const getProfile = () => { 
         axios({
             method: "GET",
-            url: "http://localhost:8000/profile",
+            url: "/profile",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
@@ -132,7 +132,7 @@ const Profile = () => {
     const postProfile = () => {
         axios({
             method: "PUT",
-            url: "http://localhost:8000/profile/update",
+            url: "/profile/update",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,

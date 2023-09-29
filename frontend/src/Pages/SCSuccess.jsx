@@ -33,7 +33,7 @@ const Success = () => {
   const createOrder = async () => {
     await axios({
       method: "POST",
-      url: `http://localhost:8000/scsuccess/${session_id}`,
+      url: `/scsuccess/${session_id}`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

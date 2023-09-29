@@ -106,7 +106,7 @@ const EditProduct = (props) => {
     const getStores = async () => {
         await axios({
             method: "GET",
-            url: `http://localhost:8000/config/stores/${id}/products/${productId}`,
+            url: `/config/stores/${id}/products/${productId}`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,

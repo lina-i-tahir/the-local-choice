@@ -35,7 +35,7 @@ const Login = () => {
   const postLogin = async () => {
     await axios({
       method: "POST",
-      url: "http://localhost:8000/login",
+      url: "/login",
       headers: {
         "Content-Type": "application/json",
       },
