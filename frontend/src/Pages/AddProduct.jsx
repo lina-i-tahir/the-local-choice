@@ -7,11 +7,16 @@ import { TextField, Button } from "@mui/material";
 import ImageForm from "../Components/ImageForm";
 import { useParams } from "react-router-dom";
 import Container from '@mui/material/Container';
+import { handleExpire } from "../utils/logoutUtils";
+import Notification from "../Components/Notification";
 
 const AddProducts = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState("");
     const [imageProductPreview, setImageProductPreview] = useState(null);
     const [productForm, setProductForm] = useState({
         name: "",
@@ -20,7 +25,12 @@ const AddProducts = () => {
         quantity: "",
         description: "",
         category: "",
-    }); 
+    });
+
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+    };
+    
     const createNewProduct = async () => {
         await axios({
             method: "POST",
@@ -34,14 +44,25 @@ const AddProducts = () => {
         .then(function (response) {
             console.log(response);
             if (response.status === 201) {
-                console.log("Created successfully");
-                navigate(`/config/stores/${id}`);
+                setSnackbarMessage("Product created successfully!");
+                setSnackbarSeverity("success");
+                setOpenSnackbar(true);
+                setTimeout(() => {
+                    navigate(`/config/stores/${id}`);
+                }, 2000);
             }
         })
         .catch(function (error) {
             console.log(error);
             if (error.response.status === 401) {
-                navigate("/login");
+                handleExpire();
+                setSnackbarMessage("Error creating product!");
+                setSnackbarSeverity("error");
+                setOpenSnackbar(true);
+                setTimeout(() => {
+                    navigate("/login");
+                    window.location.reload();
+                }, 2000);
             }
         });
     };
@@ -181,6 +202,7 @@ const AddProducts = () => {
                     Add Product
                 </Button>
             </Box>
+            <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
         </Container>
      );
 }

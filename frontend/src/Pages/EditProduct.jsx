@@ -7,6 +7,8 @@ import { TextField, Button } from "@mui/material";
 import ImageForm from "../Components/ImageForm";
 import { useParams } from "react-router-dom";
 import Container from '@mui/material/Container';
+import { handleExpire } from "../utils/logoutUtils";
+import Notification from "../Components/Notification";
 
 const EditProduct = (props) => {
     const { id, productId } = useParams();
@@ -21,6 +23,12 @@ const EditProduct = (props) => {
         description: "",
         category: "",
     }); 
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState("");
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+      };
 
     const updateProduct = async () => {
         await axios({
@@ -35,12 +43,28 @@ const EditProduct = (props) => {
         .then(function (response) {
             console.log(response);
             if (response.status === 200) {
+                setSnackbarMessage("Product updated successfully!");
+                setSnackbarSeverity("success");
+                setOpenSnackbar(true);
                 console.log("Created successfully");
-                navigate(`/config/stores/${id}`);
+                setTimeout(() => {
+                    navigate(`/config/stores/${id}`);
+                }, 2000);
             }
         })
         .catch(function (error) {
             console.log(error);
+            if (error.response.status === 401) {
+                setOpenSnackbar(true);
+                setSnackbarMessage("Please login or create an account to view this page! Redirecting in 3 seconds...");
+                setSnackbarSeverity("error");
+                handleExpire();
+                setTimeout(() => {
+                    navigate("/login");
+                    window.location.reload();
+                }
+                , 3000);
+            }
         });
     };
 
@@ -73,13 +97,24 @@ const EditProduct = (props) => {
         })
         .then((response) => {
             console.log(response.data);
-            console.log(response.data);
             setStore(response.data);
-            // console.log(response.data.store.products);
-            // setStore(response.data.store.products);
+            setOpenSnackbar(true);
+            setSnackbarMessage("Product retrieved successfully!");
+            setSnackbarSeverity("success");
         })
         .catch((error) => {
             console.log(error);
+            if (error.response.status === 401) {
+                setOpenSnackbar(true);
+                setSnackbarMessage("Please login or create an account to view this page! Redirecting in 3 seconds...");
+                setSnackbarSeverity("error");
+                handleExpire();
+                setTimeout(() => {
+                    navigate("/login");
+                    window.location.reload();
+                }
+                , 3000);
+            }
         });
     }
 
@@ -177,6 +212,7 @@ const EditProduct = (props) => {
                 </Button>
             </Box>: null
             }
+            <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
         </Container>
      );
 }

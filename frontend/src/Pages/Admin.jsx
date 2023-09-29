@@ -9,11 +9,19 @@ import { Typography } from "@mui/material";
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import { handleExpire } from "../utils/logoutUtils";
+import Notification from "../Components/Notification";
 
 const Admin = () => {
     const navigate = useNavigate();
     const [store, setStore] = useState([]);
     const token = localStorage.getItem('token');
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState("");
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+      };
 
     const getStores = async () => {
         await axios({
@@ -27,11 +35,22 @@ const Admin = () => {
         .then((response) => {
             console.log(response);
             setStore(response.data.stores);
+            setOpenSnackbar(true);
+            setSnackbarMessage("Stores retrieved successfully!");
+            setSnackbarSeverity("success");
         })
         .catch((error) => {
             console.log(error);
             if (error.response.status === 401) {
-                navigate("/login");
+                setOpenSnackbar(true);
+                setSnackbarMessage("Please login or create an account to view this page! Redirecting in 3 seconds...");
+                setSnackbarSeverity("error");
+                handleExpire();
+                setTimeout(() => {
+                    navigate("/login");
+                    window.location.reload();
+                }
+                , 3000);
             }
         });
     }
@@ -54,9 +73,23 @@ const Admin = () => {
         .then((response) => {
             console.log(response);
             getStores();
+            setOpenSnackbar(true);
+            setSnackbarMessage("Store deleted successfully!");
+            setSnackbarSeverity("success");
         })
         .catch((error) => {
             console.log(error);
+            if (error.response.status === 401) {
+                setOpenSnackbar(true);
+                setSnackbarMessage("Please login or create an account to view this page! Redirecting in 3 seconds...");
+                setSnackbarSeverity("error");
+                handleExpire();
+                setTimeout(() => {
+                    navigate("/login");
+                    window.location.reload();
+                }
+                , 3000);
+            }
         });
     }
 
@@ -172,7 +205,7 @@ const Admin = () => {
                 >
                 Manage Order Status
             </Button>
-
+            <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
         </div>
      );
 }

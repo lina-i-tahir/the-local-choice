@@ -15,6 +15,8 @@ import Paper from '@mui/material/Paper';
 import ImageForm from "../Components/ImageForm";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditIcon from '@mui/icons-material/Edit';
+import { handleExpire } from "../utils/logoutUtils";
+import Notification from "../Components/Notification";
 
 const EditForm = () => {
     const [storeDetails, setStoreDetails] = useState([]);
@@ -22,11 +24,16 @@ const EditForm = () => {
     const token = localStorage.getItem('token');
     const navigate = useNavigate();
     const [imageStorePreview, setImageStorePreview] = useState(null);
-    
     const [form, setForm] = useState({
         name: "",
         image: "",
     });
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState("");
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+      };
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
@@ -64,11 +71,26 @@ const EditForm = () => {
             console.log(response);
             if (response.status === 201) {
                 console.log("Created successfully");
-                navigate(`/config/stores/${id}`);
+                setSnackbarMessage("Store created successfully!");
+                setSnackbarSeverity("success");
+                setOpenSnackbar(true);
+                setTimeout(() => {
+                    navigate(`/config/stores/${id}`);
+                }, 2000);
             }
         })
         .catch(function (error) {
-            console.log(error);
+            if (error.response.status === 401) {
+                setOpenSnackbar(true);
+                setSnackbarMessage("Please login or create an account to view this page! Redirecting in 3 seconds...");
+                setSnackbarSeverity("error");
+                handleExpire();
+                setTimeout(() => {
+                    navigate("/login");
+                    window.location.reload();
+                }
+                , 3000);
+            }
         });
     };
 
@@ -83,10 +105,26 @@ const EditForm = () => {
         })
         .then((response) => {
             console.log(response);
-            navigate("/config/stores");
+            setOpenSnackbar(true);
+            setSnackbarMessage("Product deleted successfully!");
+            setSnackbarSeverity("success");
+            setTimeout(() => {
+                navigate("/config/stores");
+            }, 2000);
         })
         .catch((error) => {
             console.log(error);
+            if (error.response.status === 401) {
+                setOpenSnackbar(true);
+                setSnackbarMessage("Please login or create an account to view this page! Redirecting in 3 seconds...");
+                setSnackbarSeverity("error");
+                handleExpire();
+                setTimeout(() => {
+                    navigate("/login");
+                    window.location.reload();
+                }
+                , 3000);
+            }
         });
     }
 
@@ -115,9 +153,23 @@ const EditForm = () => {
             console.log(response);
             setStoreDetails(response.data.store);
             setImageStorePreview(response.data.store.image);
+            setSnackbarMessage("Store details retrieved successfully!");
+            setSnackbarSeverity("success");
+            setOpenSnackbar(true);
         })
         .catch((error) => {
             console.log(error);
+            if (error.response.status === 401) {
+                setOpenSnackbar(true);
+                setSnackbarMessage("Please login or create an account to view this page! Redirecting in 3 seconds...");
+                setSnackbarSeverity("error");
+                handleExpire();
+                setTimeout(() => {
+                    navigate("/login");
+                    window.location.reload();
+                }
+                , 3000);
+            }
         });
     }
 
@@ -281,6 +333,8 @@ const EditForm = () => {
                 </Box>
 
             : null}
+            <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
+
         </Container>
     );
 }
