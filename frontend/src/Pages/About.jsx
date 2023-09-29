@@ -4,11 +4,11 @@ import { Container, Typography, Box } from "@mui/material";
 const About = () => {
   return (
     <>
-      <Box style={{ height: "89vh", overflowY: "hidden" }}>
+      <Box style={{ height: "84vh", overflowY: "hidden" }}>
         <RouteHistory page="about" routeName="about" />
         <div
           style={{
-            minHeight: "100vh",
+            minHeight: "83vh",
             minWidth: "60%",
             margin: "0 auto",
             justifyContent: "center",
