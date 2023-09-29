@@ -279,7 +279,7 @@ function NavBar() {
                     <MenuItem
                       key={page}
                       onClick={handleCloseNavMenu}
-                      sx={{ width: "100px", justifyContent: "center" }}
+                      sx={{ width: "100px", justifyContent: "left" }}
                     >
                       {obj[page]}
                       <Typography
