@@ -7,27 +7,26 @@ import { Link } from "react-router-dom";
 import RouteHistory from "../Components/RouteHistory";
 import Notification from "../Components/Notification";
 
-
 const Login = () => {
   // notification
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState('');
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  let home = "/home"
-  const role = localStorage.getItem('role');
-  if (role === 'admin') {
-      home = "/config/stores"
+  let home = "/home";
+  const role = localStorage.getItem("role");
+  if (role === "admin") {
+    home = "/config/stores";
   }
   const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
-    // handle close snackbar
-    const handleCloseSnackbar = () => {
-      setOpenSnackbar(false);
+  // handle close snackbar
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   const postLogin = async () => {
@@ -42,41 +41,40 @@ const Login = () => {
       .then(function (response) {
         console.log(response);
         if (response.status === 201) {
-          setSnackbarSeverity('success');
+          setSnackbarSeverity("success");
           setOpenSnackbar(true);
           console.log("Login successful");
-          localStorage.setItem('token', response.data.token);
-          localStorage.setItem('user', JSON.stringify(response.data.user));
-          localStorage.setItem('role', response.data.user.role);
-          console.log("test local storage",localStorage.getItem('user'));
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+          localStorage.setItem("role", response.data.user.role);
+          console.log("test local storage", localStorage.getItem("user"));
           // console.log(response.data.token);
           console.log(response.data.user.role);
-          
+
           if (response.data.user.role === "admin") {
-            setSnackbarMessage('admin login successfully');
+            setSnackbarMessage("admin login successfully");
             setTimeout(() => {
               navigate("/config/stores");
-            },3000);
-          } 
-          else {
-            setSnackbarMessage(`${response.data.user.firstName} login successfully`);
+            }, 3000);
+          } else {
+            setSnackbarMessage(
+              `${response.data.user.firstName} login successfully`
+            );
             setTimeout(() => {
               navigate("/home");
-            }
-            ,3000);
+            }, 3000);
           }
-        }
-        else{
-          setSnackbarSeverity('error');
+        } else {
+          setSnackbarSeverity("error");
           setOpenSnackbar(true);
           setSnackbarMessage(`${response.data.message}`);
         }
       })
       .catch(function (error) {
         console.log(error);
-        setSnackbarSeverity('error');
+        setSnackbarSeverity("error");
         setOpenSnackbar(true);
-        setSnackbarMessage('login failed');
+        setSnackbarMessage("login failed");
       });
   };
 
@@ -97,23 +95,25 @@ const Login = () => {
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      setSnackbarMessage('You are already logged in. Redirecting in 2 seconds...');
-      setSnackbarSeverity('success');
+      setSnackbarMessage(
+        "You are already logged in. Redirecting in 2 seconds..."
+      );
+      setSnackbarSeverity("success");
       setOpenSnackbar(true);
 
       setTimeout(() => {
         navigate(home);
       }, 3000);
     }
-  }, [])
+  }, []);
 
   return (
-    <div style={{height:"85vh"}}>
+    <div style={{ height: "90vh", overflowY: "clip" }}>
       <RouteHistory page="login" routeName="login" />
       <Box
         component="form"
         onSubmit={handleSubmit}
-        sx={{ "& .MuiTextField-root": { m: 1, width: "40ch"} }}
+        sx={{ "& .MuiTextField-root": { m: 1, width: "40ch" } }}
         noValidate
         autoComplete="off"
       >
@@ -240,8 +240,7 @@ const Login = () => {
               onClick={() => {
                 setEmail("test@gmail.com");
                 setPassword("mock123@");
-              }
-              }
+              }}
               sx={{
                 fontFamily: "Poppins",
                 fontWeight: 500,
@@ -251,7 +250,7 @@ const Login = () => {
                 "&:hover": {
                   color: "#414B3B",
                   cursor: "pointer",
-                }
+                },
               }}
             >
               / Generate Test Account
@@ -259,8 +258,14 @@ const Login = () => {
           </Box>
         </Typography>
       </Box>
-      <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
-
+      <Notification
+        openSnackbar={openSnackbar}
+        handleCloseSnackbar={handleCloseSnackbar}
+        snackbarMessage={snackbarMessage}
+        snackbarSeverity={snackbarSeverity}
+        vertical="bottom"
+        horizontal="right"
+      />
     </div>
   );
 };
