@@ -28,7 +28,6 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.json({ limit: "50mb" }));
 // Set up CORS to allow React app to make requests to this API
-app.use(cors());
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -50,7 +49,7 @@ app.use("/profile", profileRouter);
 app.use("/", stripeRouter);
 
 app.use(cors({
-  origin: ['http://localhost:5173', /\.vercel\.app$/, /\.cyclic\.cloud$/], 
+  origin: ['http://localhost:3000', /\.vercel\.app$/, /\.cyclic\.cloud$/], 
   credentials: true
 }));
 
