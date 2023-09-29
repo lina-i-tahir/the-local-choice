@@ -11,6 +11,8 @@ require("dotenv").config();
 // connect to the database with AFTER the config vars are processed
 require("./config/database");
 
+const PORT = process.env.PORT ?? 3000;
+
 var authRouter = require("./routes/auth");
 const storeAdminRouter = require("./routes/storeAdmin");
 const productRouter = require("./routes/products");
@@ -64,6 +66,6 @@ app.use(function (err, req, res, next) {
 });
 
 // removed this line because it was causing the server to crash
-// app.listen(port, () => console.log(`Server running on port ${port}`))
+app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.PORT}`))
 
 module.exports = app;
