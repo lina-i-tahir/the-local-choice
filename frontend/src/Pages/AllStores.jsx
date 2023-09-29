@@ -44,7 +44,7 @@ const AllStores = () => {
   }, [error]);
 
   return (
-    <div style={{ minWidth: "400px", height: "100vh", overflowY: "auto" }}>
+    <div style={{ minWidth: "400px", height: "84vh", overflowY: "auto" }}>
       <RouteHistory page="store" routeName="store" />
 
       <Container>
