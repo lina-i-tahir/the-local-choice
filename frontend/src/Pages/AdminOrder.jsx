@@ -47,7 +47,7 @@ const AdminOrderStatus = () => {
     const getAllOrders = async () => {
         await axios({
             method: "GET",
-            url: "/orders",
+            url: `${process.env.REACT_APP_SERVER_URL}/orders`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
@@ -69,7 +69,7 @@ const AdminOrderStatus = () => {
     const updateOrderStatus = async (orderId, status) => {
         await axios({
             method: "PUT",
-            url: `/orders/${orderId}`,
+            url: `${process.env.REACT_APP_SERVER_URL}/orders/${orderId}`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
@@ -97,7 +97,7 @@ const AdminOrderStatus = () => {
     const deleteOrder = async (orderId) => {
         await axios({
             method: "DELETE",
-            url: `/orders/${orderId}`,
+            url: `${process.env.REACT_APP_SERVER_URL}/orders/${orderId}`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,

@@ -36,7 +36,7 @@ const NewStore = () => {
     const createStore = async () => {
         await axios({
           method: "POST",
-          url: "/config/stores",
+          url: `${process.env.REACT_APP_SERVER_URL}/config/stores`,
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,

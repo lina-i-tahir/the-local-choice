@@ -4,7 +4,6 @@ import SidePanel from "../Components/SidePanel";
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import axios from "axios";
 import { handleExpire } from "../utils/logoutUtils";
 import { useState } from "react";
 import { useGetMyOrderQuery } from "../Slices/orderSlice";

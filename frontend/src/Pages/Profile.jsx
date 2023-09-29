@@ -85,10 +85,10 @@ const Profile = () => {
         });
     }
 
-    const getProfile = () => { 
-        axios({
+    const getProfile = async () => { 
+        await axios({
             method: "GET",
-            url: "/profile",
+            url: `${process.env.REACT_APP_SERVER_URL}/profile`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
@@ -129,10 +129,10 @@ const Profile = () => {
         );
     };
 
-    const postProfile = () => {
-        axios({
+    const postProfile = async() => {
+        await axios({
             method: "PUT",
-            url: "/profile/update",
+            url: `${process.env.REACT_APP_SERVER_URL}/profile/update`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,

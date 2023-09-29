@@ -35,7 +35,7 @@ const Login = () => {
   const postLogin = async () => {
     await axios({
       method: "POST",
-      url: "/login",
+      url: `${process.env.REACT_APP_SERVER_URL}/login`,
       headers: {
         "Content-Type": "application/json",
       },

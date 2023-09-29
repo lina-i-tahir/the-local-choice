@@ -58,10 +58,10 @@ const EditForm = () => {
         }
     };
 
-    const postStoreDetails = () => {
-        axios({
+    const postStoreDetails = async () => {
+        await axios({
             method: "PUT",
-            url: `/config/stores/${id}`,
+            url: `${process.env.REACT_APP_SERVER_URL}/config/stores/${id}`,
             headers: {
                 "Content-Type": "application/json",
             },
@@ -97,7 +97,7 @@ const EditForm = () => {
     const deleteProduct = async (productId) => {
         await axios({
             method: "DELETE",
-            url: `/config/stores/${id}/products/${productId}`,
+            url: `${process.env.REACT_APP_SERVER_URL}/config/stores/${id}/products/${productId}`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
@@ -140,10 +140,10 @@ const EditForm = () => {
         }
     }, [form]);
 
-    const getStoreDetails = () => {
-        axios({
+    const getStoreDetails = async() => {
+        await axios({
             method: "GET",
-            url: `/config/stores/${id}`,
+            url: `${process.env.REACT_APP_SERVER_URL}/config/stores/${id}`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,

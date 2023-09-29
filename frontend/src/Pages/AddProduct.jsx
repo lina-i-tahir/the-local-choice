@@ -34,7 +34,7 @@ const AddProducts = () => {
     const createNewProduct = async () => {
         await axios({
             method: "POST",
-            url: `/config/stores/${id}/products`,
+            url: `${process.env.REACT_APP_SERVER_URL}/config/stores/${id}/products`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
@@ -71,7 +71,7 @@ const AddProducts = () => {
         if (productForm.name !== "" && productForm.image !== "" && productForm.price !== "" && productForm.quantity !== "" && productForm.category !== "" && productForm.description !== "") {
             createNewProduct();
         }
-    }, [productForm, createNewProduct]);
+    }, [productForm]);
 
     const handleImageProductChange = (event) => {
         console.log("image changed")

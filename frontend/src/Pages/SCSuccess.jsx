@@ -33,7 +33,7 @@ const Success = () => {
   const createOrder = async () => {
     await axios({
       method: "POST",
-      url: `/scsuccess/${session_id}`,
+      url: `${process.env.REACT_APP_SERVER_URL}/scsuccess/${session_id}`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

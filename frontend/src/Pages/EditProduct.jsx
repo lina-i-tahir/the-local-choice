@@ -49,7 +49,7 @@ const EditProduct = (props) => {
     const updateProduct = async () => {
         await axios({
             method: "PUT",
-            url: `/config/stores/${id}/products/${productId}`,
+            url: `${process.env.REACT_APP_SERVER_URL}/config/stores/${id}/products/${productId}`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
@@ -106,7 +106,7 @@ const EditProduct = (props) => {
     const getStores = async () => {
         await axios({
             method: "GET",
-            url: `/config/stores/${id}/products/${productId}`,
+            url: `${process.env.REACT_APP_SERVER_URL}/config/stores/${id}/products/${productId}`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,

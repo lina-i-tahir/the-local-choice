@@ -51,7 +51,7 @@ const SidePanel = (props) => {
     const postLogout = async () => {
         await axios({
           method: "POST",
-          url: "/logout",
+          url: `${process.env.REACT_APP_SERVER_URL}/logout`,
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
